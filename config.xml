@@ -4,8 +4,8 @@
     <description>
         Expenzing Application
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        Expenzing Team
+    <author email="tech@expenzing.com" href="http://www.expenzing.com">
+        Team Expenzing
     </author> 
     <content src="index.html" />
     <preference name="permissions" value="none" />
