@@ -1,4 +1,4 @@
-var appPageHistory=[]; 
+var appPageHistory=[];
 var jsonToBeSend=new Object();
 var jsonBEArr = [];
 var budgetingStatus;
@@ -102,7 +102,8 @@ function goBack() {
 			appPageHistory.pop();
 			var len=appPageHistory.length;
 			var pg=appPageHistory[len-1];
-			if(pg=="app/pages/addAnExpense.html"){ 
+			if(pg=="app/pages/addAnExpense.html" 
+				|| pg=="app/pages/addTravelSettlement.html"){
 				
 				j('#mainHeader').load(headerBackBtn);
 			}else if(pg=="app/pages/category.html"){
@@ -254,7 +255,8 @@ function saveBusinessDetails(status){
 					document.getElementById('expNarration').value = "";
 					document.getElementById('expUnit').value ="";
 					document.getElementById('expAmt').value = "";
-					
+					smallImage.style.display = 'none';
+					smallImage.src = "";
 					j('#errorMsgArea').children('span').text("");
 					j('#accountHead').select2('data', '');
 					j('#expenseName').select2('data', '');
@@ -361,6 +363,8 @@ function saveTravelSettleDetails(status){
 					j('#fromCitytown').select2('data', '');
 					j("label[for='startDate']").html("");
 					j("label[for='endDate']").html("");
+					smallImage.style.display = 'none';
+					smallImage.src = "";
 					j('#loading_Cat').hide();
 					document.getElementById("syncSuccessMsg").innerHTML = "Expenses added successfully.";
 					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
@@ -446,7 +450,7 @@ function fetchExpenseClaim() {
 				headerOprationBtn = defaultPagePath+'headerPageForBEOperation.html';
 				if(j(this).hasClass("selected")){ 
 				var pageRef=defaultPagePath+'fairClaimTable.html';
-				var headerBackBtn=defaultPagePath+'backbtnPage.html';
+				var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
 					j(this).removeClass('selected');
 					j('#mainHeader').load(headerBackBtn);
 					j('#mainContainer').load(pageRef);
@@ -542,7 +546,7 @@ function fetchExpenseClaim() {
 				headerOprationBtn = defaultPagePath+'headerPageForTSOperation.html';
 				if(j(this).hasClass("selected")){ 
 				var pageRef=defaultPagePath+'travelSettlementTable.html';
-				var headerBackBtn=defaultPagePath+'backbtnPage.html';
+				var headerBackBtn=defaultPagePath+'headerPageForTSOperation.html';
 					j(this).removeClass('selected');
 					j('#mainHeader').load(headerBackBtn);
 					j('#mainContainer').load(pageRef);
@@ -930,7 +934,18 @@ function synchronizeBEMasterData() {
 	}
 	createAccHeadDropDown(jsonAccHeadArr);
 }	 
-
+function getTrAccHeadList(transaction, results) {
+	var i;
+	var jsonAccHeadArr = [];
+	for (i = 0; i < results.rows.length; i++) {
+        var row = results.rows.item(i);
+		var jsonFindAccHead = new Object();
+		jsonFindAccHead["Label"] = row.accHeadId;
+		jsonFindAccHead["Value"] = row.accHeadName;
+		jsonAccHeadArr.push(jsonFindAccHead);
+	}
+	createTRAccHeadDropDown(jsonAccHeadArr);
+}	
 function getExpNameList(transaction, results) {
     var i;
 	var jsonExpNameArr = [];
@@ -969,6 +984,7 @@ function getCurrencyList(transaction, results) {
 				t.executeSql("SELECT * FROM travelCategoryMst", [], fetchTrvlCategoryList);
 				t.executeSql("SELECT * FROM cityTownMst", [], fetchCityTownList);
 				t.executeSql("SELECT * FROM travelTypeMst", [], fetchTrvlTypeList);
+				t.executeSql("SELECT * FROM travelAccountHeadMst where processId=3", [], getTrAccHeadList);
 			});
 	} else {
 		alert("db not found, your browser does not support web sql!");
@@ -1037,6 +1053,7 @@ function fetchTrvlTypeList(transaction, results) {
 
 
 function setUserSessionDetails(val){
+	 window.localStorage.setItem("TrRole",val.TrRole);
 	 window.localStorage.setItem("EmployeeId",val.EmpId);
 	 window.localStorage.setItem("FirstName",val.FirstName);
 	 window.localStorage.setItem("LastName",val.LastName);
@@ -1063,10 +1080,9 @@ function deleteSelectedExpDetails(businessExpDetailId){
 			});
 	  }
 					  
-function fetchWalletImage() {	
-
+function fetchWalletImage() {
 			var rowsWallet;
-			mytable = j('<table></table>').attr({ id: "walletSource",class: ["table","table-striped","table-bordered"].join(' ') });
+			mytable = j('<table></table>').attr({ id: "walletSource",class: ["table","table-striped","table-bordered-wallet"].join(' ') });
 		 
 			mydb.transaction(function(t) {
 				
@@ -1079,21 +1095,19 @@ function fetchWalletImage() {
 						
 					  var row = result.rows.item(i);						 
 					  
-							if(i % 4 == 0){
+							if(i % 2 == 0){
 								rowsWallet = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable);  
 							}				
 							
 							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="display: none">'+row.walletAttachment+'</text>'+'<p id="para" style="display: none">'+row.walletId+'</p>'+'<img src="'+row.walletAttachment+'">').appendTo(rowsWallet);
 							
 					}	
-				
-					j("#walletSource td").click(function(){
+				j("#walletSource td").click(function(){
 					headerOprationBtn = defaultPagePath+'headerPageForWalletOperation.html';
 					if(j(this).hasClass( "selected")){
 						var pageRef=defaultPagePath+'addToWallet.html';
-						var headerBackBtn=defaultPagePath+'backbtnPage.html';
 							j(this).removeClass('selected');
-							j('#mainHeader').load(headerBackBtn);
+							j('#mainHeader').load(headerOprationBtn);
 							j('#mainContainer').load(pageRef);
 						}else{
 							j('#mainHeader').load(headerOprationBtn);
@@ -1389,4 +1403,39 @@ function synchronizeTRForTS() {
 		j('#travelExpenseName').select2('close');
 	}
 	
-	
+ function showHelpMenu(){
+		var headerBackBtn=defaultPagePath+'backbtnPage.html';
+     var pageRef=defaultPagePath+'helpMenuPage.html';
+			j(document).ready(function() {
+				j('#mainHeader').load(headerBackBtn);
+				j('#mainContainer').load(pageRef);
+			});
+   appPageHistory.push(pageRef);
+	}
+	function showBEBRBHelp(){
+		var headerBackBtn=defaultPagePath+'backbtnPage.html';
+     var pageRef=defaultPagePath+'helpBEBRPage.html';
+			j(document).ready(function() {
+				j('#mainHeader').load(headerBackBtn);
+				j('#mainContainer').load(pageRef);
+			});
+   appPageHistory.push(pageRef);
+	}
+	function showTRTSHelp(){
+		var headerBackBtn=defaultPagePath+'backbtnPage.html';
+     var pageRef=defaultPagePath+'helpTRTSPage.html';
+			j(document).ready(function() {
+				j('#mainHeader').load(headerBackBtn);
+				j('#mainContainer').load(pageRef);
+			});
+   appPageHistory.push(pageRef);
+	}
+	function showWalletHelp(){
+		var headerBackBtn=defaultPagePath+'backbtnPage.html';
+     var pageRef=defaultPagePath+'helpWalletPage.html';
+			j(document).ready(function() {
+				j('#mainHeader').load(headerBackBtn);
+				j('#mainContainer').load(pageRef);
+			});
+   appPageHistory.push(pageRef);
+	}
