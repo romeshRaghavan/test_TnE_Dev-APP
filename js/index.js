@@ -16,7 +16,11 @@ var expenseClaimDates=new Object();
 var successMessage;
 var pictureSource,destinationType;
 var camerastatus;
-
+var voucherType;
+var fileTempCameraBE ="";
+var fileTempCameraTS ="";
+var fileTempGalleryBE ="";
+var fileTempGalleryTS ="";
 j(document).ready(function(){ 
 document.addEventListener("deviceready",loaded,false);
 });
@@ -74,7 +78,7 @@ function login()
  }
 
   function createBusinessExp(){
-	
+	resetImageData();
 	var headerBackBtn=defaultPagePath+'backbtnPage.html';
     var pageRef=defaultPagePath+'addAnExpense.html';
 			j(document).ready(function() {
@@ -199,11 +203,13 @@ function viewBusinessExp(){
 		j('#mainContainer').load(pageRef);
 	});
     appPageHistory.push(pageRef);
+    resetImageData();
     j('#loading_Cat').hide();
 }
 
 
 function viewTravelSettlementExp(){
+	resetImageData();
     var pageRef=defaultPagePath+'travelSettlementTable.html';
     var headerBackBtn=defaultPagePath+'headerPageForTSOperation.html';
 			j(document).ready(function() {
@@ -815,7 +821,7 @@ function saveTravelRequestAjax(jsonToSaveTR){
 							 j('#loading_Cat').hide();
 						}
 					  successMessage = data.Message;
-					  alert(successMessage);
+					  
 					  j('#loading_Cat').hide();
 				  }else if(data.Status=="Success"){
 					  successMessage = data.Message;
@@ -1667,23 +1673,42 @@ function oprationONTravelSettlementExp(){
             }
 	
 	function onPhotoDataSuccess(imageData) { 
-       
-        smallImage.style.display = 'block';       
-        document.getElementById('image2').files[0] = "data:image/jpeg;base64," + imageData;
-		
-		smallImage.src = "data:image/jpeg;base64," + imageData;
+       resetImageData();
+       if(voucherType == 'wallet'){
+       	smallImageWallet.style.display = 'block';       
+        document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
+		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
 		{
 		saveWalletAttachment(0);	
 		}
-		
-		
+       }else if(voucherType == 'BE'){
+       	smallImageBE.style.display = 'block';       
+        fileTempCameraBE = "data:image/jpeg;base64," + imageData;
+		smallImageBE.src = "data:image/jpeg;base64," + imageData;
+		fileTempGalleryBE ="";
+       }else if(voucherType == 'TS'){
+       	smallImageTS.style.display = 'block';       
+        fileTempCameraTS = "data:image/jpeg;base64," + imageData;
+		smallImageTS.src = "data:image/jpeg;base64," + imageData;
+		fileTempGalleryTS ="";
+       }
     }
-	function capturePhoto(status) {
-	
+
+function resetImageData(){
+	fileTempCameraBE = "";
+	fileTempCameraTS = "";
+	fileTempGalleryBE = "";
+	fileTempGalleryTS = "";
+}
+
+	function capturePhoto(status,voucher_type) {
+
+	voucherType = voucher_type;	
 		navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 10,
             destinationType: 0 });
-		camerastatus = status;	
+		camerastatus = status;
+		
 	}
 	 
 	function onFail(message) {
@@ -1694,24 +1719,40 @@ function oprationONTravelSettlementExp(){
       // console.log(imageURI);
       // Get image handle
       //
-	    smallImage.style.display = 'block';
+      resetImageData();
+      if(voucherType == 'wallet'){
+		smallImageWallet.style.display = 'block';
 
-        // Show the captured photo
-        // The in-line CSS rules are used to resize the image
-        
-        document.getElementById('image2').files[0] = "data:image/jpeg;base64," + imageURI;
+        document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
 		
-		smallImage.src = "data:image/jpeg;base64," + imageURI;
+		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
 		
 		 if(camerastatus=='1')
 		{			
 		saveWalletAttachment(0);	
 		}
+       }else if(voucherType == 'BE'){
+		smallImageBE.style.display = 'block';
+
+        fileTempGalleryBE = "data:image/jpeg;base64," + imageURI;
+		
+		smallImageBE.src = "data:image/jpeg;base64," + imageURI;
+		fileTempCameraBE = "";
+		}else if(voucherType == 'TS'){
+		smallImageTS.style.display = 'block';
+
+        fileTempGalleryTS = "data:image/jpeg;base64," + imageURI;
+		
+		smallImageTS.src = "data:image/jpeg;base64," + imageURI;
+		fileTempCameraTS = "";
+		}
+	    
     }
 	
-	function getPhoto(source,status) {
+	function getPhoto(source,status,voucher_type) {
+		voucherType = voucher_type;	
       // Retrieve image file location from specified source
-	 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
+	 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 10, 
         destinationType: 0,
         sourceType: source });
 		camerastatus = status;
