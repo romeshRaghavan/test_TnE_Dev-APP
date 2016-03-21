@@ -2,7 +2,7 @@ var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 var urlPath;
-var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service?result=';
+var WebServicePath = 'http://1.255.255.188:8088/NexstepWebService/mobileLinkResolver.service?result=';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -51,7 +51,7 @@ function login()
              j('#mainContainer').load(pageRef);
               appPageHistory.push(pageRef);
 			  //addEmployeeDetails(data);
-			  setUserSessionDetails(data);
+			  setUserSessionDetails(data,urlPath);
 			  if(data.TrRole){
 				synchronizeTRMasterData();
 				synchronizeTRForTS();  
@@ -264,7 +264,7 @@ function saveBusinessExpDetails(jsonBEArr,busExpDetailsArr){
 	 var pageRef=defaultPagePath+'success.html';
 	 j('#loading_Cat').show();
 	 j.ajax({
-				  url: urlPath+"BusExpService",
+				  url: window.localStorage.getItem("urlPath")+"BusExpService",
 				  type: 'POST',
 				  dataType: 'json',
 				  crossDomain: true,
@@ -303,7 +303,7 @@ function saveTravelSettleExpDetails(jsonTSArr,tsExpDetailsArr){
 	 jsonToSaveTS["expenseDetails"] = jsonTSArr;
 	 var pageRef=defaultPagePath+'success.html';
 	j.ajax({
-				  url: urlPath+"SyncSettlementExpensesWebService",
+				  url: window.localStorage.getItem("urlPath")+"SyncSettlementExpensesWebService",
 				  type: 'POST',
 				  dataType: 'json',
 				  crossDomain: true,
@@ -354,7 +354,7 @@ function callSendForApprovalServiceForBE(jsonToSaveBE,busExpDetailsArr,pageRef){
 j('#loading_Cat').show();
 var headerBackBtn=defaultPagePath+'backbtnPage.html';
 j.ajax({
-				  url: urlPath+"SynchSubmitBusinessExpense",
+				  url: window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense",
 				  type: 'POST',
 				  dataType: 'json',
 				  crossDomain: true,
@@ -843,7 +843,7 @@ function syncSubmitTravelDetails(){
 function saveTravelRequestAjax(jsonToSaveTR){
 	var pageRef=defaultPagePath+'success.html';
 	 j.ajax({
-			  url: urlPath+"SyncTravelRequestDetail",
+			  url: window.localStorage.getItem("urlPath")+"SyncTravelRequestDetail",
 			  type: 'POST',
 			  dataType: 'json',
 			  crossDomain: true,
@@ -1802,7 +1802,7 @@ function resetImageData(){
 		 j('#loading_Cat').show();
 		 for(i; i<jsonWalletArr.length; i++ ){
 			 j.ajax({
-					  url: urlPath+"WalletReceiptsService",
+					  url: window.localStorage.getItem("urlPath")+"WalletReceiptsService",
 					  type: 'POST',
 					  dataType: 'json',
 					  crossDomain: true,

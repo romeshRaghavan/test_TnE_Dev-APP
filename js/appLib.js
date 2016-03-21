@@ -558,7 +558,7 @@ function synchronizeBEMasterData() {
 	j('#loading_Cat').show();
 	if (mydb) {
 		j.ajax({
-			  url: urlPath+"SyncAccountHeadWebService",
+			  url: window.localStorage.getItem("urlPath")+"SyncAccountHeadWebService",
 			  type: 'POST',
 			  dataType: 'json',
 			  crossDomain: true,
@@ -654,7 +654,7 @@ function synchronizeBEMasterData() {
 			});
 			
 		j.ajax({
-		  url: urlPath+"CurrencyService",
+		  url: window.localStorage.getItem("urlPath")+"CurrencyService",
 		  type: 'POST',
 		  dataType: 'json',
 		  crossDomain: true,
@@ -711,7 +711,7 @@ function synchronizeBEMasterData() {
 	
 	if (mydb) {
 		j.ajax({
-		  url: urlPath+"SyncTravelAccountHeadWebService",
+		  url: window.localStorage.getItem("urlPath")+"SyncTravelAccountHeadWebService",
 		  type: 'POST',
 		  dataType: 'json',
 		  crossDomain: true,
@@ -764,7 +764,7 @@ function synchronizeBEMasterData() {
 		});
 		
 		j.ajax({
-			  url: urlPath+"CurrencyService",
+			  url: window.localStorage.getItem("urlPath")+"CurrencyService",
 			  type: 'POST',
 			  dataType: 'json',
 			  crossDomain: true,
@@ -804,7 +804,7 @@ function synchronizeBEMasterData() {
 					});	
 		
 		j.ajax({
-			  url: urlPath+"SyncTravelMaster",
+			  url: window.localStorage.getItem("urlPath")+"SyncTravelMaster",
 			  type: 'POST',
 			  dataType: 'json',
 			  crossDomain: true,
@@ -1035,14 +1035,15 @@ function fetchTrvlTypeList(transaction, results) {
 
 
 
-function setUserSessionDetails(val){
+function setUserSessionDetails(val,url){
 	 window.localStorage.setItem("TrRole",val.TrRole);
 	 window.localStorage.setItem("EmployeeId",val.EmpId);
 	 window.localStorage.setItem("FirstName",val.FirstName);
 	 window.localStorage.setItem("LastName",val.LastName);
 	 window.localStorage.setItem("GradeID",val.GradeID);
 	 window.localStorage.setItem("BudgetingStatus",val.BudgetingStatus);
-	 window.localStorage.setItem("UnitId",val.UnitId);
+	 window.localStorage.setItem("UnitId",val.UnitId);	
+	 window.localStorage.setItem("urlPath",url);
 }
 
 function getUserID() {
@@ -1310,7 +1311,7 @@ function synchronizeTRForTS() {
 	j('#loading_Cat').show();
 	if (mydb) {
  		j.ajax({
-			url: urlPath+"FetchTRForTSWebService",
+			url: window.localStorage.getItem("urlPath")+"FetchTRForTSWebService",
 			type: 'POST',
 			dataType: 'json',
 			crossDomain: true,
