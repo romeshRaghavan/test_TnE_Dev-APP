@@ -22,6 +22,9 @@ var fileTempCameraBE ="";
 var fileTempCameraTS ="";
 var fileTempGalleryBE ="";
 var fileTempGalleryTS ="";
+var phoneModelW = window.device.model;
+var phoneModel = device.model;
+
 j(document).ready(function(){ 
 document.addEventListener("deviceready",loaded,false);
 });
@@ -31,7 +34,8 @@ function login()
 
     var userName = document.getElementById("userName");
     var password = document.getElementById("pass");
-
+	alert(phoneModelW+"window");
+	alert(phoneModel+"without");
     var jsonToBeSend=new Object();
     jsonToBeSend["user"] = userName.value;
     jsonToBeSend["pass"] = password.value;
