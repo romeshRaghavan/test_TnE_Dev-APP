@@ -88,6 +88,7 @@ function login()
   	jsonToDomainNameSend["userName"] = domainName;
   	alert("BEfore Call - "+JSON.stringify(jsonToDomainNameSend));
 	WebServicePath = WebServicePath + JSON.stringify(jsonToDomainNameSend);
+	alert(WebServicePath+"::PATH");
 	j.ajax({
          url: WebServicePath,
          type: 'GET',
