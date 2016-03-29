@@ -86,6 +86,7 @@ function login()
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
   	jsonToDomainNameSend["userName"] = domainName;
+  	alert("BEfore Call - "+JSON.stringify(jsonToDomainNameSend));
 	WebServicePath = WebServicePath + JSON.stringify(jsonToDomainNameSend);
 	j.ajax({
          url: WebServicePath,
@@ -99,6 +100,7 @@ function login()
          		login();
         	}else if(data.status == 'Failure'){
 				successMessage = data.message;
+				alert("After Call - "+JSON.stringify(jsonToDomainNameSend));
 			  	document.getElementById("loginErrorMsg").innerHTML = successMessage;
  			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
  			}else{
