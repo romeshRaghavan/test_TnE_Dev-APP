@@ -34,9 +34,7 @@ function login()
 
     var userName = document.getElementById("userName");
     var password = document.getElementById("pass");
-    	alert(device.platform+" - Platform");
-	alert(phoneModelW+"window");
-	alert(phoneModel+"without");
+    
     var jsonToBeSend=new Object();
     jsonToBeSend["user"] = userName.value;
     jsonToBeSend["pass"] = password.value;
@@ -84,6 +82,10 @@ function login()
  }
  
  function commanLogin(){
+ 	
+ 	alert(device.platform+" - Platform");
+	alert(phoneModelW+"window");
+	alert(phoneModel+"without");
  	var userName = document.getElementById("userName");
  	var userNameValue = userName.value; 
  	var domainName = userNameValue.split('@')[1];
