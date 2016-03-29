@@ -22,8 +22,6 @@ var fileTempCameraBE ="";
 var fileTempCameraTS ="";
 var fileTempGalleryBE ="";
 var fileTempGalleryTS ="";
-var phoneModelW = window.device.model;
-var phoneModel = device.model;
 
 j(document).ready(function(){ 
 document.addEventListener("deviceready",loaded,false);
@@ -83,9 +81,6 @@ function login()
  
  function commanLogin(){
  	
- 	alert(device.platform+" - Platform");
-	alert(phoneModelW+"window");
-	alert(phoneModel+"without");
  	var userName = document.getElementById("userName");
  	var userNameValue = userName.value; 
  	var domainName = userNameValue.split('@')[1];
