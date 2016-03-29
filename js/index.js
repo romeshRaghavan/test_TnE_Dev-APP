@@ -34,6 +34,7 @@ function login()
 
     var userName = document.getElementById("userName");
     var password = document.getElementById("pass");
+    	alert(device.platform+" - Platform");
 	alert(phoneModelW+"window");
 	alert(phoneModel+"without");
     var jsonToBeSend=new Object();
