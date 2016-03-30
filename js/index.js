@@ -2,7 +2,7 @@ var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 var urlPath;
-var WebServicePath = 'http://1.255.255.188:8088/NexstepWebService/mobileLinkResolver.service?result=';
+var WebServicePath = 'http://1.255.255.156:8089/NexstepWebService/mobileLinkResolver.service?result=';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -86,6 +86,7 @@ function login()
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
   	jsonToDomainNameSend["userName"] = domainName;
+  	jsonToDomainNameSend["mobilePlatform"] = device.platform;
   	alert("BEfore Call - "+JSON.stringify(jsonToDomainNameSend));
 	WebServicePath = WebServicePath + JSON.stringify(jsonToDomainNameSend);
 	alert(WebServicePath+"::PATH");
