@@ -79,19 +79,16 @@ function login()
 
  }
  
- function commanLogin(){
- 	
+function commanLogin(){
  	var userName = document.getElementById("userName");
  	var userNameValue = userName.value; 
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
-  	jsonToDomainNameSend["userName"] = domainName;
-  	jsonToDomainNameSend["mobilePlatform"] = device.platform;
-  	alert("BEfore Call - "+JSON.stringify(jsonToDomainNameSend));
-	WebServicePath = WebServicePath + JSON.stringify(jsonToDomainNameSend);
-	alert(WebServicePath+"::PATH");
+	jsonToDomainNameSend["userName"] = domainName;
+  	var res=JSON.stringify(jsonToDomainNameSend);
+	var requestPath = WebServicePath +res;
 	j.ajax({
-         url: WebServicePath,
+         url: requestPath,
          type: 'GET',
          dataType: 'json',
          crossDomain: true,
@@ -102,8 +99,7 @@ function login()
          		login();
         	}else if(data.status == 'Failure'){
 				successMessage = data.message;
-				alert("After Call - "+JSON.stringify(jsonToDomainNameSend));
-			  	document.getElementById("loginErrorMsg").innerHTML = successMessage;
+				document.getElementById("loginErrorMsg").innerHTML = successMessage;
  			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
  			}else{
 				successMessage = data.message;
@@ -114,7 +110,6 @@ function login()
 		   
          }
    });
-
 }
 
   function createBusinessExp(){
