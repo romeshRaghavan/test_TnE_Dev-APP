@@ -1889,13 +1889,15 @@ function hideTRMenus(){
 	}
 }
 function validateValidMobileUser(){
+	alert("validateValidMobileUser");
 	var pgRef;
 	var headerBackBtn;
 	var jsonToBeSend=new Object();
+	alert(window.localStorage.getItem("EmployeeId"))
 	if(window.localStorage.getItem("EmployeeId")!= null){
 		jsonToBeSend["user"]=window.localStorage.getItem("UserName");
 		jsonToBeSend["pass"]=window.localStorage.getItem("Password");
-	
+		alert(urlPath+"ValidateUserWebservice");
 		j.ajax({
 	         url: urlPath+"ValidateUserWebservice",
 	         type: 'POST',
