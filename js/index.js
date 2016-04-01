@@ -36,8 +36,7 @@ function login()
     var jsonToBeSend=new Object();
     jsonToBeSend["user"] = userName.value;
     jsonToBeSend["pass"] = password.value;
-    
-	var headerBackBtn=defaultPagePath+'categoryMsgPage.html';
+   	var headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 	var pageRef=defaultPagePath+'category.html';
 	j('#loading').show();
     j.ajax({
@@ -52,7 +51,7 @@ function login()
              j('#mainContainer').load(pageRef);
               appPageHistory.push(pageRef);
 			  //addEmployeeDetails(data);
-			  setUserSessionDetails(data,urlPath);
+			  setUserSessionDetails(data,urlPath,jsonToBeSend);
 			  if(data.TrRole){
 				synchronizeTRMasterData();
 				synchronizeTRForTS();  
@@ -85,7 +84,9 @@ function commanLogin(){
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
 	jsonToDomainNameSend["userName"] = domainName;
+
 	jsonToDomainNameSend["mobilePlatform"] = device.platform;
+	//jsonToDomainNameSend["mobilePlatform"] = "Android";
   	var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath +res;
 	j.ajax({
@@ -1885,5 +1886,49 @@ function hideTRMenus(){
 		document.getElementById('TrRoleID').style.display="block";
 	}else{
 		document.getElementById('TrRoleID').style.display="none";
+	}
+}
+function validateValidMobileUser(){
+	var pgRef;
+	var headerBackBtn;
+	var jsonToBeSend=new Object();
+	jsonToBeSend["user"]=window.localStorage.getItem("UserName");
+	jsonToBeSend["pass"]=window.localStorage.getItem("Password");
+	if(window.localStorage.getItem("EmployeeId")!= null){
+		j.ajax({
+	         url: urlPath+"ValidateUserWebservice",
+	         type: 'POST',
+	         dataType: 'json',
+	         crossDomain: true,
+	         data: JSON.stringify(jsonToBeSend),
+	         success: function(data) {
+	         	 if(data.Status == 'NoAndroidRole'){
+	         	 	successMessage = data.Message;
+	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
+					pgRef=defaultPagePath+'loginPage.html';
+				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
+	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
+	 			   j('#loading').hide();
+	           }else if(data.Status == 'InactiveUser'){
+				   successMessage = data.Message;
+	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
+					pgRef=defaultPagePath+'loginPage.html';
+				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
+	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
+	 			   j('#loading').hide();
+	           }else if(data.Status == 'ChangedUserCredentials'){
+				    successMessage = data.Message;
+	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
+					pgRef=defaultPagePath+'loginPage.html';
+				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
+	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
+	 			   j('#loading').hide();
+	           }
+
+	         },
+	         error:function(data) {
+			  
+	         }
+	   });
 	}
 }
