@@ -16,7 +16,6 @@ var app = {
     // Application Constructor
     initialize: function() {
 		this.bindEvents();
-		validateValidMobileUser();
     },
     // Bind Event Listeners
     //
@@ -40,6 +39,7 @@ var app = {
 		  document.addEventListener("backbutton", function(e){
 			 goBackEvent();
 		  }, false);
+		  validateValidMobileUser();
 		  }
 };
 
