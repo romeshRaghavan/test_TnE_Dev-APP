@@ -39,6 +39,7 @@ var app = {
 		  document.addEventListener("backbutton", function(e){
 			 goBackEvent();
 		  }, false);
+		  alert("onDeviceReady");
 		  validateValidMobileUser();
 		  }
 };
