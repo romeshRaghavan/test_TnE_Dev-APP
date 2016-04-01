@@ -1909,6 +1909,8 @@ function validateValidMobileUser(){
 	         	 	successMessage = data.Message;
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 					pgRef=defaultPagePath+'loginPage.html';
+					 j('#mainHeader').load(headerBackBtn);
+             		j('#mainContainer').load(pgRef);
 				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
 	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
 	 			   j('#loading').hide();
@@ -1916,6 +1918,8 @@ function validateValidMobileUser(){
 				   successMessage = data.Message;
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 					pgRef=defaultPagePath+'loginPage.html';
+					 j('#mainHeader').load(headerBackBtn);
+             		j('#mainContainer').load(pgRef);
 				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
 	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
 	 			   j('#loading').hide();
@@ -1923,6 +1927,8 @@ function validateValidMobileUser(){
 				    successMessage = data.Message;
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 					pgRef=defaultPagePath+'loginPage.html';
+					 j('#mainHeader').load(headerBackBtn);
+             		j('#mainContainer').load(pgRef);
 				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
 	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
 	 			   j('#loading').hide();
