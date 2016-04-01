@@ -1899,7 +1899,7 @@ function validateValidMobileUser(){
 		jsonToBeSend["pass"]=window.localStorage.getItem("Password");
 		alert(urlPath+"ValidateUserWebservice");
 		j.ajax({
-	         url: urlPath+"ValidateUserWebservice",
+	         url:  window.localStorage.getItem("urlPath")+"ValidateUserWebservice",
 	         type: 'POST',
 	         dataType: 'json',
 	         crossDomain: true,
