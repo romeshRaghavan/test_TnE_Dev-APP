@@ -16,6 +16,7 @@ var app = {
     // Application Constructor
     initialize: function() {
 		this.bindEvents();
+		validateValidMobileUser();
     },
     // Bind Event Listeners
     //
@@ -1035,7 +1036,7 @@ function fetchTrvlTypeList(transaction, results) {
 
 
 
-function setUserSessionDetails(val,url){
+function setUserSessionDetails(val,url,userJSON){
 	 window.localStorage.setItem("TrRole",val.TrRole);
 	 window.localStorage.setItem("EmployeeId",val.EmpId);
 	 window.localStorage.setItem("FirstName",val.FirstName);
@@ -1044,6 +1045,8 @@ function setUserSessionDetails(val,url){
 	 window.localStorage.setItem("BudgetingStatus",val.BudgetingStatus);
 	 window.localStorage.setItem("UnitId",val.UnitId);	
 	 window.localStorage.setItem("urlPath",url);
+	 window.localStorage.setItem("UserName",userJSON["user"]);
+	 window.localStorage.setItem("Password",userJSON["pass"]);
 }
 
 function getUserID() {
