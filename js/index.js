@@ -1892,9 +1892,10 @@ function validateValidMobileUser(){
 	var pgRef;
 	var headerBackBtn;
 	var jsonToBeSend=new Object();
-	jsonToBeSend["user"]=window.localStorage.getItem("UserName");
-	jsonToBeSend["pass"]=window.localStorage.getItem("Password");
 	if(window.localStorage.getItem("EmployeeId")!= null){
+		jsonToBeSend["user"]=window.localStorage.getItem("UserName");
+		jsonToBeSend["pass"]=window.localStorage.getItem("Password");
+	
 		j.ajax({
 	         url: urlPath+"ValidateUserWebservice",
 	         type: 'POST',
