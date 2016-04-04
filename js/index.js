@@ -1909,6 +1909,7 @@ function validateValidMobileUser(){
 					 j('#mainHeader').load(headerBackBtn);
              		j('#mainContainer').load(pgRef);
 				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
+				   alert(document.getElementById("loginErrorMsg").innerHTML+"::VAL");
 	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
 	 			   j('#loading').hide();
 	           }else if(data.Status == 'InactiveUser'){
