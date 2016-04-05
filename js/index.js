@@ -30,14 +30,19 @@ document.addEventListener("deviceready",loaded,false);
 function login()
    {
 
+   	if(document.getElementById("userName")!=null){
     var userName = document.getElementById("userName");
-    var password = document.getElementById("pass");
+	}else if(document.getElementById("userName")!=null){
+		var userName = document.getElementById("userNameId");
+	}
+	var password = document.getElementById("pass");
     
     var jsonToBeSend=new Object();
     jsonToBeSend["user"] = userName.value;
     jsonToBeSend["pass"] = password.value;
    	var headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 	var pageRef=defaultPagePath+'category.html';
+	urlPath=window.localStorage.getItem("urlPath");
 	j('#loading').show();
     j.ajax({
          url: urlPath+"LoginWebService",
@@ -51,7 +56,8 @@ function login()
              j('#mainContainer').load(pageRef);
               appPageHistory.push(pageRef);
 			  //addEmployeeDetails(data);
-			  setUserSessionDetails(data,urlPath,jsonToBeSend);
+			  setUserStatusInLocalStorage("Valid");
+			  setUserSessionDetails(data,jsonToBeSend);
 			  if(data.TrRole){
 				synchronizeTRMasterData();
 				synchronizeTRForTS();  
@@ -98,6 +104,7 @@ function commanLogin(){
 		 success: function(data) {
          	if (data.status == 'Success'){
          		urlPath = data.message;
+         		setUrlPathLocalStorage(urlPath);
          		login();
         	}else if(data.status == 'Failure'){
 				successMessage = data.message;
@@ -176,19 +183,32 @@ function commanLogin(){
 	var headerBackBtn;
 	
 	if(window.localStorage.getItem("EmployeeId")!= null){
-		pgRef=defaultPagePath+'category.html';
 		
-		headerBackBtn=defaultPagePath+'categoryMsgPage.html';
-	}
-	else{
+		if(window.localStorage.getItem("UserStatus")!='ResetPswd'){
+			pgRef=defaultPagePath+'category.html';
+			headerBackBtn=defaultPagePath+'categoryMsgPage.html';
+		}else{
+			headerBackBtn=defaultPagePath+'expenzingImagePage.html';
+			pgRef=defaultPagePath+'loginPageResetPswd.html';
+		}
+
+	}else{
 		headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 		pgRef=defaultPagePath+'loginPage.html';
 	}
 	
 	j(document).ready(function() {
 		j('#mainHeader').load(headerBackBtn);
+		alert(window.localStorage.getItem("UserStatus")+"::"+pgRef);
 			j('#mainContainer').load(pgRef);
-
+			j('#mainContainer').load(pgRef,function() {
+  						if(window.localStorage.getItem("UserStatus")!=null
+  							&& window.localStorage.getItem("UserStatus")=='ResetPswd'){
+  							alert(window.localStorage.getItem("UserName"));
+  							document.getElementById("userNameId").innerHTML=window.localStorage.getItem("UserName");
+  						}
+		 			  
+					});
 			j('#mainContainer').swipe({
 				swipe:function(event,direction,distance,duration,fingercount){
 					switch (direction) {
@@ -1892,7 +1912,8 @@ function validateValidMobileUser(){
 	var pgRef;
 	var headerBackBtn;
 	var jsonToBeSend=new Object();
-	if(window.localStorage.getItem("EmployeeId")!= null){
+	if(window.localStorage.getItem("EmployeeId")!= null
+		&& (window.localStorage.getItem("UserStatus")==null || window.localStorage.getItem("UserStatus")=='Valid'){
 		jsonToBeSend["user"]=window.localStorage.getItem("UserName");
 		jsonToBeSend["pass"]=window.localStorage.getItem("Password");
 		j.ajax({
@@ -1902,34 +1923,46 @@ function validateValidMobileUser(){
 	         crossDomain: true,
 	         data: JSON.stringify(jsonToBeSend),
 	         success: function(data) {
-	         	 if(data.Status == 'NoAndroidRole'){
+	         	
+	         	 if(data.Status == 'Success'){
+	         	 	setUserStatusInLocalStorage("Valid");
+	           }else if(data.Status == 'NoAndroidRole'){
 	         	 	successMessage = data.Message;
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 					pgRef=defaultPagePath+'loginPage.html';
+					setUserStatusInLocalStorage("Invalid");
+					alert(window.localStorage.getItem("UserStatus"))
 					 j('#mainHeader').load(headerBackBtn);
-             		j('#mainContainer').load(pgRef);
-				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
-				   alert(document.getElementById("loginErrorMsg").innerHTML+"::VAL");
-	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
-	 			   j('#loading').hide();
+             		j('#mainContainer').load(pgRef,function() {
+  						document.getElementById("loginErrorMsg").innerHTML = successMessage;
+		 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
+		 			   j('#loading').hide();
+					});
+				  
 	           }else if(data.Status == 'InactiveUser'){
 				   successMessage = data.Message;
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 					pgRef=defaultPagePath+'loginPage.html';
 					 j('#mainHeader').load(headerBackBtn);
-             		j('#mainContainer').load(pgRef);
-				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
-	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
-	 			   j('#loading').hide();
+					 setUserStatusInLocalStorage("Inactive");
+					 resetUserSessionDetails();
+             		j('#mainContainer').load(pgRef,function() {
+  						document.getElementById("loginErrorMsg").innerHTML = successMessage;
+		 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
+		 			   j('#loading').hide();
+					});
 	           }else if(data.Status == 'ChangedUserCredentials'){
 				    successMessage = data.Message;
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
-					pgRef=defaultPagePath+'loginPage.html';
-					 j('#mainHeader').load(headerBackBtn);
-             		j('#mainContainer').load(pgRef);
-				   document.getElementById("loginErrorMsg").innerHTML = successMessage;
-	 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
-	 			   j('#loading').hide();
+					pgRef=defaultPagePath+'loginPageResetPswd.html';
+					 setUserStatusInLocalStorage("ResetPswd");
+					j('#mainHeader').load(headerBackBtn);
+             		j('#mainContainer').load(pgRef,function() {
+  						document.getElementById("loginErrorMsg").innerHTML = successMessage;
+  						document.getElementById("userNameId").innerHTML=window.localStorage.getItem("UserName");
+		 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
+		 			   j('#loading').hide();
+					});
 	           }
 
 	         },
