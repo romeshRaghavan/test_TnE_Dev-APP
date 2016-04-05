@@ -1959,7 +1959,8 @@ function validateValidMobileUser(){
 					j('#mainHeader').load(headerBackBtn);
              		j('#mainContainer').load(pgRef,function() {
   						document.getElementById("loginErrorMsg").innerHTML = successMessage;
-  						document.getElementById("userName").innerHTML=window.localStorage.getItem("UserName");
+  						document.getElementById("userNameLabel").innerHTML=window.localStorage.getItem("UserName");
+  						document.getElementById("userName").value=window.localStorage.getItem("UserName");
 		 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
 		 			   j('#loading').hide();
 					});
