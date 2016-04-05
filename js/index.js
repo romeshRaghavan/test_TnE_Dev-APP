@@ -181,7 +181,7 @@ function commanLogin(){
  function init() {
 	 var pgRef;
 	var headerBackBtn;
-	
+
 	if(window.localStorage.getItem("EmployeeId")!= null){
 		
 		if(window.localStorage.getItem("UserStatus")!='ResetPswd'){
@@ -1913,7 +1913,7 @@ function validateValidMobileUser(){
 	var headerBackBtn;
 	var jsonToBeSend=new Object();
 	if(window.localStorage.getItem("EmployeeId")!= null
-		&& (window.localStorage.getItem("UserStatus")==null || window.localStorage.getItem("UserStatus")=='Valid'){
+		&& (window.localStorage.getItem("UserStatus")==null || window.localStorage.getItem("UserStatus")=='Valid')){
 		jsonToBeSend["user"]=window.localStorage.getItem("UserName");
 		jsonToBeSend["pass"]=window.localStorage.getItem("Password");
 		j.ajax({
