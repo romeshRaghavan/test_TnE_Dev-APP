@@ -1036,8 +1036,20 @@ function fetchTrvlTypeList(transaction, results) {
 }
 
 
+function resetUserSessionDetails(){
+	 window.localStorage.setItem("TrRole",null);
+	 window.localStorage.setItem("EmployeeId",null);
+	 window.localStorage.setItem("FirstName",null);
+	 window.localStorage.setItem("LastName",null);
+	 window.localStorage.setItem("GradeID",null);
+	 window.localStorage.setItem("BudgetingStatus",null);
+	 window.localStorage.setItem("UnitId",null);	
+	 window.localStorage.setItem("UserName",null);
+	 window.localStorage.setItem("Password",null);
+	dropAllTableDetails();
+}
 
-function setUserSessionDetails(val,url,userJSON){
+function setUserSessionDetails(val,userJSON){
 	 window.localStorage.setItem("TrRole",val.TrRole);
 	 window.localStorage.setItem("EmployeeId",val.EmpId);
 	 window.localStorage.setItem("FirstName",val.FirstName);
@@ -1045,9 +1057,35 @@ function setUserSessionDetails(val,url,userJSON){
 	 window.localStorage.setItem("GradeID",val.GradeID);
 	 window.localStorage.setItem("BudgetingStatus",val.BudgetingStatus);
 	 window.localStorage.setItem("UnitId",val.UnitId);	
-	 window.localStorage.setItem("urlPath",url);
 	 window.localStorage.setItem("UserName",userJSON["user"]);
 	 window.localStorage.setItem("Password",userJSON["pass"]);
+	
+}
+
+function setUserStatusInLocalStorage(status){
+	window.localStorage.setItem("UserStatus",status);
+}
+function setUrlPathLocalStorage(url){
+	window.localStorage.setItem("urlPath",url);
+}
+function dropAllTableDetails(){
+
+	mydb.transaction(function(t) {
+		t.executeSql("DROP TABLE currencyMst ");
+		t.executeSql("DROP TABLE accountHeadMst ");
+		t.executeSql("DROP TABLE expNameMst");
+		t.executeSql("DROP TABLE businessExpDetails");
+		t.executeSql("DROP TABLE walletMst");
+		t.executeSql("DROP TABLE travelModeMst");
+		t.executeSql("DROP TABLE travelCategoryMst ");
+		t.executeSql("DROP TABLE cityTownMst");
+		t.executeSql("DROP TABLE travelTypeMst");
+		t.executeSql("DROP TABLE travelAccountHeadMst");
+		t.executeSql("DROP TABLE travelExpenseNameMst");
+		t.executeSql("DROP TABLE travelSettleExpDetails");
+		t.executeSql("DROP TABLE travelRequestDetails");
+	 });
+
 }
 
 function getUserID() {
