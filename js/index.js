@@ -180,12 +180,8 @@ function commanLogin(){
  function init() {
 	 var pgRef;
 	var headerBackBtn;
-	alert(window.localStorage.getItem("EmployeeId"))
-	alert(window.localStorage.getItem("EmployeeId")!= null)
 	if(window.localStorage.getItem("EmployeeId")!= null){
-		alert("In em id loop");
 		if(window.localStorage.getItem("UserStatus")!='ResetPswd'){
-			alert("In! reset loop")
 			pgRef=defaultPagePath+'category.html';
 			headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 		}else{
@@ -204,7 +200,6 @@ function commanLogin(){
 			j('#mainContainer').load(pgRef,function() {
   						if(window.localStorage.getItem("UserStatus")!=null
   							&& window.localStorage.getItem("UserStatus")=='ResetPswd'){
-  							alert(window.localStorage.getItem("UserName"));
   							document.getElementById("userNameId").innerHTML=window.localStorage.getItem("UserName");
   						}
 		 			  
@@ -1931,8 +1926,7 @@ function validateValidMobileUser(){
 	         	 	headerBackBtn=defaultPagePath+'expenzingImagePage.html';
 					pgRef=defaultPagePath+'loginPage.html';
 					setUserStatusInLocalStorage("Invalid");
-					alert(window.localStorage.getItem("UserStatus"))
-					 j('#mainHeader').load(headerBackBtn);
+					j('#mainHeader').load(headerBackBtn);
              		j('#mainContainer').load(pgRef,function() {
   						document.getElementById("loginErrorMsg").innerHTML = successMessage;
 		 			   j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
