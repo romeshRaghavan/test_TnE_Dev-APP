@@ -39,7 +39,6 @@ var app = {
 		  document.addEventListener("backbutton", function(e){
 			 goBackEvent();
 		  }, false);
-		  alert("onDeviceReady");
 		  validateValidMobileUser();
 		  }
 };
@@ -1037,15 +1036,15 @@ function fetchTrvlTypeList(transaction, results) {
 
 
 function resetUserSessionDetails(){
-	 window.localStorage.setItem("TrRole",null);
-	 window.localStorage.setItem("EmployeeId",null);
-	 window.localStorage.setItem("FirstName",null);
-	 window.localStorage.setItem("LastName",null);
-	 window.localStorage.setItem("GradeID",null);
-	 window.localStorage.setItem("BudgetingStatus",null);
-	 window.localStorage.setItem("UnitId",null);	
-	 window.localStorage.setItem("UserName",null);
-	 window.localStorage.setItem("Password",null);
+	 window.localStorage.removeItem("TrRole");
+	 window.localStorage.removeItem("EmployeeId");
+	 window.localStorage.removeItem("FirstName");
+	 window.localStorage.removeItem("LastName");
+	 window.localStorage.removeItem("GradeID");
+	 window.localStorage.removeItem("BudgetingStatus");
+	 window.localStorage.removeItem("UnitId");	
+	 window.localStorage.removeItem("UserName");
+	 window.localStorage.removeItem("Password");
 	dropAllTableDetails();
 }
 

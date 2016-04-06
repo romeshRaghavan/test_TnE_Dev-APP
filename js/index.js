@@ -90,9 +90,8 @@ function commanLogin(){
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
 	jsonToDomainNameSend["userName"] = domainName;
-
-	jsonToDomainNameSend["mobilePlatform"] = device.platform;
-	//jsonToDomainNameSend["mobilePlatform"] = "Android";
+	//jsonToDomainNameSend["mobilePlatform"] = device.platform;
+	jsonToDomainNameSend["mobilePlatform"] = "Android";
   	var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath +res;
 	j.ajax({
@@ -181,10 +180,12 @@ function commanLogin(){
  function init() {
 	 var pgRef;
 	var headerBackBtn;
-
+	alert(window.localStorage.getItem("EmployeeId"))
+	alert(window.localStorage.getItem("EmployeeId")!= null)
 	if(window.localStorage.getItem("EmployeeId")!= null){
-		
+		alert("In em id loop");
 		if(window.localStorage.getItem("UserStatus")!='ResetPswd'){
+			alert("In! reset loop")
 			pgRef=defaultPagePath+'category.html';
 			headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 		}else{
@@ -199,7 +200,6 @@ function commanLogin(){
 	
 	j(document).ready(function() {
 		j('#mainHeader').load(headerBackBtn);
-		alert(window.localStorage.getItem("UserStatus")+"::"+pgRef);
 			j('#mainContainer').load(pgRef);
 			j('#mainContainer').load(pgRef,function() {
   						if(window.localStorage.getItem("UserStatus")!=null
