@@ -181,12 +181,15 @@ function commanLogin(){
 	 var pgRef;
 	var headerBackBtn;
 	if(window.localStorage.getItem("EmployeeId")!= null){
-		if(window.localStorage.getItem("UserStatus")!='ResetPswd'){
+		if(window.localStorage.getItem("UserStatus")=='ResetPswd'){
+			headerBackBtn=defaultPagePath+'expenzingImagePage.html';
+			pgRef=defaultPagePath+'loginPageResetPswd.html';
+		}else if(window.localStorage.getItem("UserStatus")=='Valid'){
 			pgRef=defaultPagePath+'category.html';
 			headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 		}else{
 			headerBackBtn=defaultPagePath+'expenzingImagePage.html';
-			pgRef=defaultPagePath+'loginPageResetPswd.html';
+		pgRef=defaultPagePath+'loginPage.html';
 		}
 
 	}else{
