@@ -200,7 +200,8 @@ function commanLogin(){
 			j('#mainContainer').load(pgRef,function() {
   						if(window.localStorage.getItem("UserStatus")!=null
   							&& window.localStorage.getItem("UserStatus")=='ResetPswd'){
-  							document.getElementById("userNameId").innerHTML=window.localStorage.getItem("UserName");
+  							document.getElementById("userNameLabel").innerHTML=window.localStorage.getItem("UserName");
+  							document.getElementById("userName").value=window.localStorage.getItem("UserName");
   						}
 		 			  
 					});
