@@ -40,6 +40,7 @@ var app = {
 			 goBackEvent();
 		  }, false);
 		  validateValidMobileUser();
+		  
 		  }
 };
 
@@ -128,6 +129,7 @@ function onConfirmExit(button) {
   //Local Database Create,Save,Display
 
   //Test for browser compatibility
+  
 if (window.openDatabase) {
 	
 	//Create the database the parameters are 1. the database name 2.version number 3. a description 4. the size of the database (in bytes) 1024 x 1024 = 1MB
@@ -1056,7 +1058,7 @@ function resetUserSessionDetails(){
 	 window.localStorage.removeItem("UnitId");	
 	 window.localStorage.removeItem("UserName");
 	 window.localStorage.removeItem("Password");
-	dropAllTableDetails();
+	//dropAllTableDetails();
 }
 
 function setUserSessionDetails(val,userJSON){
