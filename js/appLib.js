@@ -137,7 +137,7 @@ if (window.openDatabase) {
 		//t.executeSql("CREATE TABLE IF NOT EXISTS employeeDetails (id INTEGER PRIMARY KEY ASC, firstName TEXT, lastName TEXT, gradeId INTEGER, budgetingStatus CHAR(1),unitId INTEGER, status TEXT)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS currencyMst (currencyId INTEGER PRIMARY KEY ASC, currencyName TEXT)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS accountHeadMst (accountHeadId INTEGER PRIMARY KEY ASC, accHeadName TEXT)");
-		t.executeSql("CREATE TABLE IF NOT EXISTS expNameMst (id INTEGER PRIMARY KEY ASC,expNameMstId INTEGER, expName TEXT, expIsFromToReq CHAR(1), accCodeId INTEGER NOT NULL, accHeadId INTEGER NOT NULL, expIsUnitReq CHAR(1), expRatePerUnit Double, expFixedOrVariable CHAR(1), expFixedLimitAmt Double,expPerUnitActiveInative CHAR(1))");
+		t.executeSql("CREATE TABLE IF NOT EXISTS expNameMst (id INTEGER PRIMARY KEY ASC,expNameMstId INTEGER, expName TEXT, expIsFromToReq CHAR(1), accCodeId INTEGER NOT NULL, accHeadId INTEGER NOT NULL, expIsUnitReq CHAR(1), expRatePerUnit Double, expFixedOrVariable CHAR(1), expFixedLimitAmt Double,expPerUnitActiveInative CHAR(1),isErReqd CHAR(1),limitAmountForER Double)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS businessExpDetails (busExpId INTEGER PRIMARY KEY ASC, accHeadId INTEGER REFERENCES accountHeadMst(accHeadId), expNameId INTEGER REFERENCES expNameMst(expNameId),expDate DATE, expFromLoc TEXT, expToLoc TEXT, expNarration TEXT, expUnit INTEGER, expAmt Double, currencyId INTEGER REFERENCES currencyMst(currencyId),isEntitlementExceeded TEXT,busExpAttachment BLOB)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS walletMst (walletId INTEGER PRIMARY KEY ASC AUTOINCREMENT, walletAttachment BLOB)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS travelModeMst (travelModeId INTEGER PRIMARY KEY ASC, travelModeName TEXT)");
@@ -593,7 +593,8 @@ function synchronizeBEMasterData() {
 								var exp_is_from_to_req = stateArr.IsFromToRequired;
 								var acc_code_id = stateArr.AccountCodeId;
 								var acc_head_id = stateArr.AccountHeadId;
-								
+								var isErReqd;
+								var limitAmountForER;
 								var exp_is_unit_req;
 								var exp_per_unit ;
 								var exp_fixed_or_var ;
@@ -631,8 +632,18 @@ function synchronizeBEMasterData() {
 								}else{
 									exp_fixed_limit_amt = 0.0;
 								}
+								if(typeof stateArr.IsErReqd != 'undefined') {
+									isErReqd = stateArr.IsErReqd;
+								}else{
+									isErReqd = 'N';
+								}
+								if(typeof stateArr.LimitAmountForER != 'undefined') {
+									limitAmountForER = stateArr.LimitAmountForER;
+								}else{
+									limitAmountForER = 0.0;
+								}
 								//console.log("exp_id:"+exp_id+"  -exp_name:"+exp_name+"  -exp_is_from_to_req:"+exp_is_from_to_req+"  -acc_code_id:"+acc_code_id+"  -acc_head_id:"+acc_head_id+"  -exp_is_unit_req:"+exp_is_unit_req+"  -exp_per_unit:"+exp_per_unit+"  -exp_fixed_or_var:"+exp_fixed_or_var+"  -exp_fixed_limit_amt:"+exp_fixed_limit_amt)										
-								t.executeSql("INSERT INTO expNameMst ( expNameMstId,expName, expIsFromToReq , accCodeId , accHeadId , expIsUnitReq , expRatePerUnit, expFixedOrVariable , expFixedLimitAmt,expPerUnitActiveInative ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?)", [exp_id,exp_name,exp_is_from_to_req, acc_code_id,acc_head_id,exp_is_unit_req,exp_per_unit,exp_fixed_or_var,exp_fixed_limit_amt,exp_per_unit_active_inactive]);
+								t.executeSql("INSERT INTO expNameMst ( expNameMstId,expName, expIsFromToReq , accCodeId , accHeadId , expIsUnitReq , expRatePerUnit, expFixedOrVariable , expFixedLimitAmt,expPerUnitActiveInative,isErReqd,limitAmountForER) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)", [exp_id,exp_name,exp_is_from_to_req, acc_code_id,acc_head_id,exp_is_unit_req,exp_per_unit,exp_fixed_or_var,exp_fixed_limit_amt,exp_per_unit_active_inactive,isErReqd,limitAmountForER]);
 							}
 						}  
 					});

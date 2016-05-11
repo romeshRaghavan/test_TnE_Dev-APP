@@ -90,7 +90,7 @@ function commanLogin(){
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
 	jsonToDomainNameSend["userName"] = domainName;
-	jsonToDomainNameSend["mobilePlatform"] = device.platform;
+	//jsonToDomainNameSend["mobilePlatform"] = device.platform;
 	//jsonToDomainNameSend["mobilePlatform"] = "Android";
   	var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath +res;
@@ -1171,7 +1171,7 @@ function onloadTimePicker(){
 
 
 function setPerUnitDetails(transaction, results){
- 		
+ 		 
     	if(results!=null){
 		        var row = results.rows.item(0);
 		        perUnitDetailsJSON["expenseIsfromAndToReqd"]=row.expIsFromToReq;
@@ -1181,6 +1181,8 @@ function setPerUnitDetails(transaction, results){
 		        perUnitDetailsJSON["expFixedLimitAmt"]=row.expFixedLimitAmt;
 		        perUnitDetailsJSON["expenseName"]=row.expName;
 				perUnitDetailsJSON["expPerUnitActiveInative"]=row.expPerUnitActiveInative;
+				perUnitDetailsJSON["isErReqd"]=row.isErReqd;
+				perUnitDetailsJSON["limitAmountForER"]=row.limitAmountForER;
 		        document.getElementById("expAmt").value="";
 		        document.getElementById("expUnit").value="";
 		        if(perUnitDetailsJSON.expenseIsfromAndToReqd=='N'){
@@ -1268,33 +1270,42 @@ function setPerUnitDetails(transaction, results){
 			 var expActiveInactive = perUnitDetailsJSON.expPerUnitActiveInative;
  			 var amount=document.getElementById("expAmt").value;
  			 var unitValue=document.getElementById("expUnit").value;
- 			if (expActiveInactive == '1'){
-					exceptionStatus = "N";
- 						j('#errorMsgArea').children('span').text("");
-				}if (perUnitStatus != "" && limitAmt != "" &&  amount != ""
- 						 && perUnitStatus =='N' && expActiveInactive !='1'){
- 					if (parseFloat(limitAmt) < parseFloat(amount)){
- 						 exceptionStatus = "Y";
- 						 exceptionMessage = "(Exceeding per unit amount defined: "
- 							 + limitAmt + " for expense name " + expName+")";
- 							 j('#errorMsgArea').children('span').text(exceptionMessage);
- 					 }else{
- 						 exceptionStatus = "N";
- 						 j('#errorMsgArea').children('span').text("");
- 					 }
- 				}else if (perUnitStatus != "" && ratePerUnit != "" && amount != ""
- 						 && fixedOrVariable != "" && unitValue != "" && perUnitStatus =='Y'
- 						 && fixedOrVariable =='V' && expActiveInactive !='1'){
+ 			 var isErReqd= perUnitDetailsJSON.isErReqd;
+ 			 var limitAmountForER= perUnitDetailsJSON.limitAmountForER;
+ 			 if(isErReqd=='Y'){
+ 			 	
+				alert("Entered expense/s require approved Expense Request. Please enter through web portal.");
+				document.getElementById("expAmt").value="";
+ 			 	
+ 			 }else{
+	 			if (expActiveInactive == '1'){
+						exceptionStatus = "N";
+	 						j('#errorMsgArea').children('span').text("");
+					}if (perUnitStatus != "" && limitAmt != "" &&  amount != ""
+	 						 && perUnitStatus =='N' && expActiveInactive !='1'){
+	 					if (parseFloat(limitAmt) < parseFloat(amount)){
+	 						 exceptionStatus = "Y";
+	 						 exceptionMessage = "(Exceeding per unit amount defined: "
+	 							 + limitAmt + " for expense name " + expName+")";
+	 							 j('#errorMsgArea').children('span').text(exceptionMessage);
+	 					 }else{
+	 						 exceptionStatus = "N";
+	 						 j('#errorMsgArea').children('span').text("");
+	 					 }
+	 				}else if (perUnitStatus != "" && ratePerUnit != "" && amount != ""
+	 						 && fixedOrVariable != "" && unitValue != "" && perUnitStatus =='Y'
+	 						 && fixedOrVariable =='V' && expActiveInactive !='1'){
 
- 					 if (parseFloat(ratePerUnit) < amount/unitValue){
- 						 exceptionStatus = "Y";
- 						 exceptionMessage = "(Exceeding per unit amount defined: "
- 							 + ratePerUnit + " for expense name " + expName+")";
- 							 j('#errorMsgArea').children('span').text(exceptionMessage);
- 					 }else{
- 						 exceptionStatus = "N";
- 						  j('#errorMsgArea').children('span').text("");
- 					 }
+	 					 if (parseFloat(ratePerUnit) < amount/unitValue){
+	 						 exceptionStatus = "Y";
+	 						 exceptionMessage = "(Exceeding per unit amount defined: "
+	 							 + ratePerUnit + " for expense name " + expName+")";
+	 							 j('#errorMsgArea').children('span').text(exceptionMessage);
+	 					 }else{
+	 						 exceptionStatus = "N";
+	 						  j('#errorMsgArea').children('span').text("");
+	 					 }
+					}
 				}
  				
  	}
