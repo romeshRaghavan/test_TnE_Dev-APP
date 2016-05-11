@@ -1058,7 +1058,7 @@ function resetUserSessionDetails(){
 	 window.localStorage.removeItem("UnitId");	
 	 window.localStorage.removeItem("UserName");
 	 window.localStorage.removeItem("Password");
-	//dropAllTableDetails();
+	 dropAllTableDetails();
 }
 
 function setUserSessionDetails(val,userJSON){
@@ -1083,19 +1083,19 @@ function setUrlPathLocalStorage(url){
 function dropAllTableDetails(){
 
 	mydb.transaction(function(t) {
-		t.executeSql("DROP TABLE currencyMst ");
-		t.executeSql("DROP TABLE accountHeadMst ");
-		t.executeSql("DROP TABLE expNameMst");
-		t.executeSql("DROP TABLE businessExpDetails");
-		t.executeSql("DROP TABLE walletMst");
-		t.executeSql("DROP TABLE travelModeMst");
-		t.executeSql("DROP TABLE travelCategoryMst ");
-		t.executeSql("DROP TABLE cityTownMst");
-		t.executeSql("DROP TABLE travelTypeMst");
-		t.executeSql("DROP TABLE travelAccountHeadMst");
-		t.executeSql("DROP TABLE travelExpenseNameMst");
-		t.executeSql("DROP TABLE travelSettleExpDetails");
-		t.executeSql("DROP TABLE travelRequestDetails");
+		t.executeSql("DELETE TABLE currencyMst ");
+		t.executeSql("DELETE TABLE accountHeadMst ");
+		t.executeSql("DELETE TABLE expNameMst");
+		t.executeSql("DELETE TABLE businessExpDetails");
+		t.executeSql("DELETE TABLE walletMst");
+		t.executeSql("DELETE TABLE travelModeMst");
+		t.executeSql("DELETE TABLE travelCategoryMst ");
+		t.executeSql("DELETE TABLE cityTownMst");
+		t.executeSql("DELETE TABLE travelTypeMst");
+		t.executeSql("DELETE TABLE travelAccountHeadMst");
+		t.executeSql("DELETE TABLE travelExpenseNameMst");
+		t.executeSql("DELETE TABLE travelSettleExpDetails");
+		t.executeSql("DELETE TABLE travelRequestDetails");
 	 });
 
 }
