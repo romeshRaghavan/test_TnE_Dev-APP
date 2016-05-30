@@ -110,9 +110,13 @@ function commanLogin(){
 				document.getElementById("loginErrorMsg").innerHTML = successMessage;
  			   j('#loginErrorMsg').hide().fadeIn('slow').delay(2000).fadeOut('slow');
  			}else{
-				successMessage = data.message;
-             alert(successMessage);
-           }
+ 				successMessage = data.message;
+ 				if(successMessage == "" || successMessage == null){
+				alert("Please enter correct username or password");				
+				}else{
+ 				alert(successMessage);	
+ 				}	
+ 			}
 		},
          error:function(data) {
 		   
@@ -1270,14 +1274,7 @@ function setPerUnitDetails(transaction, results){
 			 var expActiveInactive = perUnitDetailsJSON.expPerUnitActiveInative;
  			 var amount=document.getElementById("expAmt").value;
  			 var unitValue=document.getElementById("expUnit").value;
- 			 var isErReqd= perUnitDetailsJSON.isErReqd;
- 			 var limitAmountForER= perUnitDetailsJSON.limitAmountForER;
- 			 if(isErReqd=='Y'){
- 			 	
-				alert("Entered expense/s require approved Expense Request. Please enter through web portal.");
-				document.getElementById("expAmt").value="";
- 			 	
- 			 }else{
+ 			
 	 			if (expActiveInactive == '1'){
 						exceptionStatus = "N";
 	 						j('#errorMsgArea').children('span').text("");
@@ -1306,7 +1303,7 @@ function setPerUnitDetails(transaction, results){
 	 						  j('#errorMsgArea').children('span').text("");
 	 					 }
 					}
-				}
+				
  				
  	}
 
@@ -1506,8 +1503,8 @@ function oprationOnExpenseClaim(){
 						  j("#source tr.selected").each(function(index, row) {
 							  var busExpDetailId = j(this).find('td.busExpId').text();
 							  var jsonFindBE = new Object();
-
-							  var expDate = j(this).find('td.expDate1').text();
+								
+							 var expDate = j(this).find('td.expDate1').text();
 							  var expenseDate  = expDate;
 							  var currentDate=new Date(expenseDate);
 							  //get Start Date
@@ -1531,7 +1528,6 @@ function oprationOnExpenseClaim(){
 								  }
 							  }
 
-
 							  jsonFindBE["expenseDate"] = expenseDate;
 							  //get Account Head
 							  var currentAccountHeadID=j(this).find('td.accHeadId').text();
@@ -1550,6 +1546,10 @@ function oprationOnExpenseClaim(){
 								  jsonFindBE["fromLocation"] = j(this).find('td.expFromLoc1').text();
 								  jsonFindBE["toLocation"] = j(this).find('td.expToLoc1').text();
 								  jsonFindBE["narration"] = j(this).find('td.expNarration1').text();
+
+								  jsonFindBE["isErReqd"] = j(this).find('td.isErReqd').text();
+								  jsonFindBE["ERLimitAmt"] = j(this).find('td.ERLimitAmt').text();
+
 								  jsonFindBE["perUnitException"] = j(this).find('td.isEntitlementExceeded').text();
 
 								  if(j(this).find('td.expUnit').text()!="" ) {
@@ -1576,7 +1576,7 @@ function oprationOnExpenseClaim(){
 						  });
 
 						  if(accountHeadIdToBeSent!="" && busExpDetailsArr.length>0){
-							  sendForApprovalBusinessDetails(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
+						  sendForApprovalBusinessDetails(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
 						  }
 					  }else{
 						 alert("Tap and select Expenses to send for Approval with server.");
@@ -1657,6 +1657,7 @@ function oprationOnExpenseClaim(){
 	
 });
 }
+
 
 function oprationONTravelSettlementExp(){
 	var headerBackBtn=defaultPagePath+'backbtnPage.html';
