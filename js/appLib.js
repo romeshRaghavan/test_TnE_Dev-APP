@@ -129,7 +129,6 @@ function onConfirmExit(button) {
   //Local Database Create,Save,Display
 
   //Test for browser compatibility
-  
 if (window.openDatabase) {
 	
 	//Create the database the parameters are 1. the database name 2.version number 3. a description 4. the size of the database (in bytes) 1024 x 1024 = 1MB
@@ -429,17 +428,17 @@ function fetchExpenseClaim() {
 				j('<td></td>').attr({ class: ["accountCodeId","displayNone"].join(' ') }).text(row.accCodeId).appendTo(rowss);		
 				j('<td></td>').attr({ class: ["expName","displayNone"].join(' ') }).text(row.expName).appendTo(rowss);		
 				j('<td></td>').attr({ class: ["busExpId","displayNone"].join(' ') }).text(row.busExpId).appendTo(rowss);
+				j('<td></td>').attr({ class: ["isErReqd","displayNone"].join(' ') }).text(row.isErReqd).appendTo(rowss);
+				j('<td></td>').attr({ class: ["ERLimitAmt","displayNone"].join(' ') }).text(row.limitAmountForER).appendTo(rowss);
 				j('<td></td>').attr({ class: ["isEntitlementExceeded","displayNone"].join(' ') }).text(row.isEntitlementExceeded).appendTo(rowss);		
 			}	
 					
 			j("#source tr").click(function(){ 
 				headerOprationBtn = defaultPagePath+'headerPageForBEOperation.html';
 				if(j(this).hasClass("selected")){ 
-				
 				var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
 					j(this).removeClass('selected');
 					j('#mainHeader').load(headerBackBtn);
-					
 				}else{
 				if(j(this).text()=='DateExpense NameNarration From/To LocAmt'){
 					
@@ -531,11 +530,9 @@ function fetchExpenseClaim() {
 			j("#source tr").click(function(){
 				headerOprationBtn = defaultPagePath+'headerPageForTSOperation.html';
 				if(j(this).hasClass("selected")){ 
-				
 				var headerBackBtn=defaultPagePath+'headerPageForTSOperation.html';
 					j(this).removeClass('selected');
 					j('#mainHeader').load(headerBackBtn);
-					
 				}else{
 					if(j(this).text()=='DateExpense NameAmtcityTownNarration'){
 						
@@ -1143,10 +1140,8 @@ function fetchWalletImage() {
 				j("#walletSource td").click(function(){
 					headerOprationBtn = defaultPagePath+'headerPageForWalletOperation.html';
 					if(j(this).hasClass( "selected")){
-						
 							j(this).removeClass('selected');
 							j('#mainHeader').load(headerOprationBtn);
-							
 						}else{
 							j('#mainHeader').load(headerOprationBtn);
 							j(this).addClass('selected');					
