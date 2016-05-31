@@ -2,7 +2,7 @@ var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 var urlPath;
-var WebServicePath = 'http://1.255.255.188:8088/NexstepWebService/mobileLinkResolver.service?result=';
+var WebServicePath = 'http://1.255.255.188:8088/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -22,6 +22,7 @@ var fileTempCameraBE ="";
 var fileTempCameraTS ="";
 var fileTempGalleryBE ="";
 var fileTempGalleryTS ="";
+var mapToCalcERAmt = new Map();
 
 j(document).ready(function(){ 
 document.addEventListener("deviceready",loaded,false);
@@ -92,11 +93,12 @@ function commanLogin(){
 	jsonToDomainNameSend["userName"] = domainName;
 	//jsonToDomainNameSend["mobilePlatform"] = device.platform;
 	//jsonToDomainNameSend["mobilePlatform"] = "Android";
-  	var res=JSON.stringify(jsonToDomainNameSend);
-	var requestPath = WebServicePath +res;
+  	//var res=JSON.stringify(jsonToDomainNameSend);
+	var requestPath = WebServicePath;
 	j.ajax({
          url: requestPath,
-         type: 'GET',
+         type: 'POST',
+         contentType : "application/json",
          dataType: 'json',
          crossDomain: true,
          data: JSON.stringify(jsonToDomainNameSend),
@@ -1504,7 +1506,7 @@ function oprationOnExpenseClaim(){
 							  var busExpDetailId = j(this).find('td.busExpId').text();
 							  var jsonFindBE = new Object();
 								
-							 var expDate = j(this).find('td.expDate1').text();
+							  var expDate = j(this).find('td.expDate1').text();
 							  var expenseDate  = expDate;
 							  var currentDate=new Date(expenseDate);
 							  //get Start Date
@@ -1574,9 +1576,9 @@ function oprationOnExpenseClaim(){
 								  busExpDetailsArr.push(busExpDetailId);
 							  }
 						  });
-
-						  if(accountHeadIdToBeSent!="" && busExpDetailsArr.length>0){
-						  sendForApprovalBusinessDetails(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
+						  
+						if(accountHeadIdToBeSent!="" && busExpDetailsArr.length>0){
+						  	 sendForApprovalBusinessDetails(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
 						  }
 					  }else{
 						 alert("Tap and select Expenses to send for Approval with server.");
