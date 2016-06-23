@@ -1472,12 +1472,3 @@ function synchronizeTRForTS() {
 			});
    appPageHistory.push(pageRef);
 	}
-	function createBarcode(){
-		var headerBackBtn=defaultPagePath+'backbtnPage.html';
-     var pageRef=defaultPagePath+'barcode.html';
-			j(document).ready(function() {
-				j('#mainHeader').load(headerBackBtn);
-				j('#mainContainer').load(pageRef);
-			});
-   appPageHistory.push(pageRef);
-	}
