@@ -385,7 +385,6 @@ function sendForApprovalBusinessDetails(jsonBEArr,busExpDetailsArr,accountHeadID
 
 function callSendForApprovalServiceForBE(jsonToSaveBE,busExpDetailsArr,pageRef){
 j('#loading_Cat').show();
-requestRunning = true;
 var headerBackBtn=defaultPagePath+'backbtnPage.html';
 j.ajax({
 				  url: window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense",
@@ -1506,7 +1505,9 @@ function oprationOnExpenseClaim(){
 				var jsonExpenseDetailsArr = [];
 				  var busExpDetailsArr = [];
 				  expenseClaimDates=new Object;
-				  
+				  if(requestRunning){
+							  return;
+							   }
 				  var accountHeadIdToBeSent=''
 					  if(j("#source tr.selected").hasClass("selected")){
 						  j("#source tr.selected").each(function(index, row) {
@@ -1515,9 +1516,6 @@ function oprationOnExpenseClaim(){
 							  var expDate = j(this).find('td.expDate1').text();
 							  var expenseDate  = expDate;
 							  var currentDate=new Date(expenseDate);
-							if(requestRunning){
-							  return;
-							   }
 							  //get Start Date
 							  if(!expenseClaimDates.hasOwnProperty('minInDateFormat')){
 								  expenseClaimDates["minInDateFormat"]=currentDate;
@@ -1583,6 +1581,7 @@ function oprationOnExpenseClaim(){
 								  jsonExpenseDetailsArr.push(jsonFindBE);
 
 								  busExpDetailsArr.push(busExpDetailId);
+								  requestRunning = true;
 							  }
 						  });
 						  
