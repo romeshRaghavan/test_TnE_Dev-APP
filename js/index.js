@@ -919,7 +919,7 @@ function saveTravelRequestAjax(jsonToSaveTR){
 							 j('#loading_Cat').hide();
 						}
 					  successMessage = data.Message;
-					  alert(successMessage);
+					  //alert(successMessage);
 					  j('#loading_Cat').hide();
 				  }else if(data.Status=="Success"){
 					  successMessage = data.Message;
@@ -1410,15 +1410,26 @@ function setDelayMessage(returnJsonData,jsonToBeSend,busExpDetailsArr){
 
 function setTREntitlementExceedMessage(returnJsonData,jsonToBeSend){
 		var pageRef=defaultPagePath+'success.html';
-	if(confirm(returnJsonData.Message+".\nThis voucher has exceeded Entitlements. Do you want to proceed?")==false){
-		return false;
+		var msg=returnJsonData.Message+".\nThis voucher has exceeded Entitlements. Do you want to proceed?";
+	navigator.notification.confirm(msg,
+		function(buttonIndex){
+            onConfirm(buttonIndex, msg,jsonToBeSend);
+        }, 
+		'confirm', 'Yes, No');
+
+	
 	}
-		 jsonToBeSend["EntitlementAllowCheck"]=true;
-		 saveTravelRequestAjax(jsonToBeSend);
-				
+
+function onConfirm(buttonIndex,errormsg,jsonToBeSend){
+    if (buttonIndex === 1){
+    	jsonToBeSend["EntitlementAllowCheck"]=true;
+		saveTravelRequestAjax(jsonToBeSend);
+    }else{
+    	return false;
+    }
+
 }
 
-		
 	 function cerateTravelSettlement(){
 		
 	      var pageRef=defaultPagePath+'addTravelSettlement.html';
