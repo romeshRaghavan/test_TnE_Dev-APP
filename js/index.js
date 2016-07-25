@@ -724,14 +724,6 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 }
 
 
-function isOnlyNumeric(object,messageContent) {
-	if(object.search(/^[0-9]*$/) == -1) {
-		alert(messageContent+" should be numeric." );
-		return false;
-	}else {
-		return true;
-	}
-}
 
 function syncSubmitTravelDetails(){
 	
