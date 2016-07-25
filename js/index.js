@@ -1292,7 +1292,7 @@ function setPerUnitDetails(transaction, results){
  			 var unitValue=document.getElementById("expUnit").value;
  			if(isZero(amount,"amount ")== false){
 				document.getElementById("expAmt").value = "";
-				return false;
+				//return false;
 			}
 	 			if (expActiveInactive == '1'){
 						exceptionStatus = "N";
@@ -1336,7 +1336,7 @@ function calculatePerUnit(){
 		}
 		if(isZero(unit,"Unit ")== false){
 			document.getElementById("expUnit").value = "";
-			return false;
+			//return false;
 		}
 		 var perUnitStatus = perUnitDetailsJSON.expIsUnitReq;
 		 var fixedOrVariable = perUnitDetailsJSON.expFixedOrVariable;
@@ -2027,7 +2027,7 @@ function validatePerUnit() {
 		}
 		if(isZero(unit,"Unit ")== false){
 			document.getElementById("expUnit").value = "";
-			return false;
+			//return false;
 		}
 }
 
@@ -2040,6 +2040,6 @@ function validateExpAmt(){
 		}
 		if(isZero(amount,"Amount ")== false){
 			document.getElementById("expAmt").value = "";
-			return false;
+			//return false;
 		}
 }
