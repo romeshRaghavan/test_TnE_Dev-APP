@@ -692,6 +692,10 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 			{
 				return false;
 			}
+			if(isZero(exp_unit,"Unit")==false)
+			{
+				return false;
+			}
 		}else{
 			alert("Unit is invalid");
 			return false;
@@ -699,6 +703,10 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 	}
 		if(exp_amt != ""){
 			if(isOnlyNumeric(exp_amt,"Amount")==false)
+			{
+				return false;
+			}
+			if(isZero(exp_amt,"Amount")==false)
 			{
 				return false;
 			}
@@ -1282,7 +1290,10 @@ function setPerUnitDetails(transaction, results){
 			 var expActiveInactive = perUnitDetailsJSON.expPerUnitActiveInative;
  			 var amount=document.getElementById("expAmt").value;
  			 var unitValue=document.getElementById("expUnit").value;
- 			
+ 			if(isZero(amount,"amount ")== false){
+				document.getElementById("expAmt").value = "";
+				return false;
+			}
 	 			if (expActiveInactive == '1'){
 						exceptionStatus = "N";
 	 						j('#errorMsgArea').children('span').text("");
@@ -1321,6 +1332,10 @@ function calculatePerUnit(){
 		if(isOnlyNumeric(unit,"Unit")==false)
 		{	
 			document.getElementById("expUnit").value="";
+			return false;
+		}
+		if(isZero(unit,"Unit ")== false){
+			document.getElementById("expUnit").value = "";
 			return false;
 		}
 		 var perUnitStatus = perUnitDetailsJSON.expIsUnitReq;
@@ -1455,12 +1470,20 @@ function validateTSDetails(exp_date,exp_narration,exp_unit,exp_amt,travelRequest
 			{
 				return false;
 			}
+			if(isZero(exp_unit,"Unit")==false)
+			{
+				return false;
+			}
 		}else{
 			alert("Unit is invalid.");
 			return false;
 		}
 	if(exp_amt != ""){
 			if(isOnlyNumeric(exp_amt,"Amount")==false)
+			{
+				return false;
+			}
+			if(isZero(exp_amt,"Amount")==false)
 			{
 				return false;
 			}
@@ -1994,4 +2017,29 @@ function validateValidMobileUser(){
 	         }
 	   });
 	}
+}
+function validatePerUnit() {
+	 var unit=document.getElementById("expUnit").value;
+		if(isOnlyNumeric(unit,"Unit")==false)
+		{	
+			document.getElementById("expUnit").value="";
+			return false;
+		}
+		if(isZero(unit,"Unit ")== false){
+			document.getElementById("expUnit").value = "";
+			return false;
+		}
+}
+
+function validateExpAmt(){
+	 var amount=document.getElementById("expAmt").value;
+		if(isOnlyNumeric(amount,"Amount")==false)
+		{	
+			document.getElementById("expAmt").value="";
+			return false;
+		}
+		if(isZero(amount,"Amount ")== false){
+			document.getElementById("expAmt").value = "";
+			return false;
+		}
 }
