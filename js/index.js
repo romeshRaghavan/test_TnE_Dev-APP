@@ -670,6 +670,14 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 		alert("Expense Name is invalid");
 		return false;
 	}
+	if(isZero(exp_unit,"Unit")==false){
+		document.getElementById("expUnit").value = "";
+		return false;
+	}
+	if(isZero(exp_amt,"Amount")==false){
+		document.getElementById("expAmt").value = "";
+		return false;
+	}
 	if(perUnitDetailsJSON.expenseIsfromAndToReqd!='N'){
 		if(exp_from_loc == ""){
 			alert("From Location is invalid");
@@ -687,29 +695,26 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 	}
 	
 	if(perUnitDetailsJSON.expIsUnitReq == 'Y'){
+
 		if(exp_unit != ""){
 			if(isOnlyNumeric(exp_unit,"Unit")==false)
 			{
 				return false;
 			}
-			if(isZero(exp_unit,"Unit")==false)
-			{
-				return false;
-			}
+			
 		}else{
 			alert("Unit is invalid");
 			return false;
 		}
 	}
+		
+
 		if(exp_amt != ""){
 			if(isOnlyNumeric(exp_amt,"Amount")==false)
 			{
 				return false;
 			}
-			if(isZero(exp_amt,"Amount")==false)
-			{
-				return false;
-			}
+			
 		}else{
 			alert("Amount is invalid");
 			return false;
@@ -722,6 +727,7 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 	
 	return true;
 }
+
 
 
 
@@ -1282,10 +1288,6 @@ function setPerUnitDetails(transaction, results){
 			 var expActiveInactive = perUnitDetailsJSON.expPerUnitActiveInative;
  			 var amount=document.getElementById("expAmt").value;
  			 var unitValue=document.getElementById("expUnit").value;
- 			if(isZero(amount,"amount ")== false){
-				document.getElementById("expAmt").value = "";
-				//return false;
-			}
 	 			if (expActiveInactive == '1'){
 						exceptionStatus = "N";
 	 						j('#errorMsgArea').children('span').text("");
@@ -1326,10 +1328,7 @@ function calculatePerUnit(){
 			document.getElementById("expUnit").value="";
 			return false;
 		}
-		if(isZero(unit,"Unit ")== false){
-			document.getElementById("expUnit").value = "";
-			//return false;
-		}
+	
 		 var perUnitStatus = perUnitDetailsJSON.expIsUnitReq;
 		 var fixedOrVariable = perUnitDetailsJSON.expFixedOrVariable;
 		 var ratePerUnit = perUnitDetailsJSON.expRatePerUnit;
@@ -1464,12 +1463,13 @@ function validateTSDetails(exp_date,exp_narration,exp_unit,exp_amt,travelRequest
 			}
 			if(isZero(exp_unit,"Unit")==false)
 			{
+				document.getElementById("expUnit").value="";
 				return false;
 			}
-		}else{
-			alert("Unit is invalid.");
-			return false;
-		}
+			}else{
+				alert("Unit is invalid.");
+				return false;
+			}
 	if(exp_amt != ""){
 			if(isOnlyNumeric(exp_amt,"Amount")==false)
 			{
@@ -1477,6 +1477,7 @@ function validateTSDetails(exp_date,exp_narration,exp_unit,exp_amt,travelRequest
 			}
 			if(isZero(exp_amt,"Amount")==false)
 			{
+				document.getElementById("expAmt").value="";
 				return false;
 			}
 		}else{
