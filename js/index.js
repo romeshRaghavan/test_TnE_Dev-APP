@@ -24,7 +24,7 @@ var fileTempGalleryBE ="";
 var fileTempGalleryTS ="";
 var mapToCalcERAmt = new Map();
 var requestRunning = false;
-
+var flagForUnitEnable = false;
 j(document).ready(function(){ 
 document.addEventListener("deviceready",loaded,false);
 });
@@ -92,8 +92,8 @@ function commanLogin(){
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
 	jsonToDomainNameSend["userName"] = domainName;
-	jsonToDomainNameSend["mobilePlatform"] = device.platform;
-	//jsonToDomainNameSend["mobilePlatform"] = "Android";
+	//jsonToDomainNameSend["mobilePlatform"] = device.platform;
+	jsonToDomainNameSend["mobilePlatform"] = "Android";
   	//var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath;
 	j.ajax({
@@ -670,10 +670,12 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 		alert("Expense Name is invalid");
 		return false;
 	}
-	if(isZero(exp_unit,"Unit")==false){
-		document.getElementById("expUnit").value = "";
-		return false;
-	}
+	if(flagForUnitEnable == true){
+		if(isZero(exp_unit,"Unit")==false){
+			document.getElementById("expUnit").value = "";
+			return false;
+		}
+	}	
 	if(isZero(exp_amt,"Amount")==false){
 		document.getElementById("expAmt").value = "";
 		return false;
@@ -727,7 +729,6 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 	
 	return true;
 }
-
 
 
 
@@ -1219,23 +1220,27 @@ function setPerUnitDetails(transaction, results){
 				if(perUnitDetailsJSON.isUnitReqd=='Y'){
 					document.getElementById("expAmt").value="";
 					if(perUnitDetailsJSON.expFixedOrVariable=='V'){
+						flagForUnitEnable = true;
 						document.getElementById("expUnit").disabled =false;
 						document.getElementById("expUnit").style.backgroundColor='#FFFFFF'; 
 						document.getElementById("expAmt").disabled =false;
 						document.getElementById("expAmt").style.backgroundColor='#FFFFFF'; 
 					}else{
+						flagForUnitEnable = true;
 						document.getElementById("expUnit").disabled =false;
 						document.getElementById("expUnit").style.backgroundColor='#FFFFFF'; 
 						document.getElementById("expAmt").disabled =true;
 						document.getElementById("expAmt").style.backgroundColor='#d1d1d1'; 
 					}
 				}else{
+					flagForUnitEnable = false;
 					document.getElementById("expUnit").disabled =true;
 					document.getElementById("expAmt").disabled =false;
 					document.getElementById("expAmt").style.backgroundColor='#FFFFFF'; 
 					document.getElementById("expUnit").style.backgroundColor='#d1d1d1'; 
 				}
 				if(perUnitDetailsJSON.expPerUnitActiveInative=='1'){
+					flagForUnitEnable=false;
 					document.getElementById("expUnit").disabled =true;
 					document.getElementById("expAmt").disabled =false;
 					document.getElementById("expAmt").style.backgroundColor='#FFFFFF'; 
@@ -1288,6 +1293,7 @@ function setPerUnitDetails(transaction, results){
 			 var expActiveInactive = perUnitDetailsJSON.expPerUnitActiveInative;
  			 var amount=document.getElementById("expAmt").value;
  			 var unitValue=document.getElementById("expUnit").value;
+ 			
 	 			if (expActiveInactive == '1'){
 						exceptionStatus = "N";
 	 						j('#errorMsgArea').children('span').text("");
@@ -1328,7 +1334,6 @@ function calculatePerUnit(){
 			document.getElementById("expUnit").value="";
 			return false;
 		}
-	
 		 var perUnitStatus = perUnitDetailsJSON.expIsUnitReq;
 		 var fixedOrVariable = perUnitDetailsJSON.expFixedOrVariable;
 		 var ratePerUnit = perUnitDetailsJSON.expRatePerUnit;
@@ -2011,6 +2016,7 @@ function validateValidMobileUser(){
 	   });
 	}
 }
+
 function validatePerUnit() {
 	 var unit=document.getElementById("expUnit").value;
 		if(isOnlyNumeric(unit,"Unit")==false)
