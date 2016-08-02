@@ -750,7 +750,10 @@ function syncSubmitTravelDetails(){
 	var tvl_date = document.getElementById('selectDate_One').value;
 	var tvl__rod_dateOne = document.getElementById('selectDate_Two').value;
 	var tvl__rod_dateTwo = document.getElementById('selectDate_Three').value;	
-	var	travel_title=document.getElementById('travelTitle').value;	
+	var tvl_time = document.getElementById('selectTime_One');
+	var tv2_time = document.getElementById('selectTime_Two');
+	var tv3_time = document.getElementById('selectTime_Three');
+	var	travel_title=document.getElementById('travelTitle').value;
 	var travel_purpose_id;
 	var from_id;
 	var from_val;
@@ -851,9 +854,15 @@ function syncSubmitTravelDetails(){
 					jsonToSaveTR["IsHotel"] = 'false';
 				}
 				jsonToSaveTR["DepartDate"] = tvl_date;
-				jsonToSaveTR["DepartTime"] = '12:20 AM';
 				jsonToSaveTR["ArriveDate"] = tvl_date;
-				jsonToSaveTR["ArriveTime"] = '14:00 AM';
+				if(tvl_time.value != null){
+					jsonToSaveTR["DepartTime"] = tvl_time.value;
+					jsonToSaveTR["ArriveTime"] = '12:00 AM';
+				}else{
+					jsonToSaveTR["DepartTime"] = '12:00 AM';
+					jsonToSaveTR["ArriveTime"] = '12:00 AM';
+				}
+				
 			}else{
 				jsonToSaveTR["ItenaryType"] = 'R';
 				jsonToSaveTR["TravelModeId"] = tvl_mode_rnd_id;
@@ -877,10 +886,16 @@ function syncSubmitTravelDetails(){
 				}else{
 					jsonToSaveTR["IsHotel"] = 'false';
 				}
+				if(tv2_time.value != null && tv3_time.value != null ){
+					jsonToSaveTR["DepartTime"] = tv3_time.value;
+					jsonToSaveTR["ArriveTime"] = tv2_time.value;
+				}else{
+					jsonToSaveTR["DepartTime"] = '12:00 AM';
+					jsonToSaveTR["ArriveTime"] = '12:00 AM';
+				}
 				jsonToSaveTR["DepartDate"] = tvl__rod_dateTwo;
-				jsonToSaveTR["DepartTime"] = '12:20 AM';
 				jsonToSaveTR["ArriveDate"] = tvl__rod_dateOne;
-				jsonToSaveTR["ArriveTime"] = '14:00 AM';
+				
 		}
 		 
 		 saveTravelRequestAjax(jsonToSaveTR);
@@ -888,6 +903,7 @@ function syncSubmitTravelDetails(){
 			return false;
 		}
 }
+
 function saveTravelRequestAjax(jsonToSaveTR){
 	var pageRef=defaultPagePath+'success.html';
 	 j.ajax({
