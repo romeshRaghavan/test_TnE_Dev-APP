@@ -311,10 +311,12 @@ function saveBusinessExpDetails(jsonBEArr,busExpDetailsArr){
 						 j('#mainContainer').load(pageRef);
 						 //appPageHistory.push(pageRef);
 					 }else if(data.Status=="Error"){
+					 	requestRunning = false;
 					 	successMessage = "Oops!! Something went wrong. Please contact system administrator";
 						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
 					 }else{
+					 	requestRunning = false;
 					 	successMessage = "Error in synching expenses. Please contact system administrator";
 						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
@@ -322,6 +324,7 @@ function saveBusinessExpDetails(jsonBEArr,busExpDetailsArr){
 				  },
 				  error:function(data) {
 					  j('#loading_Cat').hide();
+					  requestRunning = false;
 					alert("error: Oops something is wrong, Please Contact System Administer");
 				  }
 			});
@@ -351,16 +354,19 @@ function saveTravelSettleExpDetails(jsonTSArr,tsExpDetailsArr){
 					 j('#mainHeader').load(headerBackBtn);
 					 j('#mainContainer').load(pageRef);
 					 }else if(data.Status=="Error"){
+					 	requestRunning = false;
 						successMessage = "Oops!! Something went wrong. Please contact system administrator.";
 						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
 					 }else{
+					 	requestRunning = false;
 						successMessage = "Error in synching expenses. Please contact system administrator.";
 						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
 					 }
 				  },
 				  error:function(data) {
+				  	requestRunning = false;
 					alert("Error: Oops something is wrong, Please Contact System Administer");
 				  }
 			});
@@ -411,18 +417,19 @@ j.ajax({
 						}
 					}else if(data.Status=="Failure"){
 					 	successMessage = data.Message;
-					 	 j('#loading_Cat').hide();
-						 j('#mainHeader').load(headerBackBtn);
+					 	j('#loading_Cat').hide();
+						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
 					 }else{
 						 j('#loading_Cat').hide();
-					 	successMessage = "Oops!! Something went wrong. Please contact system administrator.";
+						successMessage = "Oops!! Something went wrong. Please contact system administrator.";
 						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
 					 }
 					},
 				  error:function(data) {
 					j('#loading_Cat').hide();
+					requestRunning = false;
 					alert("Error: Oops something is wrong, Please Contact System Administer");
 				  }
 			});
@@ -727,8 +734,8 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 		return false;
 	}
 	
-	return true;
-}
+		return true;
+	}
 
 
 
@@ -1471,10 +1478,10 @@ function validateTSDetails(exp_date,exp_narration,exp_unit,exp_amt,travelRequest
 				document.getElementById("expUnit").value="";
 				return false;
 			}
-			}else{
-				alert("Unit is invalid.");
-				return false;
-			}
+		}else{
+			alert("Unit is invalid.");
+			return false;
+		}
 	if(exp_amt != ""){
 			if(isOnlyNumeric(exp_amt,"Amount")==false)
 			{
@@ -1527,8 +1534,8 @@ function oprationOnExpenseClaim(){
 				  var busExpDetailsArr = [];
 				  expenseClaimDates=new Object;
 				  if(requestRunning){
-							  return;
-							   }
+						  	return;
+	    					}
 				  var accountHeadIdToBeSent=''
 					  if(j("#source tr.selected").hasClass("selected")){
 						  j("#source tr.selected").each(function(index, row) {
@@ -1638,19 +1645,19 @@ function oprationOnExpenseClaim(){
 				  }
 			});
 		
-		j('#synch').on('click', function(e){
+	j('#synch').on('click', function(e){
 				  var busExpDetailsArr = [];
 				  var jsonExpenseDetailsArr = [];
 				  expenseClaimDates=new Object;
 				  if(j("#source tr.selected").hasClass("selected")){
-					  j("#source tr.selected").each(function(index, row) { 
+					  j("#source tr.selected").each(function(index, row) {
+					  	if (requestRunning) {
+						  		return;
+	    					} 
 						  var busExpDetailId = j(this).find('td.busExpId').text();
 						  var jsonFindBE = new Object();
 						  var expDate = j(this).find('td.expDate1').text();
 						  var expenseDate = expDate;
-						  if(requestRunning){
-							  return;
-							}
 						  jsonFindBE["expenseDate"] = expenseDate;
 						  jsonFindBE["accountHeadId"] =j(this).find('td.accHeadId').text();
 						  jsonFindBE["accountCodeId"] = j(this).find('td.accountCodeId').text();
@@ -1701,13 +1708,13 @@ function oprationONTravelSettlementExp(){
 			minExpenseClaimDate=new Object;
 			if(j("#source tr.selected").hasClass("selected")){
 				  j("#source tr.selected").each(function(index, row) {
+				  	if (requestRunning) {
+				  	 	 return;
+    				}
 					var travelSettleDetailId = j(this).find('td.tsExpId').text();
 					var jsonFindTS = new Object();
 					var expDate = j(this).find('td.expDate1').text();
 					
-					if(requestRunning){
-							  return;
-							}
 					var expenseDate = expDate;
 										
 					jsonFindTS["expenseDate"] = expenseDate;
@@ -1738,9 +1745,10 @@ function oprationONTravelSettlementExp(){
 					travelSettleExpDetailsArr.push(travelSettleDetailId);
 					});
 					if(travelSettleExpDetailsArr.length>0){
-				 	 saveTravelSettleExpDetails(jsonTravelSettlementDetailsArr,travelSettleExpDetailsArr);
+    					saveTravelSettleExpDetails(jsonTravelSettlementDetailsArr,travelSettleExpDetailsArr);
 				  }
 			}else{
+				requestRunning = false;
 				 alert("Tap and select Expenses to synch with server.");
 			}
 			});
@@ -2015,30 +2023,4 @@ function validateValidMobileUser(){
 	         }
 	   });
 	}
-}
-
-function validatePerUnit() {
-	 var unit=document.getElementById("expUnit").value;
-		if(isOnlyNumeric(unit,"Unit")==false)
-		{	
-			document.getElementById("expUnit").value="";
-			return false;
-		}
-		if(isZero(unit,"Unit ")== false){
-			document.getElementById("expUnit").value = "";
-			//return false;
-		}
-}
-
-function validateExpAmt(){
-	 var amount=document.getElementById("expAmt").value;
-		if(isOnlyNumeric(amount,"Amount")==false)
-		{	
-			document.getElementById("expAmt").value="";
-			return false;
-		}
-		if(isZero(amount,"Amount ")== false){
-			document.getElementById("expAmt").value = "";
-			//return false;
-		}
 }
