@@ -1573,6 +1573,7 @@ function oprationOnExpenseClaim(){
 								  exceptionMessage="Selected expenses should be mapped under Single Expense Type/Account Head."
 									  j('#displayError').children('span').text(exceptionMessage);
 								  j('#displayError').hide().fadeIn('slow').delay(3000).fadeOut('slow');
+								  requestRunning = false;
 								  accountHeadIdToBeSent="";
 							  }else{
 								  accountHeadIdToBeSent=currentAccountHeadID
