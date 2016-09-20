@@ -1,7 +1,7 @@
 var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
-var urlPath = 'http://1.255.255.214:8080/TnEV1_0AWeb/WebService/Login/';
+var urlPath = 'http://14.140.170.141:80/idbi_tne_uat/WebService/Login/';
 var WebServicePath = 'http://1.255.255.169:8085/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
@@ -44,7 +44,6 @@ function login()
     jsonToBeSend["pass"] = password.value;
    	var headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 	var pageRef=defaultPagePath+'category.html';
-	alert("urlPath <<"+urlPath);
 	setUrlPathLocalStorage(urlPath);
 //	urlPath=window.localStorage.getItem("urlPath");
 	j('#loading').show();
