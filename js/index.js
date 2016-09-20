@@ -45,6 +45,7 @@ function login()
    	var headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 	var pageRef=defaultPagePath+'category.html';
 	alert("urlPath <<"+urlPath);
+	setUrlPathLocalStorage(urlPath);
 //	urlPath=window.localStorage.getItem("urlPath");
 	j('#loading').show();
     j.ajax({
