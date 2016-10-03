@@ -139,7 +139,7 @@ if (window.openDatabase) {
 		t.executeSql("CREATE TABLE IF NOT EXISTS currencyMst (currencyId INTEGER PRIMARY KEY ASC, currencyName TEXT)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS accountHeadMst (accountHeadId INTEGER PRIMARY KEY ASC, accHeadName TEXT)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS expNameMst (id INTEGER PRIMARY KEY ASC,expNameMstId INTEGER, expName TEXT, expIsFromToReq CHAR(1), accCodeId INTEGER NOT NULL, accHeadId INTEGER NOT NULL, expIsUnitReq CHAR(1), expRatePerUnit Double, expFixedOrVariable CHAR(1), expFixedLimitAmt Double,expPerUnitActiveInative CHAR(1),isErReqd CHAR(1),limitAmountForER Double)");
-		t.executeSql("CREATE TABLE IF NOT EXISTS businessExpDetails (busExpId INTEGER PRIMARY KEY ASC, accHeadId INTEGER REFERENCES accountHeadMst(accHeadId), expNameId INTEGER REFERENCES expNameMst(expNameId),expDate DATE, expFromLoc TEXT, expToLoc TEXT, expNarration TEXT, expUnit INTEGER, expAmt Double, currencyId INTEGER REFERENCES currencyMst(currencyId),isEntitlementExceeded TEXT,busExpAttachment BLOB)");
+		t.executeSql("CREATE TABLE IF NOT EXISTS businessExpDetails (busExpId INTEGER PRIMARY KEY ASC, accHeadId INTEGER REFERENCES accountHeadMst(accHeadId), expNameId INTEGER REFERENCES expNameMst(expNameId),expDate DATE, expFromLoc TEXT, expToLoc TEXT, expNarration TEXT, expUnit INTEGER, expAmt Double, currencyId INTEGER REFERENCES currencyMst(currencyId),isEntitlementExceeded TEXT,busExpAttachment BLOB,wayPointunitValue TEXT)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS walletMst (walletId INTEGER PRIMARY KEY ASC AUTOINCREMENT, walletAttachment BLOB)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS travelModeMst (travelModeId INTEGER PRIMARY KEY ASC, travelModeName TEXT)");
 		t.executeSql("CREATE TABLE IF NOT EXISTS travelCategoryMst (travelCategoryId INTEGER PRIMARY KEY ASC, travelCategoryName TEXT,travelModeId INTEGER)");
@@ -166,6 +166,7 @@ function saveBusinessDetails(status){
 		var exp_to_loc = document.getElementById('expToLoc').value;
 		var exp_narration = document.getElementById('expNarration').value;
 		var exp_unit = document.getElementById('expUnit').value;
+		var way_points = document.getElementById('wayPointunitValue').value;
 		var exp_amt = document.getElementById('expAmt').value;
 		var entitlement_exceeded=exceptionStatus;
 		exceptionStatus="N";
@@ -218,8 +219,8 @@ function saveBusinessDetails(status){
 			}
 			
 		  mydb.transaction(function (t) {
-				t.executeSql("INSERT INTO businessExpDetails (expDate, accHeadId,expNameId,expFromLoc, expToLoc, expNarration, expUnit,expAmt,currencyId,isEntitlementExceeded,busExpAttachment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-											[exp_date,acc_head_id,exp_name_id,exp_from_loc, exp_to_loc,exp_narration,exp_unit,exp_amt,currency_id,entitlement_exceeded,file]);
+				t.executeSql("INSERT INTO businessExpDetails (expDate, accHeadId,expNameId,expFromLoc, expToLoc, expNarration, expUnit,expAmt,currencyId,isEntitlementExceeded,busExpAttachment,wayPointunitValue) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+											[exp_date,acc_head_id,exp_name_id,exp_from_loc, exp_to_loc,exp_narration,exp_unit,exp_amt,currency_id,entitlement_exceeded,file,way_points]);
 								
 				if(status == "0"){
 				
@@ -229,6 +230,7 @@ function saveBusinessDetails(status){
 					document.getElementById('expNarration').value = "";
 					document.getElementById('expUnit').value ="";
 					document.getElementById('expAmt').value = "";
+					document.getElementById('wayPointunitValue').value = "";
 					smallImageBE.style.display = 'none';
 					smallImageBE.src = "";
 					j('#errorMsgArea').children('span').text("");
@@ -430,7 +432,8 @@ function fetchExpenseClaim() {
 				j('<td></td>').attr({ class: ["busExpId","displayNone"].join(' ') }).text(row.busExpId).appendTo(rowss);
 				j('<td></td>').attr({ class: ["isErReqd","displayNone"].join(' ') }).text(row.isErReqd).appendTo(rowss);
 				j('<td></td>').attr({ class: ["ERLimitAmt","displayNone"].join(' ') }).text(row.limitAmountForER).appendTo(rowss);
-				j('<td></td>').attr({ class: ["isEntitlementExceeded","displayNone"].join(' ') }).text(row.isEntitlementExceeded).appendTo(rowss);		
+				j('<td></td>').attr({ class: ["isEntitlementExceeded","displayNone"].join(' ') }).text(row.isEntitlementExceeded).appendTo(rowss);
+				j('<td></td>').attr({ class: ["wayPoint","displayNone"].join(' ') }).text(row.wayPointunitValue).appendTo(rowss);
 			}	
 					
 			j("#source tr").click(function(){ 
@@ -1055,6 +1058,7 @@ function resetUserSessionDetails(){
 	 window.localStorage.removeItem("UnitId");	
 	 window.localStorage.removeItem("UserName");
 	 window.localStorage.removeItem("Password");
+	 window.localStorage.removeItem("MobileMapRole");
 	 dropAllTableDetails();
 }
 
@@ -1065,7 +1069,10 @@ function setUserSessionDetails(val,userJSON){
 	 window.localStorage.setItem("LastName",val.LastName);
 	 window.localStorage.setItem("GradeID",val.GradeID);
 	 window.localStorage.setItem("BudgetingStatus",val.BudgetingStatus);
-	 window.localStorage.setItem("UnitId",val.UnitId);	
+	 window.localStorage.setItem("UnitId",val.UnitId);
+	 //For Mobile Google Map Role Start
+	 window.localStorage.setItem("MobileMapRole",val.MobileMapRole);
+	 //End
 	 window.localStorage.setItem("UserName",userJSON["user"]);
 	 window.localStorage.setItem("Password",userJSON["pass"]);
 	
