@@ -445,7 +445,14 @@ function createAccHeadDropDown(jsonAccHeadArr){
 					jsonArr.push({id: stateArr.Label,name: stateArr.Value});
 				}
 			}
-			
+			jsonArr.sort(function(a, b){ // sort object by Account Head Name
+			var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
+			if (nameA < nameB) //sort string ascending
+				return -1 
+			if (nameA > nameB)
+				return 1
+			return 0 //default return value (no sorting)
+			})
 			j("#accountHead").select2({
 				data:{ results: jsonArr, text: 'name' },
 				placeholder: "Account Head",
@@ -492,7 +499,16 @@ function createExpNameDropDown(jsonExpNameArr){
 			jsonExpArr.push({id: stateArr.ExpenseID,name: stateArr.ExpenseName});
 		}
 	}
-		
+	
+	document.getElementById("expFromLoc").value = "";
+	document.getElementById("expToLoc").value = "";
+	document.getElementById("expNarration").value = "";
+	document.getElementById("expUnit").value = "";
+	document.getElementById("expAmt").value = "";
+	$("a").click(function () { 
+		$("#mapLink").fadeTo("fast").removeAttr("href"); 
+	});
+	
 	j("#expenseName").select2({
 		data:{ results: jsonExpArr, text: 'name' },
 		placeholder: "Expense Name",
@@ -1226,33 +1242,67 @@ function setPerUnitDetails(transaction, results){
 				perUnitDetailsJSON["expPerUnitActiveInative"]=row.expPerUnitActiveInative;
 				perUnitDetailsJSON["isErReqd"]=row.isErReqd;
 				perUnitDetailsJSON["limitAmountForER"]=row.limitAmountForER;
+			document.getElementById("ratePerUnit").value = row.expRatePerUnit;
 		        document.getElementById("expAmt").value="";
 		        document.getElementById("expUnit").value="";
+			document.getElementById("expFromLoc").value = "";
+			document.getElementById("expToLoc").value = "";
+			document.getElementById("expNarration").value = "";
+			document.getElementById("expUnit").value = "";
+			document.getElementById("expAmt").value = "";
 		        if(perUnitDetailsJSON.expenseIsfromAndToReqd=='N'){
 					document.getElementById("expFromLoc").value="";
 					document.getElementById("expToLoc").value="";
 					document.getElementById("expFromLoc").disabled =true;
 					document.getElementById("expToLoc").disabled =true;
 					document.getElementById("expFromLoc").style.backgroundColor='#d1d1d1'; 
-					document.getElementById("expToLoc").style.backgroundColor='#d1d1d1'; 
+					document.getElementById("expToLoc").style.backgroundColor='#d1d1d1';
+					document.getElementById("mapImage").style.display= "none";
 				}else{
 					document.getElementById("expFromLoc").disabled =false;
 					document.getElementById("expToLoc").disabled =false;
+					document.getElementById("expFromLoc").value="";
+					document.getElementById("expToLoc").value="";
+					document.getElementById("expNarration").value="";
 					document.getElementById("expFromLoc").style.backgroundColor='#FFFFFF'; 
 					document.getElementById("expToLoc").style.backgroundColor='#FFFFFF'; 
+					//alert(window.localStorage.getItem("MobileMapRole"))
+					if(window.localStorage.getItem("MobileMapRole") == 'true') 
+					{
+						attachGoogleSearchBox(document.getElementById("expFromLoc"));
+						attachGoogleSearchBox(document.getElementById("expToLoc"));
+						document.getElementById("mapImage").style.display="";
+					} 
 				}
 				if(perUnitDetailsJSON.isUnitReqd=='Y'){
 					document.getElementById("expAmt").value="";
 					if(perUnitDetailsJSON.expFixedOrVariable=='V'){
 						flagForUnitEnable = true;
-						document.getElementById("expUnit").disabled =false;
-						document.getElementById("expUnit").style.backgroundColor='#FFFFFF'; 
-						document.getElementById("expAmt").disabled =false;
-						document.getElementById("expAmt").style.backgroundColor='#FFFFFF'; 
+						if(window.localStorage.getItem("MobileMapRole") == 'true') 
+						{
+							document.getElementById("expUnit").disabled =true;
+							document.getElementById("expUnit").style.backgroundColor='#d1d1d1'; 
+							document.getElementById("expAmt").disabled =false;
+							document.getElementById("expAmt").style.backgroundColor='#FFFFFF';
+						}
+						else
+						{
+							document.getElementById("expUnit").disabled =false;
+							document.getElementById("expUnit").style.backgroundColor='#FFFFFF'; 
+							document.getElementById("expAmt").disabled =false;
+							document.getElementById("expAmt").style.backgroundColor='#FFFFFF';
+						} 
 					}else{
 						flagForUnitEnable = true;
-						document.getElementById("expUnit").disabled =false;
-						document.getElementById("expUnit").style.backgroundColor='#FFFFFF'; 
+						if(window.localStorage.getItem("MobileMapRole") == 'true') 
+						{
+							document.getElementById("expUnit").disabled =true;
+							document.getElementById("expUnit").style.backgroundColor='#d1d1d1';
+						}
+						else{
+							document.getElementById("expUnit").disabled =false;
+							document.getElementById("expUnit").style.backgroundColor='#FFFFFF';
+						} 
 						document.getElementById("expAmt").disabled =true;
 						document.getElementById("expAmt").style.backgroundColor='#d1d1d1'; 
 					}
@@ -1621,7 +1671,9 @@ function oprationOnExpenseClaim(){
 								  if(j(this).find('td.expUnit').text()!="" ) {
 									  jsonFindBE["units"] = j(this).find('td.expUnit').text();
 								  }
-
+								  
+								  jsonFindBE["wayPoint"] = j(this).find('td.wayPoint').text();
+								
 								  jsonFindBE["amount"] = j(this).find('td.expAmt1').text();
 								  jsonFindBE["currencyId"] = j(this).find('td.currencyId').text();
 
@@ -1698,6 +1750,7 @@ function oprationOnExpenseClaim(){
 						  if(j(this).find('td.expUnit').text()!="" ) {
 							  jsonFindBE["units"] = j(this).find('td.expUnit').text();
 						  }
+						  jsonFindBE["wayPoint"] = j(this).find('td.wayPoint').text();
 						  jsonFindBE["amount"] = j(this).find('td.expAmt1').text();
 						  jsonFindBE["currencyId"] = j(this).find('td.currencyId').text();
 						  jsonFindBE["perUnitException"] = j(this).find('td.isEntitlementExceeded').text();
@@ -2052,4 +2105,158 @@ function validateValidMobileUser(){
 	         }
 	   });
 	}
+}
+
+function attachGoogleSearchBox(component){
+	//alert("attachGoogleSearchBox")
+	//alert("component   "+component.id)
+	var searchBox = new google.maps.places.SearchBox(component);
+	searchBox.addListener("places_changed", function(){
+		//alert("here")
+		fromLoc = document.getElementById("expFromLoc").value;
+		toLoc = document.getElementById("expToLoc").value;
+			if(fromLoc.value!='' && toLoc.value!=''){
+				wayPoint = document.getElementById("wayPointunitValue");
+				wayPoint.value='';
+				calculateAndDisplayRoute();
+				$("a").click(function () { 
+					$(this).fadeIn("fast").attr("href", "#openModal"); 
+				});
+			}
+	});
+}
+
+function viewMap(){
+		document.getElementById("openModal").style.display="block";
+		fromLoc = document.getElementById("expFromLoc");
+		toLoc = document.getElementById("expToLoc");
+		unitValue = document.getElementById("expUnit");
+		wavepoint = document.getElementById("wayPointunitValue");
+		if(fromLoc.value!='' && toLoc.value!=''){
+			calculateAndDisplayRoute();
+			document.getElementById("mapImage").setAttribute('disabled', false);
+		}
+	}	
+	
+function calculateAndDisplayRoute() {
+		//alert("calculateAndDisplayRoute")
+		var map;
+		var directionsDisplay;
+		var directionsService;
+		
+		map= new google.maps.Map(document.getElementById("map"), {
+		    center: {lat:19.122272, lng:72.863623},
+		    zoom: 13
+		  });
+		directionsService = new google.maps.DirectionsService;
+		// Create a renderer for directions and bind it to the map.
+		  directionsDisplay = new google.maps.DirectionsRenderer({
+		     draggable: true,
+		     map: map
+		   });
+		  
+		  	fromLoc = document.getElementById("expFromLoc");
+		  	//alert("fromLoc   "+fromLoc.value)
+			toLoc = document.getElementById("expToLoc");
+		  	//alert("toLoc   "+toLoc.value)
+			unitValue = document.getElementById("expUnit");
+		  	//alert("unitValue   "+unitValue.value)
+			wayPoint = document.getElementById("wayPointunitValue");
+		  	//alert("wayPoint   "+wayPoint.value)
+		  directionsDisplay.addListener('directions_changed', function() {
+		    computeTotalDistance(directionsDisplay.getDirections());
+			});
+		  var points=[];
+		  
+		  if(fromLoc!=null && toLoc!=null){
+			  if(wayPoint!= null && wayPoint.value !=""){
+				  var os= j.parseJSON(wayPoint.value); 
+				  for(var i=0;i<os.waypoints.length;i++)
+					  points[i] = {'location': new google.maps.LatLng(os.waypoints[i][0], os.waypoints[i][1]),'stopover':false }
+			  }
+
+			  directionsService.route({
+				  origin: fromLoc.value,
+				  destination:toLoc.value,
+				  travelMode: google.maps.TravelMode.DRIVING,
+				  waypoints: points
+			  }, function(response, status) {
+				  // Route the directions and pass the response to a function
+					// to create
+				  // markers for each step.
+				  if (status === google.maps.DirectionsStatus.OK) {
+					  directionsDisplay.setDirections(response);
+
+				  } else {
+					  unitValue.value='NA';
+					  wayPoint.value='';
+				  }
+			  });
+		  }
+		 
+	}
+	
+function computeTotalDistance(result) {
+		unitValue = document.getElementById("expUnit");
+		busExpNameIdObj = document.getElementById("expenseName");
+		wayPoint = document.getElementById("wayPointunitValue");
+		
+		  var total = 0;
+		  var myroute = result.routes[0];
+		  for (var i = 0; i < myroute.legs.length; i++) {
+			  total += myroute.legs[i].distance.value;
+		  }
+		 total = total / 1000;
+		 unitValue.value = Math.round(total);
+		 var w=[],wp;
+		 var data = {};
+	     var rleg = myroute.legs[0];
+	     data.start = {'lat': rleg.start_location.lat(), 'lng':rleg.start_location.lng()}
+	     data.end = {'lat': rleg.end_location.lat(), 'lng':rleg.end_location.lng()}
+	     var wp = rleg.via_waypoints
+	     for(var i=0;i<wp.length;i++)
+	     {
+	    	 w[i] = [wp[i].lat(),wp[i].lng()]
+	     }
+	     data.waypoints = w;
+	   	 var str = JSON.stringify(data);
+	   	 wayPoint.value=str;
+
+		//var grId = document.forms[0]["gradeId"].value;
+		returnUnitResult();
+	}
+	
+function closeMap(){
+	 document.getElementById('openModal').style.display="none";
+}
+
+function returnUnitResult(){
+		var perUnitStatus = perUnitDetailsJSON.expRatePerUnit;
+		var fixedOrVariable = perUnitDetailsJSON.expFixedOrVariable;
+		var ratePerUnit = document.getElementById("ratePerUnit");
+		if (flagForUnitEnable == true){
+			unt = document.getElementById("expUnit");
+			amt = document.getElementById("expAmt");
+			document.getElementById("expAmt").value = parseFloat(Math.round(parseFloat(unt.value)) * parseFloat(ratePerUnit.value));
+			checkPerUnitExceptionStatusForBEAtLineLevel();
+		}
+	}	
+	
+function loadImage()
+{
+	//alert(window.localStorage.getItem("MobileMapRole"))
+	if(window.localStorage.getItem("MobileMapRole") == 'true')
+	{
+		document.getElementById("mapImage").style.display="";
+		//document.getElementById("mapLink").style.visibility = "hidden";
+		$("a").click(function () { 
+			$(this).fadeTo("fast").removeAttr("href"); 
+		});
+	}
+}
+
+function resetUnit()
+{
+	document.getElementById("expUnit").value = "";
+	document.getElementById("expAmt").value = "";
 }
