@@ -418,6 +418,7 @@ j.ajax({
 						}
 					}else if(data.Status=="Failure"){
 					 	successMessage = data.Message;
+						requestRunning = false;
 					 	j('#loading_Cat').hide();
 						j('#mainHeader').load(headerBackBtn);
 					 	j('#mainContainer').load(pageRef);
