@@ -2094,7 +2094,9 @@ function validateValidMobileUser(){
              		j('#mainContainer').load(pgRef,function() {
   						document.getElementById("loginErrorMsg").innerHTML = successMessage;
 						j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
-  						document.getElementById("userNameLabel").innerHTML=window.localStorage.getItem("UserName");
+						var x = window.localStorage.getItem("UserName");
+						jQuery("label[for='userNameLabel']").html(x);
+  						//document.getElementById("userNameLabel").innerHTML=window.localStorage.getItem("UserName");
   						document.getElementById("userName").value=window.localStorage.getItem("UserName");
 		 			   //j('#loading').hide();
 					});
