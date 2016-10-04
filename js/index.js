@@ -2093,12 +2093,10 @@ function validateValidMobileUser(){
 					j('#mainHeader').load(headerBackBtn);
              		j('#mainContainer').load(pgRef,function() {
   						document.getElementById("loginErrorMsg").innerHTML = successMessage;
-						j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
-						var x = window.localStorage.getItem("UserName");
-						jQuery("label[for='userNameLabel']").html(x);
-  						//document.getElementById("userNameLabel").innerHTML=window.localStorage.getItem("UserName");
+  						document.getElementById("userNameLabel").innerHTML=window.localStorage.getItem("UserName");
   						document.getElementById("userName").value=window.localStorage.getItem("UserName");
-		 			   //j('#loading').hide();
+					   j('#loginErrorMsg').hide().fadeIn('slow').delay(4000).fadeOut('slow');
+		 			   j('#loading').hide();
 					});
 	           }
 
