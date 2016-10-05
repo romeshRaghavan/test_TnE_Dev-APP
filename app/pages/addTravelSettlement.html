@@ -33,7 +33,7 @@
 					<p ><font face="verdana" size="1" color="green">Unit is no. of persons/Kms/meals etc.</font></span></p>
 					<input id="expUnit" style="width: 22%" type="tel" placeholder="Units" onkeyup="">
                 
-					<input id="expAmt" style="width: 38%" type="tel" placeholder="Amount" onkeyup="">
+					<input id="expAmt" style="width: 38%" type="tel" placeholder="Amount" onkeyup="validate();">
                 
 					<input id="currency" style="width: 33%" type="hidden" >
                 </li>
@@ -79,4 +79,14 @@
      j("#travelMode").change(function() {
       getCatergoryBasedOnMode();
   });
+  function validate()
+  {
+	var field = document.getElementById("expAmt");
+	if (field.value.length > 8 ) {
+		field.value = field.value.substring(0, 8);
+		alert("Amount cannot be greater than 99999999.99");
+		field.value='';
+		return false;
+	}
+  }
 	  </script> 
