@@ -1,7 +1,7 @@
 
    <div class="modal-body clearfix">
 		  <div class="form-group">
-			<input id="UserName" value="user_name" class="form-control input-lg" placeholder="Enter your user name" disabled>
+			<input id="UserName" class="form-control input-lg" placeholder="Enter your user name" disabled>
 		  </div>
 		  <div class="form-group">
 			<input id="pass" type="password" class="form-control input-lg" placeholder="New password">
@@ -18,4 +18,5 @@
   </div>
 <Script>
     var user_name = window.localStorage.getItem("UserName");
+	document.getElementById("UserName").value = user_name;
 </Script>
