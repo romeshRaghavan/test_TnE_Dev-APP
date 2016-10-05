@@ -30,7 +30,7 @@
 				  <p><font face="verdana" size="1" color="green">Unit is no. of persons/Kms/meals etc.</font></span></p>
                   <input id="expUnit" type="tel" style="width: 22%" placeholder="Units" onkeyup="calculatePerUnit();">
 		  <input id="wayPointunitValue" value="" readonly="readonly" type="hidden">
-				  <input id="expAmt" type="tel" style="width: 38%" placeholder="Amount" onkeyup="checkPerUnitExceptionStatusForBEAtLineLevel();">
+		  <input id="expAmt" type="tel" style="width: 38%" placeholder="Amount" onkeyup="checkPerUnitExceptionStatusForBEAtLineLevel();validate();">
                   <input id="currency" type="hidden" style="width: 33%">
 				  <p id="errorMsgArea" ><span id="errorSpan"></span></p>
 				</li>
@@ -93,4 +93,14 @@ var currentYear;
       getPerUnitBasedOnExpense();
   });
 		onloadExpense();
+	function validate()
+	{
+		var field = document.getElementById("expAmt");
+		if (field.value.length > 8 ) {
+			field.value = field.value.substring(0, 8);
+			alert("Amount cannot be greater than 99999999.99");
+			field.value='';
+			return false;
+		}
+	}
 	  </script> 
