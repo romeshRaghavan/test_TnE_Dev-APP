@@ -409,8 +409,12 @@ function fetchExpenseClaim() {
 				
 				if(window.localStorage.getItem("MobileMapRole") == 'true')
 				{
-					shrinkFromTo = row.expFromLoc.substring(0,row.expFromLoc.indexOf(","))+"/"+row.expToLoc.substring(0,row.expToLoc.indexOf(","));
-					shrinkFromTo = shrinkFromTo.concat("...");
+					if(row.expFromLoc != '' && row.expToLoc != '')
+					{
+						var shrinkNarration = row.expNarration.substring(0,row.expNarration.indexOf("--"))
+						srinckFromTo = row.expFromLoc.substring(0,row.expFromLoc.indexOf(","))+"/"+row.expToLoc.substring(0,row.expToLoc.indexOf(","));
+						srinckFromTo = srinckFromTo.concat("...");
+					}
 				}
 				
 				var rowss = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable);
@@ -419,7 +423,14 @@ function fetchExpenseClaim() {
 		        	j('<td></td>').attr({ class: ["expName"].join(' ') }).text(row.expName).appendTo(rowss);	
 				if(window.localStorage.getItem("MobileMapRole") == 'true')
 				{
-					j('<td></td>').attr({ class: ["expNarration"].join(' ') }).html('<p>'+row.expNarration+'</br>'+shrinkFromTo+ '</P>').appendTo(rowss); 
+					if(row.expFromLoc != '' && row.expToLoc != '')
+					{
+						j('<td></td>').attr({ class: ["expNarration"].join(' ') }).html('<p>'+shrinkNarration+'</br>'+srinckFromTo+ '</P>').appendTo(rowss);
+					}
+					else
+					{
+						j('<td></td>').attr({ class: ["expNarration"].join(' ') }).html('<p>'+row.expNarration+'</br>'+row.expFromLoc+""+row.expToLoc+ '</P>').appendTo(rowss);
+					}
 				}
 				else
 				{
