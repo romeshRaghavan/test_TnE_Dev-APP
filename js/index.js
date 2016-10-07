@@ -1257,6 +1257,8 @@ function setPerUnitDetails(transaction, results){
 					document.getElementById("expToLoc").disabled =true;
 					document.getElementById("expFromLoc").style.backgroundColor='#d1d1d1'; 
 					document.getElementById("expToLoc").style.backgroundColor='#d1d1d1';
+					document.getElementById("expNarration").disabled =false;
+					document.getElementById("expNarration").style.backgroundColor='#FFFFFF';
 					document.getElementById("mapImage").style.display= "none";
 				}else{
 					document.getElementById("expFromLoc").disabled =false;
@@ -1272,6 +1274,8 @@ function setPerUnitDetails(transaction, results){
 						attachGoogleSearchBox(document.getElementById("expFromLoc"));
 						attachGoogleSearchBox(document.getElementById("expToLoc"));
 						document.getElementById("mapImage").style.display="";
+						document.getElementById("expNarration").disabled =true;
+						document.getElementById("expNarration").style.backgroundColor='#d1d1d1';
 					} 
 				}
 				if(perUnitDetailsJSON.isUnitReqd=='Y'){
@@ -2257,4 +2261,10 @@ function resetUnit()
 {
 	document.getElementById("expUnit").value = "";
 	document.getElementById("expAmt").value = "";
+}
+
+function setNarration()
+{
+	document.getElementById("expNarration").value = document.getElementById("expDate").value+"--"+document.getElementById("expFromLoc").value+"--"+document.getElementById("expToLoc").value;
+	document.getElementById("expNarration").style.textOverflow = "ellipsis";
 }
