@@ -19,8 +19,8 @@
                   <input id="ratePerUnit" type="hidden" >
                 </li>
                 <li>
-                  <input id="expFromLoc" type="text" style="width: 49%" placeholder="From Location" onchange="resetUnit();" >
-				  <input id="expToLoc" type="text" style="width: 49%" placeholder="To Location" onchange="resetUnit();" >
+                  <input id="expFromLoc" type="text" style="width: 49%" placeholder="From Location" onchange="resetUnit();" onblur="setNarration();">
+				  <input id="expToLoc" type="text" style="width: 49%" placeholder="To Location" onchange="resetUnit();" onblur="setNarration();">
                 </li>
                 <li>
                   <input id="expNarration" type="text" placeholder="Enter Expense Narration" >
