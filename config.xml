@@ -55,15 +55,15 @@
 	<gap:plugin name="cordova-plugin-imagepicker" source="npm"/> -->
     
     
-    <gap:plugin name="cordova-plugin-battery-status" />
+    <gap:plugin name="cordova-plugin-battery-status" source="npm" />
     <gap:plugin name="org.apache.cordova.core.camera" />
     <!-- <plugin name="org.apache.cordova.camera" spec="0.2.3" source="pgb" /> -->
-    <gap:plugin name="org.apache.cordova.media-capture" />
-    <gap:plugin name="org.apache.cordova.console" />
-    <gap:plugin name="org.apache.cordova.contacts" />
-    <gap:plugin name="org.apache.cordova.device" />
-    <gap:plugin name="org.apache.cordova.device-motion" />
-    <gap:plugin name="org.apache.cordova.device-orientation" />
+    <gap:plugin name="cordova-plugin-media-capture" source="npm" />
+    <gap:plugin name="cordova-plugin-console" source="npm" />
+    <gap:plugin name="cordova-plugin-contacts" source="npm" />
+    <gap:plugin name="cordova-plugin-device" source="npm" />
+    <gap:plugin name="cordova-plugin-device-motion" source="npm" />
+    <gap:plugin name="cordova-plugin-device-orientation" source="npm" />
     <gap:plugin name="org.apache.cordova.dialogs" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
