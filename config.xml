@@ -33,9 +33,31 @@
     <feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/media"/>
     <feature name="http://api.phonegap.com/1.0/network"/>
+    
+    <gap:plugin name="cordova-plugin-battery-status" source="npm" />
+    <gap:plugin name="cordova-plugin-camera" source="npm" />
+    <gap:plugin name="cordova-plugin-media-capture" source="npm" />
+    <gap:plugin name="cordova-plugin-console" source="npm" />
+    <gap:plugin name="cordova-plugin-contacts" source="npm" />
+    <gap:plugin name="cordova-plugin-device" source="npm" />
+    <gap:plugin name="cordova-plugin-device-motion" source="npm" />
+    <gap:plugin name="cordova-plugin-device-orientation" source="npm" />
+    <gap:plugin name="cordova-plugin-dialogs" source="npm" />
+    <gap:plugin name="cordova-plugin-file" source="npm" />
+    <gap:plugin name="cordova-plugin-file-transfer" source="npm" />
+    <gap:plugin name="cordova-plugin-geolocation" source="npm" />
+    <gap:plugin name="cordova-plugin-globalization" source="npm" />
+    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
+    <gap:plugin name="cordova-plugin-media" source="npm" />
+    <gap:plugin name="cordova-plugin-network-information" source="npm" />
+    <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
+    <gap:plugin name="cordova-plugin-vibration" source="npm" />
+	<gap:plugin name="cordova-plugin-imagepicker" source="npm"/>
+    
+    <!--
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.core.camera" />
-    <!-- <plugin name="org.apache.cordova.camera" spec="0.2.3" source="pgb" /> -->
+    <!-- <plugin name="org.apache.cordova.camera" spec="0.2.3" source="pgb" /> 
     <gap:plugin name="org.apache.cordova.media-capture" />
     <gap:plugin name="org.apache.cordova.console" />
     <gap:plugin name="org.apache.cordova.contacts" />
@@ -54,11 +76,12 @@
     <gap:plugin name="org.apache.cordova.vibration" />
     <gap:plugin name="org.apache.cordova.file"/>
     <gap:plugin name="org.apache.cordova.file-transfer"/>
-    <!-- <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" /> -->
+    <!-- <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
     <gap:plugin name="com.synconset.imagepicker" version="1.0.4" />
     <!-- <plugin name="File" value="CDVFile" />
-    <plugin name="FileTransfer" value="CDVFileTransfer" /> -->
-    <!--icon src="/icon.png" gap:role="default"/-->
+    <plugin name="FileTransfer" value="CDVFileTransfer" />
+    <!--icon src="/icon.png" gap:role="default"/
+    -->
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
