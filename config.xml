@@ -79,8 +79,8 @@
     <!-- <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />-->
     <gap:plugin name="com.synconset.imagepicker" version="1.0.4" />
     <!-- <plugin name="File" value="CDVFile" />-->
-    <plugin name="FileTransfer" value="CDVFileTransfer" />
-    <!--icon src="/icon.png" gap:role="default"/> -->
+    <!-- <plugin name="FileTransfer" value="CDVFileTransfer" />
+    icon src="/icon.png" gap:role="default"/> -->
 	
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
