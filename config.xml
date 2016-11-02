@@ -55,7 +55,7 @@
 	<gap:plugin name="cordova-plugin-imagepicker" source="npm"/> -->
     
     
-    <gap:plugin name="org.apache.cordova.battery-status" />
+    <gap:plugin name="cordova-plugin-battery-status" />
     <gap:plugin name="org.apache.cordova.core.camera" />
     <!-- <plugin name="org.apache.cordova.camera" spec="0.2.3" source="pgb" /> -->
     <gap:plugin name="org.apache.cordova.media-capture" />
