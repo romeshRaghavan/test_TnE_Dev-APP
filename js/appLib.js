@@ -1505,3 +1505,6 @@ function synchronizeTRForTS() {
 			});
    appPageHistory.push(pageRef);
 	}
+
+
+//applib.js   changes by Dinesh

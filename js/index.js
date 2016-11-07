@@ -2268,3 +2268,10 @@ function setNarration()
 	document.getElementById("expNarration").value = document.getElementById("expDate").value+"--"+document.getElementById("expFromLoc").value+"--"+document.getElementById("expToLoc").value;
 	document.getElementById("expNarration").style.textOverflow = "ellipsis";
 }
+
+
+
+//Index.js   changes by Dinesh
+
+
+
