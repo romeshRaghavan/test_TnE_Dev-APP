@@ -1732,7 +1732,7 @@ function fetchAccountHeadList(transaction, results) {
 		jsonFindAccountHead["Value"] = row.accountHeadId;
 		jsonFindAccountHead["Label"] = row.accHeadName;
 		
-		jsonAccountHeadArr.push(jsonFindAdvanceType);
+		jsonAccountHeadArr.push(jsonFindAccountHead);
 	}
 	createAccountHeadDropDown(jsonAccountHeadArr)
 }
