@@ -1674,3 +1674,14 @@ function synchronizeEAMasterData() {
     }
 	
 }
+
+//applib.js   changes by Dinesh
+
+
+//applib.js   changes by Dinesh end
+
+
+//amit applib.js changes start
+
+
+//amit applib.js changes end

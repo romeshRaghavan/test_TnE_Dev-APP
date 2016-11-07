@@ -2282,5 +2282,8 @@ function setNarration()
 			});
       appPageHistory.push(pageRef);
 	 }
+//Index.js   changes by Dinesh end
 
+//amit index.js changes start
 
+//amit index.js changes end
