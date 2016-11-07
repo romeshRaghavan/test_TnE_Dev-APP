@@ -66,6 +66,7 @@ function login()
 				synchronizeTRForTS();  
 			  }
 			  synchronizeBEMasterData();
+              synchronizeEAMasterData();
 			}else if(data.Status == 'Failure'){
  			   successMessage = data.Message;
 			   if(successMessage.length == 0){
@@ -93,8 +94,8 @@ function commanLogin(){
  	var domainName = userNameValue.split('@')[1];
 	var jsonToDomainNameSend = new Object();
 	jsonToDomainNameSend["userName"] = domainName;
-	jsonToDomainNameSend["mobilePlatform"] = device.platform;
-	//jsonToDomainNameSend["mobilePlatform"] = "Android";
+	//jsonToDomainNameSend["mobilePlatform"] = device.platform;
+	jsonToDomainNameSend["mobilePlatform"] = "Android";
   	//var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath;
 	j.ajax({
@@ -2272,6 +2273,14 @@ function setNarration()
 
 
 //Index.js   changes by Dinesh
-
+	 function createReqAdvance(){	 
+      var pageRef=defaultPagePath+'addToRequestAdvs.html';
+      var headerBackBtn=defaultPagePath+'backbtnPage.html';
+			j(document).ready(function() {
+				j('#mainHeader').load(headerBackBtn);
+				j('#mainContainer').load(pageRef);
+			});
+      appPageHistory.push(pageRef);
+	 }
 
 
