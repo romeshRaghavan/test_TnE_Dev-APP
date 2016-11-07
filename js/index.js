@@ -2285,5 +2285,83 @@ function setNarration()
 //Index.js   changes by Dinesh end
 
 //amit index.js changes start
+function createAdvanceTypeDropDown(jsonAdvanceTypeArr){
+	var jsonArr = [];
+	if(jsonAdvanceTypeArr != null && jsonAdvanceTypeArr.length > 0){
+		for(var i=0; i<jsonAdvanceTypeArr.length; i++ ){
+			var stateArr = new Array();
+			stateArr = jsonAdvanceTypeArr[i];
+			
+			jsonArr.push({id: stateArr.Value,name: stateArr.Label});
+		}
+	}
+		
+	j("#advType").select2({
+		data:{ results: jsonArr, text: 'name' },
+		placeholder: "Advance Type",
+		minimumResultsForSearch: -1,
+		formatResult: function(result) {
+			if ( ! isJsonString(result.id))
+				result.id = JSON.stringify(result.id);
+				return result.name;
+		}
+	});
+	
+	/*j("#roundTripMode").select2({
+		data:{ results: jsonArr, text: 'name' },
+		placeholder: "Travel Mode",
+		minimumResultsForSearch: -1,
+		formatResult: function(result) {
+			if ( ! isJsonString(result.id))
+				result.id = JSON.stringify(result.id);
+				return result.name;
+		}
+	});*/
+} 
 
+function getAdavanceType(){
+
+ 	var advTypeID = j("#advType").select2('data').id;
+     getAdvanceTypeFromDB(advTypeID);
+ }
+
+function createAccountHeadDropDown(jsonAccountHeadArr){
+	var jsonArr = [];
+	if(jsonAccountHeadArr != null && jsonAccountHeadArr.length > 0){
+		for(var i=0; i<jsonAccountHeadArr.length; i++ ){
+			var stateArr = new Array();
+			stateArr = jsonAccountHeadArr[i];
+			
+			jsonArr.push({id: stateArr.Value,name: stateArr.Label});
+		}
+	}
+		
+	j("#EaAcHead").select2({
+		data:{ results: jsonArr, text: 'name' },
+		placeholder: "Expense Type",
+		minimumResultsForSearch: -1,
+		formatResult: function(result) {
+			if ( ! isJsonString(result.id))
+				result.id = JSON.stringify(result.id);
+				return result.name;
+		}
+	});
+	
+	/*j("#roundTripMode").select2({
+		data:{ results: jsonArr, text: 'name' },
+		placeholder: "Travel Mode",
+		minimumResultsForSearch: -1,
+		formatResult: function(result) {
+			if ( ! isJsonString(result.id))
+				result.id = JSON.stringify(result.id);
+				return result.name;
+		}
+	});*/
+} 
+
+function getAccountHeadName(){
+
+ 	var acHeadID = j("#EaAcHead").select2('data').id;
+     getAccountHeadFromDB(acHeadID);
+ }
 //amit index.js changes end

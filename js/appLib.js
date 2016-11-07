@@ -1682,6 +1682,70 @@ function synchronizeEAMasterData() {
 
 
 //amit applib.js changes start
+function onloadEAData() {
+	var EmpAdvDate =  window.localStorage.getItem("EmpAdvDate");
+	document.getElementById("advDate").value = EmpAdvDate;
+	if (mydb) {
+		mydb.transaction(function (t) {
+	            t.executeSql("SELECT * FROM advanceType", [], fetchAdvanceTypeList);
+				t.executeSql("SELECT * FROM accountHeadEAMst", [], fetchAccountHeadList);
+				/*t.executeSql("SELECT * FROM cityTownMst", [], fetchCityTownList);
+				t.executeSql("SELECT * FROM travelTypeMst", [], fetchTrvlTypeList);
+				t.executeSql("SELECT * FROM travelAccountHeadMst where processId=3", [], getTrAccHeadList);*/
+			});
+	} else {
+		alert("db not found, your browser does not support web sql!");
+	}
+ }
 
+function fetchAdvanceTypeList(transaction, results) {
+    var i;
+	var jsonAdvanceTypeArr = [];
+	for (i = 0; i < results.rows.length; i++) {
+        var row = results.rows.item(i);
+		var jsonFindAdvanceType = new Object();
+		jsonFindAdvanceType["Value"] = row.advancetypeID;
+		jsonFindAdvanceType["Label"] = row.advancetype;
+		
+		jsonAdvanceTypeArr.push(jsonFindAdvanceType);
+	}
+	createAdvanceTypeDropDown(jsonAdvanceTypeArr)
+}
+
+function getAdvanceTypeFromDB(AdvancetypeID){
+ if (mydb) {
+ 		//Get all the employeeDetails from the database with a select statement, set outputEmployeeDetails as the callback function for the executeSql command
+        mydb.transaction(function (t) {
+			t.executeSql("SELECT * FROM advanceType where advancetypeID="+AdvancetypeID, [], fetchAdvanceTypeList);
+		});
+    } else {
+        alert("db not found, your browser does not support web sql!");
+    }	
+}
+
+function fetchAccountHeadList(transaction, results) {
+    var i;
+	var jsonAccountHeadArr = [];
+	for (i = 0; i < results.rows.length; i++) {
+        var row = results.rows.item(i);
+		var jsonFindAccountHead = new Object();
+		jsonFindAccountHead["Value"] = row.accountHeadId;
+		jsonFindAccountHead["Label"] = row.accHeadName;
+		
+		jsonAccountHeadArr.push(jsonFindAdvanceType);
+	}
+	createAccountHeadDropDown(jsonAccountHeadArr)
+}
+
+function getAccountHeadFromDB(AccountHeadID){
+ if (mydb) {
+ 		//Get all the employeeDetails from the database with a select statement, set outputEmployeeDetails as the callback function for the executeSql command
+        mydb.transaction(function (t) {
+			t.executeSql("SELECT * FROM accountHeadEAMst where accountHeadId="+AccountHeadID, [], fetchAccountHeadList);
+		});
+    } else {
+        alert("db not found, your browser does not support web sql!");
+    }	
+}
 
 //amit applib.js changes end

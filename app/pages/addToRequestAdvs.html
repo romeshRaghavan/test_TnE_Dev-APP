@@ -6,25 +6,25 @@
              <ul>
               <li>
                   <div role="main" class="ui-content">
-                    <input id="expDate" type="text" class="span2 dp1" placeholder="Date" readonly="readonly">
+                    <input id="advDate" type="text" align="center" class="span2 dp1" placeholder="Date" readonly="readonly">
                   </div>
 				</li>
 				<li>
 					<input id="travelTitle" type="text" placeholder="Travel Title" >
 				</li>
                 <li>
-					<input id="travelType" type="hidden" style="width: 98%">
+					<input id="advType" type="hidden" style="width: 98%">
                 </li>
 				<li>
-                  <input id="trAccountHead" type="hidden" style="width: 98%">
+                  <input id="EaAcHead" type="hidden" style="width: 98%">
                 </li>
-                <li>
-                  <input id="fromCitytown" type="hidden" style="width: 98%">
-                </li>
+        <li>
+          <input id="justification" type="text" align="center" placeholder="Justification" >
+        </li>
 				
-                <li>
-                  <input id="toCitytown" type="hidden" style="width: 98%">
-                </li>
+        <li>
+          <input id="EaAmount" type="text" align="center" placeholder="Amount" >
+        </li>
               </ul>
             </div>
           </div>
@@ -59,15 +59,15 @@
 	
   });
 	  
-	 j("#travelMode").change(function() {
-		 getCatergoryBasedOnMode();
+	 j("#advType").change(function() {
+		 getAdavanceType();
 	  });
 	
-	j("#roundTripMode").change(function() {
-		 getRoundCatergoryBasedOnMode();
+	j("#EaAcHead").change(function() {
+		 getAccountHeadName();
 	  });
 	 
 		
-		onloadTravelData();
+		onloadEAData();
     onloadTimePicker();
 	  </script> 
