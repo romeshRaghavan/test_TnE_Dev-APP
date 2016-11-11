@@ -2,7 +2,7 @@ var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 var urlPath;
-var WebServicePath = 'http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
+var WebServicePath = 'http://1.255.255.214:8085/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -61,12 +61,14 @@ function login()
 			  //addEmployeeDetails(data);
 			  setUserStatusInLocalStorage("Valid");
 			  setUserSessionDetails(data,jsonToBeSend);
+              synchronizeBEMasterData();
+            if(data.EaInMobile){
+              synchronizeEAMasterData();
+              }
 			  if(data.TrRole){
 				synchronizeTRMasterData();
 				synchronizeTRForTS();  
 			  }
-			  synchronizeBEMasterData();
-              synchronizeEAMasterData();
 			}else if(data.Status == 'Failure'){
  			   successMessage = data.Message;
 			   if(successMessage.length == 0){
@@ -261,8 +263,7 @@ function isJsonString(str) {
 function viewBusinessExp(){
     var pageRef=defaultPagePath+'fairClaimTable.html';
     var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
-	j(document).ready(function() {
-		
+	j(document).ready(function() {	
 		j('#mainHeader').load(headerBackBtn);
 		j('#mainContainer').load(pageRef);
 	});
@@ -2282,6 +2283,9 @@ function setNarration()
 			});
       appPageHistory.push(pageRef);
 	 }
+
+
+
 //Index.js   changes by Dinesh end
 
 //amit index.js changes start
@@ -2291,12 +2295,11 @@ function createAdvanceTypeDropDown(jsonAdvanceTypeArr){
 		for(var i=0; i<jsonAdvanceTypeArr.length; i++ ){
 			var stateArr = new Array();
 			stateArr = jsonAdvanceTypeArr[i];
-			
 			jsonArr.push({id: stateArr.Value,name: stateArr.Label});
 		}
 	}
 		
-	j("#advType").select2({
+	j("#empAdvType").select2({
 		data:{ results: jsonArr, text: 'name' },
 		placeholder: "Advance Type",
 		minimumResultsForSearch: -1,
@@ -2306,23 +2309,16 @@ function createAdvanceTypeDropDown(jsonAdvanceTypeArr){
 				return result.name;
 		}
 	});
-	
-	/*j("#roundTripMode").select2({
-		data:{ results: jsonArr, text: 'name' },
-		placeholder: "Travel Mode",
-		minimumResultsForSearch: -1,
-		formatResult: function(result) {
-			if ( ! isJsonString(result.id))
-				result.id = JSON.stringify(result.id);
-				return result.name;
-		}
-	});*/
+    var DefaultAdvType =  window.localStorage.getItem("DefaultAdvType");        
+    j("#empAdvType").select2("val",DefaultAdvType);
+    populateEATitle();
 } 
 
-function getAdavanceType(){
+function changeAdavanceType(){
 
- 	var advTypeID = j("#advType").select2('data').id;
-     getAdvanceTypeFromDB(advTypeID);
+ 	var advTypeID = j("#empAdvType").select2('data').id;
+     //getAdvanceTypeFromDB(advTypeID);
+    populateEATitle();
  }
 
 function createAccountHeadDropDown(jsonAccountHeadArr){
@@ -2336,7 +2332,7 @@ function createAccountHeadDropDown(jsonAccountHeadArr){
 		}
 	}
 		
-	j("#EaAcHead").select2({
+	j("#empAdvAccHead").select2({
 		data:{ results: jsonArr, text: 'name' },
 		placeholder: "Expense Type",
 		minimumResultsForSearch: -1,
@@ -2346,22 +2342,320 @@ function createAccountHeadDropDown(jsonAccountHeadArr){
 				return result.name;
 		}
 	});
-	
-	/*j("#roundTripMode").select2({
-		data:{ results: jsonArr, text: 'name' },
-		placeholder: "Travel Mode",
-		minimumResultsForSearch: -1,
-		formatResult: function(result) {
-			if ( ! isJsonString(result.id))
-				result.id = JSON.stringify(result.id);
-				return result.name;
-		}
-	});*/
+      var DefaultAccontHead =  window.localStorage.getItem("DefaultAccontHead");        
+     j("#empAdvAccHead").select2("val",DefaultAccontHead);
 } 
 
-function getAccountHeadName(){
+function changeAccountHeadName(){
 
- 	var acHeadID = j("#EaAcHead").select2('data').id;
-     getAccountHeadFromDB(acHeadID);
+ 	var acHeadID = j("#empAdvAccHead").select2('data').id;
+    // getAccountHeadFromDB(acHeadID);
  }
-//amit index.js changes end
+
+
+
+
+function syncSubmitEmpAdvance(){
+	
+	var empAdvDate = document.getElementById('empAdvDate').value;
+	var empAdvTitle = document.getElementById('empAdvTitle').value;
+	var empAdvjustification = document.getElementById('empAdvjustification').value;
+	var empAdvAmount = document.getElementById('empAdvAmount').value;
+	var empAdvType_id;
+    var empAdvType_Name;
+	var empAccHead_id;
+    var empAccHead_Name;
+	
+	if(j("#empAdvType").select2('data') != null){
+		empAdvType_id = j("#empAdvType").select2('data').id;
+        empAdvType_Name = j("#empAdvType").select2('data').name;
+	}else{
+		empAdvType_id = '-1';
+	}
+	
+	if(j("#empAdvAccHead").select2('data') != null){
+		empAccHead_id = j("#empAdvAccHead").select2('data').id;
+		empAccHead_Name = j("#empAdvAccHead").select2('data').name;
+	}else{
+		from_id = '-1';
+	}	
+	
+
+	if(validateEmpAdvanceDetails(empAdvDate,empAdvTitle,empAdvjustification,empAdvAmount,empAdvType_id,empAdvType_Name,empAccHead_id,empAccHead_Name)){
+
+		 var jsonToSaveEA = new Object();
+		 j('#loading_Cat').show();
+		 jsonToSaveEA["EmployeeId"] = window.localStorage.getItem("EmployeeId");;
+		 jsonToSaveEA["BudgetingStatus"] = window.localStorage.getItem("BudgetingStatus");;
+		 jsonToSaveEA["empAdvDate"] = empAdvDate;
+		 jsonToSaveEA["empAdvTitle"] = empAdvTitle;
+		 jsonToSaveEA["empAdvjustification"] = empAdvjustification;
+		 jsonToSaveEA["empAdvAmount"] = empAdvAmount;
+		 jsonToSaveEA["empAdvType_id"] = empAdvType_id;
+		 jsonToSaveEA["empAccHead_id"] = empAccHead_id;
+		 
+		 
+		 saveEmployeeAdvanceAjax(jsonToSaveEA);
+		}else{
+			return false;
+		}
+}
+
+
+function saveEmployeeAdvanceAjax(jsonToSaveEA){
+	var pageRef=defaultPagePath+'success.html';
+	 j.ajax({
+			  url: window.localStorage.getItem("urlPath")+"SyncSubmitEmployeeAdvanceDetail",
+			  type: 'POST',
+			  dataType: 'json',
+			  crossDomain: true,
+			  data: JSON.stringify(jsonToSaveEA),
+			  success: function(data) {
+				  if(data.Status=="Failure"){
+					  if(data.hasOwnProperty('IsEntitlementExceed')){
+							setTREntitlementExceedMessage(data,jsonToSaveEA);
+							 j('#loading_Cat').hide();
+						}
+					  successMessage = data.Message;
+					  //alert(successMessage);
+					  j('#loading_Cat').hide();
+				  }else if(data.Status=="Success"){
+					  successMessage = data.Message;
+						j('#loading_Cat').hide();
+						j('#mainContainer').load(pageRef);
+						appPageHistory.push(pageRef);
+				  }else{
+					 successMessage = "Error: Oops something is wrong, Please Contact System Administer";
+					  j('#loading_Cat').hide();
+					  j('#mainContainer').load(pageRef);
+					   appPageHistory.push(pageRef);
+				  }
+				},
+			  error:function(data) {
+				successMessage = "Error: Oops something is wrong, Please Contact System Administer";
+					  j('#loading_Cat').hide();
+					  j('#mainContainer').load(pageRef);
+					  appPageHistory.push(pageRef);
+			  }
+	});
+}
+
+function validateEmpAdvanceDetails(empAdvDate,empAdvTitle,empAdvjustification,empAdvAmount,empAdvType_id,empAdvType_Name,empAccHead_id,empAccHead_Name){
+	if(empAdvDate==""){
+		alert("Advance Date is required");
+		return false;
+	}
+	if(empAdvTitle == ""){
+		alert("Advance Title is required");
+		return false;
+	}
+    if(empAdvjustification == ""){
+		alert("justification is required");
+		return false;
+	}
+     if(empAdvAmount == ""){
+		alert("Amount is required");
+		return false;
+	}
+	if(empAdvType_id == "-1" && empAdvType_id == ""){
+		alert("Advance Type is invalid");
+		return false;
+	}
+	if(empAccHead_id == "-1" && empAccHead_id == ""){
+		alert("Expense Type is invalid");
+		return false;
+	}
+	
+	return true;
+}
+
+
+function displayEmpAdvanceExp(){	 
+		 var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
+     var pageRef=defaultPagePath+'availableEmpAdvance.html';
+			j(document).ready(function() {
+				j('#mainHeader').load(headerBackBtn);
+				j('#mainContainer').load(pageRef);
+			});
+      appPageHistory.push(pageRef);
+}
+     
+function hideEAIcons(){
+	if(window.localStorage.getItem("EaInMobile") == "true"){
+		document.getElementById('CategoryEAId').style.display="block";		
+	}else{
+		document.getElementById('CategoryEAId').style.display="none";
+	}
+}
+
+function hideEAMenus(){
+	if(window.localStorage.getItem("EaInMobile") == "true"){
+		document.getElementById('EaDisplayID').style.display="block";
+	}else{
+		document.getElementById('EaDisplayID').style.display="none";
+	}
+}
+
+
+
+function populateBEAmount(){
+                        var BEAmount = 0;
+                          if(j("#source tr.selected").hasClass("selected")){
+                              j("#source tr.selected").each(function(index, row) {
+                                  var Amount = j(this).find('td.expAmt1').text();
+                                  //get Amount 
+                                   BEAmount =parseFloat(BEAmount) + parseFloat(Amount);
+                              });
+
+                            if(BEAmount!= "" ){
+                                 document.getElementById("amountAA").value = BEAmount;
+                              }
+                          }else{
+                             document.getElementById("amountAA").value = "";
+                          }   
+}
+
+
+function populateEAAmount(){
+             var EAAmount = 0;
+				 if(j("#source1 tr.selected").hasClass("selected")){
+				           j("#source1 tr.selected").each(function(index, row) {
+                              var Amount = j(this).find('td.Amount').text();
+							  //get Amount 
+                               EAAmount =parseFloat(EAAmount) + parseFloat(Amount);
+						    });
+						  
+				        if(EAAmount!= "" ){
+						  document.getElementById("amountEA").value = EAAmount;
+				           }
+				   }else{
+						  document.getElementById("amountEA").value = "";
+                   }
+}
+
+
+
+function calculateAmount(){
+         var beAmount = 0
+         var eaAmount = 0 
+         beAmount = document.getElementById("amountAA").value;
+         eaAmount = document.getElementById("amountEA").value;
+    
+       if(beAmount != "" && beAmount != 0  && eaAmount != ""  && eaAmount != 0 ){
+           if(parseFloat(beAmount) > parseFloat(eaAmount)){
+           document.getElementById("abc").value = parseFloat(beAmount) - parseFloat(eaAmount);
+           document.getElementById("def").value = "0";
+           }else if(parseFloat(eaAmount) > parseFloat(beAmount)){
+           document.getElementById("def").value = parseFloat(eaAmount) - parseFloat(beAmount);
+           document.getElementById("abc").value = "0";
+           }else{
+           document.getElementById("abc").value = "0";
+           document.getElementById("def").value = "0";
+           }
+       }else{
+           document.getElementById("abc").value = "0";
+           document.getElementById("def").value = "0";
+       }
+}
+
+
+
+function oprationOnExpenseClaims(){
+	j(document).ready(function(){
+		j('#send').on('click', function(e){ 
+				var jsonExpenseDetailsArr = [];
+				  var busExpDetailsArr = [];
+				  expenseClaimDates=new Object;
+				  if(requestRunning){
+						  	return;
+	    					}
+				  var accountHeadIdToBeSent=''
+					  if(j("#source tr.selected").hasClass("selected")){
+						  j("#source tr.selected").each(function(index, row) {
+							displayEmpAdv();
+														  
+						  });
+					  }else{
+						 alert("Tap and select Expenses to send for Approval with server.");
+					  }
+			});
+			
+		j('#delete').on('click', function(e){ 
+				  var busExpDetailsArr = [];
+				  var jsonExpenseDetailsArr = [];
+				  expenseClaimDates=new Object;
+				
+				  var pageRef=defaultPagePath+'fairClaimTable.html';
+				  if(j("#source tr.selected").hasClass("selected")){
+					  j("#source tr.selected").each(function(index, row) {
+						  var busExpDetailId = j(this).find('td.busExpId').text();
+						  busExpDetailsArr.push(busExpDetailId);
+					  });
+
+					  if(busExpDetailsArr.length>0){
+						  for(var i=0; i<busExpDetailsArr.length; i++ ){
+							  var businessExpDetailId = busExpDetailsArr[i];
+							  deleteSelectedExpDetails(businessExpDetailId);
+						  }
+					  }
+					  j('#mainContainer').load(pageRef);
+				  }else{
+					  alert("Tap and select Expenses to delete.");
+				  }
+			});
+		
+	j('#synch').on('click', function(e){
+				  var busExpDetailsArr = [];
+				  var jsonExpenseDetailsArr = [];
+				  expenseClaimDates=new Object;
+				  if(j("#source tr.selected").hasClass("selected")){
+					  j("#source tr.selected").each(function(index, row) {
+					  	if (requestRunning) {
+						  		return;
+	    					} 
+						  var busExpDetailId = j(this).find('td.busExpId').text();
+						  var jsonFindBE = new Object();
+						  var expDate = j(this).find('td.expDate1').text();
+						  var expenseDate = expDate;
+						  jsonFindBE["expenseDate"] = expenseDate;
+						  jsonFindBE["accountHeadId"] =j(this).find('td.accHeadId').text();
+						  jsonFindBE["accountCodeId"] = j(this).find('td.accountCodeId').text();
+						  jsonFindBE["expenseId"] =j(this).find('td.expNameId').text();
+						  jsonFindBE["ExpenseName"] = j(this).find('td.expName').text();
+						  jsonFindBE["fromLocation"] = j(this).find('td.expFromLoc1').text();
+						  jsonFindBE["toLocation"] = j(this).find('td.expToLoc1').text();
+						  jsonFindBE["narration"] = j(this).find('td.expNarration1').text();
+						  if(j(this).find('td.expUnit').text()!="" ) {
+							  jsonFindBE["units"] = j(this).find('td.expUnit').text();
+						  }
+						  jsonFindBE["wayPoint"] = j(this).find('td.wayPoint').text();
+						  jsonFindBE["amount"] = j(this).find('td.expAmt1').text();
+						  jsonFindBE["currencyId"] = j(this).find('td.currencyId').text();
+						  jsonFindBE["perUnitException"] = j(this).find('td.isEntitlementExceeded').text();
+
+						  var dataURL =  j(this).find('td.busAttachment').text();
+
+						  //For IOS image save
+						  var data = dataURL.replace(/data:image\/(png|jpg|jpeg);base64,/, '');
+
+						  //For Android image save
+						  //var data = dataURL.replace(/data:base64,/, '');
+
+						  jsonFindBE["imageAttach"] = data; 
+
+						  jsonExpenseDetailsArr.push(jsonFindBE);
+
+						  busExpDetailsArr.push(busExpDetailId);
+
+					  });
+					  if(busExpDetailsArr.length>0){
+						  saveBusinessExpDetails(jsonExpenseDetailsArr,busExpDetailsArr);
+					  }
+				  }else{
+					 alert("Tap and select Expenses to synch with server.");
+				  }
+			});
+	
+});
+}
+

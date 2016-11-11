@@ -152,6 +152,7 @@ if (window.openDatabase) {
         t.executeSql("CREATE TABLE IF NOT EXISTS travelRequestDetails (travelRequestId INTEGER PRIMARY KEY ASC, travelRequestNo TEXT,title TEXT, accountHeadId INTEGER,travelStartDate DATE,travelEndDate DATE,travelDomOrInter CHAR(1))");
         t.executeSql("CREATE TABLE IF NOT EXISTS accountHeadEAMst (accountHeadId INTEGER PRIMARY KEY ASC, accHeadName TEXT)");
         t.executeSql("CREATE TABLE IF NOT EXISTS advanceType (advancetypeID INTEGER PRIMARY KEY ASC, advancetype TEXT)");
+        t.executeSql("CREATE TABLE IF NOT EXISTS employeeAdvanceDetails (empAdvID INTEGER PRIMARY KEY ASC, emplAdvVoucherNo TEXT,empAdvTitle TEXT,Amount Double)");
     });
 
 } else {
@@ -161,7 +162,7 @@ if (window.openDatabase) {
 //function to remove a employeeDetails from the database, passed the row id as it's only parameter
 function saveBusinessDetails(status){
 	exceptionMessage='';
-	
+	alert("status"+status);
 	if (mydb) {
 		//get the values of the text inputs
         var exp_date = document.getElementById('expDate').value;
@@ -466,16 +467,18 @@ function fetchExpenseClaim() {
 					
 			j("#source tr").click(function(){ 
 				headerOprationBtn = defaultPagePath+'headerPageForBEOperation.html';
-				if(j(this).hasClass("selected")){ 
+				if(j(this).hasClass("selected")){;
 				var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
 					j(this).removeClass('selected');
+                    populateBEAmount();
 					j('#mainHeader').load(headerBackBtn);
-				}else{
+				}else{                    
 				if(j(this).text()=='DateExpense NameNarration From/To LocAmt'){
-					
-				}else{
+
+				}else{  
 					j('#mainHeader').load(headerOprationBtn);
 					j(this).addClass('selected');
+                    populateBEAmount();
 				}					
 				}								
 			});
@@ -795,7 +798,7 @@ function synchronizeBEMasterData() {
 
 				}else{
 					
-					document.getElementById("syncFailureMsg").innerHTML = "Account Head synchronized Successfully.";
+					document.getElementById("syncFailureMsg").innerHTML = "Account Head Not synchronized Successfully.";
 					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
 				}
 			},		
@@ -1101,6 +1104,9 @@ function setUserSessionDetails(val,userJSON){
 	 //For Mobile Google Map Role Start
 	 window.localStorage.setItem("MobileMapRole",val.MobileMapRole);
 	 //End
+    //For EA in mobile
+    window.localStorage.setItem("EaInMobile",val.EaInMobile);
+    //End
 	 window.localStorage.setItem("UserName",userJSON["user"]);
 	 window.localStorage.setItem("Password",userJSON["pass"]);
 	
@@ -1513,13 +1519,11 @@ function synchronizeTRForTS() {
 //applib.js   changes by Dinesh
 
 function synchronizeEAMasterData() {
-	var jsonSentToSync=new Object();
-	
+	var jsonSentToSync=new Object();	
 	jsonSentToSync["BudgetingStatus"] = window.localStorage.getItem("BudgetingStatus");
 	jsonSentToSync["EmployeeId"] = window.localStorage.getItem("EmployeeId");
 	jsonSentToSync["GradeId"] = window.localStorage.getItem("GradeID");
 	jsonSentToSync["UnitId"] = window.localStorage.getItem("UnitId");
-    alert(window.localStorage.getItem("UnitId"));
 	j('#loading_Cat').show();
 	if (mydb) {
 		j.ajax({
@@ -1531,7 +1535,7 @@ function synchronizeEAMasterData() {
 			  success: function(data) {
 				  if(data.Status=='Success'){
 					mydb.transaction(function (t) {
-					t.executeSql("DELETE FROM accountHeadMst");
+					t.executeSql("DELETE FROM accountHeadEAMst");
 					var accountHeadArray = data.AccountHeadArray;
 						if(accountHeadArray != null && accountHeadArray.length > 0){
 							for(var i=0; i<accountHeadArray.length; i++ ){
@@ -1539,86 +1543,56 @@ function synchronizeEAMasterData() {
 								stateArr = accountHeadArray[i];
 								var acc_head_id = stateArr.Value;
 								var acc_head_name = stateArr.Label;
-								t.executeSql("INSERT INTO accountHeadMst (accountHeadId,accHeadName) VALUES (?, ?)", [acc_head_id,acc_head_name]);
+								t.executeSql("INSERT INTO accountHeadEAMst (accountHeadId,accHeadName) VALUES (?, ?)", [acc_head_id,acc_head_name]);
 								
 							}
 						}
 					});	
 					  
 					mydb.transaction(function (t) {
-					t.executeSql("DELETE FROM expNameMst");
-					  var expNameArray = data.ExpenseNameArray;
-					  if(expNameArray != null && expNameArray.length > 0){
-							for(var i=0; i<expNameArray.length; i++ ){
+					t.executeSql("DELETE FROM advanceType");
+					  var advanceTypeArray = data.AdvanceTypeArray;
+					  if(advanceTypeArray != null && advanceTypeArray.length > 0){
+							for(var i=0; i<advanceTypeArray.length; i++ ){
 								var stateArr = new Array();
-								stateArr = expNameArray[i];
-								var exp_id = stateArr.ExpenseID;
-								var exp_name = stateArr.ExpenseName;
-								var exp_is_from_to_req = stateArr.IsFromToRequired;
-								var acc_code_id = stateArr.AccountCodeId;
-								var acc_head_id = stateArr.AccountHeadId;
-								var isErReqd;
-								var limitAmountForER;
-								var exp_is_unit_req;
-								var exp_per_unit ;
-								var exp_fixed_or_var ;
-								var exp_fixed_limit_amt;
-								
-				
-								if(typeof stateArr.FixedOrVariable != 'undefined') {
-									exp_fixed_or_var = stateArr.FixedOrVariable;
-								}else{
-									exp_fixed_or_var = 'V';
-								}
-								
-								if(typeof stateArr.IsUnitRequired != 'undefined') {
-									exp_is_unit_req = stateArr.IsUnitRequired;
-									if(exp_is_unit_req == 'N')
-										exp_fixed_or_var = 'V';
-								}else{
-									exp_is_unit_req = 'N';
-								}
-								
-								if(typeof stateArr.RatePerUnit != 'undefined') {
-									exp_per_unit = stateArr.RatePerUnit;
-								}else{
-									exp_per_unit = 0.0;
-								}
-								
-								if(typeof stateArr.ActiveInactive != 'undefined') {
-									exp_per_unit_active_inactive = stateArr.ActiveInactive;
-								}else{
-									exp_per_unit_active_inactive = 0;
-								}
-							
-								if(typeof stateArr.FixedLimitAmount != 'undefined') {
-									exp_fixed_limit_amt = stateArr.FixedLimitAmount;
-								}else{
-									exp_fixed_limit_amt = 0.0;
-								}
-								if(typeof stateArr.IsErReqd != 'undefined') {
-									isErReqd = stateArr.IsErReqd;
-								}else{
-									isErReqd = 'N';
-								}
-								if(typeof stateArr.LimitAmountForER != 'undefined') {
-									limitAmountForER = stateArr.LimitAmountForER;
-								}else{
-									limitAmountForER = 0.0;
-								}
-								//console.log("exp_id:"+exp_id+"  -exp_name:"+exp_name+"  -exp_is_from_to_req:"+exp_is_from_to_req+"  -acc_code_id:"+acc_code_id+"  -acc_head_id:"+acc_head_id+"  -exp_is_unit_req:"+exp_is_unit_req+"  -exp_per_unit:"+exp_per_unit+"  -exp_fixed_or_var:"+exp_fixed_or_var+"  -exp_fixed_limit_amt:"+exp_fixed_limit_amt)										
-								t.executeSql("INSERT INTO expNameMst ( expNameMstId,expName, expIsFromToReq , accCodeId , accHeadId , expIsUnitReq , expRatePerUnit, expFixedOrVariable , expFixedLimitAmt,expPerUnitActiveInative,isErReqd,limitAmountForER) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)", [exp_id,exp_name,exp_is_from_to_req, acc_code_id,acc_head_id,exp_is_unit_req,exp_per_unit,exp_fixed_or_var,exp_fixed_limit_amt,exp_per_unit_active_inactive,isErReqd,limitAmountForER]);
+								stateArr = advanceTypeArray[i];
+								var advTypeId = stateArr.Value;
+								var advTypeName = stateArr.Label;
+													
+								t.executeSql("INSERT INTO advanceType (advancetypeID,advancetype) VALUES ( ?, ?)", [advTypeId,advTypeName]);
 							}
 						}  
 					});
+                      	mydb.transaction(function (t) {
+					t.executeSql("DELETE FROM employeeAdvanceDetails");
+					  var empAdvArray = data.EmpAdvArray;
+					  if(empAdvArray != null && empAdvArray.length > 0){
+							for(var i=0; i<empAdvArray.length; i++ ){
+								var stateArr = new Array();
+								stateArr = empAdvArray[i];
+								var empAdvId = stateArr.Value;
+								var empAdvVoucherNo = stateArr.EmpAdvaucherNo;
+                                var empAdvTitle = stateArr.VoucherTitle;
+                                var empAdvAmount = stateArr.Amount;
+													
+								t.executeSql("INSERT INTO employeeAdvanceDetails (empAdvID,emplAdvVoucherNo,empAdvTitle,Amount) VALUES ( ?, ?, ?, ?)", 
+                                [empAdvId,empAdvVoucherNo,empAdvTitle,empAdvAmount]);
+							}
+						}  
+					});
+                      window.localStorage.setItem("EmpAdvDate",data.EmpAdvDate);
+                      window.localStorage.setItem("DefaultAdvType",data.DefaultAdvType);
+                      window.localStorage.setItem("DefaultAccontHead",data.DefaultAccontHead);
+                      window.localStorage.setItem("DefaultCurrencyName",data.DefaultCurrencyName);
+                      
 					j('#loading_Cat').hide();
-					document.getElementById("syncSuccessMsg").innerHTML = "Business Expenses synchronized successfully.";
+					document.getElementById("syncSuccessMsg").innerHTML = "Employee Advance synchronized successfully.";
 					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
 					
 				}
 				else{
 					j('#loading_Cat').hide();
-					document.getElementById("syncFailureMsg").innerHTML = "Business Expenses not synchronized successfully.";
+					document.getElementById("syncFailureMsg").innerHTML = "Employee Advance not synchronized successfully.";
 					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
 					
 				}
@@ -1628,54 +1602,9 @@ function synchronizeEAMasterData() {
 				 alert("Error: Oops something is wrong, Please Contact System Administer");
 			  }
 			});
-			
-		j.ajax({
-		  url: window.localStorage.getItem("urlPath")+"CurrencyService",
-		  type: 'POST',
-		  dataType: 'json',
-		  crossDomain: true,
-		  data: JSON.stringify(jsonSentToSync),
-		  success: function(data) {
-			  if(data.Status=='Success'){
-				var currencyArray = data.CurrencyArray;
-				mydb.transaction(function (t) {
-				t.executeSql("DELETE FROM currencyMst");
-				if(currencyArray != null && currencyArray.length > 0){
-					for(var i=0; i<currencyArray.length; i++ ){
-						var stateArr = new Array();
-						stateArr = currencyArray[i];
-						var curr_id = stateArr.Value;
-						var curr_name = stateArr.Label;
-						t.executeSql("INSERT INTO currencyMst (currencyId,currencyName) VALUES (?, ?)", [curr_id,curr_name]);
-						
-					}
-				}
-				});
-				j('#loading_Cat').hide();
-					document.getElementById("syncSuccessMsg").innerHTML = successMsgForCurrency;
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
-					
-				}
-				else{
-				j('#loading_Cat').hide();
-					document.getElementById("syncFailureMsg").innerHTML = errorMsgForCurrency;
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
-					
-				}	
-				
-			},
-			  error:function(data) {
-				alert("Error: Oops something is wrong, Please Contact System Administer");
-			  }
-				});	
-			
-	} else {
-        alert("db not found, your browser does not support web sql!");
-    }
-	
+  }
 }
 
-//applib.js   changes by Dinesh
 
 
 //applib.js   changes by Dinesh end
@@ -1684,14 +1613,12 @@ function synchronizeEAMasterData() {
 //amit applib.js changes start
 function onloadEAData() {
 	var EmpAdvDate =  window.localStorage.getItem("EmpAdvDate");
-	document.getElementById("advDate").value = EmpAdvDate;
+	document.getElementById("empAdvDate").value = EmpAdvDate;
+    
 	if (mydb) {
 		mydb.transaction(function (t) {
 	            t.executeSql("SELECT * FROM advanceType", [], fetchAdvanceTypeList);
 				t.executeSql("SELECT * FROM accountHeadEAMst", [], fetchAccountHeadList);
-				/*t.executeSql("SELECT * FROM cityTownMst", [], fetchCityTownList);
-				t.executeSql("SELECT * FROM travelTypeMst", [], fetchTrvlTypeList);
-				t.executeSql("SELECT * FROM travelAccountHeadMst where processId=3", [], getTrAccHeadList);*/
 			});
 	} else {
 		alert("db not found, your browser does not support web sql!");
@@ -1739,7 +1666,6 @@ function fetchAccountHeadList(transaction, results) {
 
 function getAccountHeadFromDB(AccountHeadID){
  if (mydb) {
- 		//Get all the employeeDetails from the database with a select statement, set outputEmployeeDetails as the callback function for the executeSql command
         mydb.transaction(function (t) {
 			t.executeSql("SELECT * FROM accountHeadEAMst where accountHeadId="+AccountHeadID, [], fetchAccountHeadList);
 		});
@@ -1748,4 +1674,63 @@ function getAccountHeadFromDB(AccountHeadID){
     }	
 }
 
-//amit applib.js changes end
+function populateEATitle(){
+    
+       var EmpAdvDate = document.getElementById("empAdvDate").value;
+       var EmpAdvType = j("#empAdvType").select2('data').name;
+    
+    document.getElementById("empAdvTitle").value = EmpAdvType+'/'+EmpAdvDate;
+    
+}
+
+
+
+function fetchEmployeeAdvance() {
+	
+	mytable1 = j('<table></table>').attr({ id: "source1",class: ["table","table-striped","table-bordered"].join(' ') });
+	var rowThead = j("<thead></thead>").appendTo(mytable1);
+	var rowTh = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(rowThead);
+	
+	j('<th></th>').text("VoucherNo.").appendTo(rowTh);
+	j('<th></th>').text("Title").appendTo(rowTh);
+	j('<th></th>').text("Amount").appendTo(rowTh);
+	var cols = new Number(5);
+	 
+	mydb.transaction(function(t) {
+		var headerOprationBtn;
+      t.executeSql('SELECT * FROM employeeAdvanceDetails;', [],
+		 function(transaction, result) {
+		  if (result != null && result.rows != null) {
+			  
+			for (var i = 0; i < result.rows.length; i++) {
+				
+				var row = result.rows.item(i);
+		
+				var rowss = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable1);
+		
+		      j('<td></td>').attr({ class: ["emplAdvVoucherNo"].join(' ')
+                                  }).text(row.emplAdvVoucherNo).appendTo(rowss);	
+              j('<td></td>').attr({ class: ["empAdvTitle"].join(' ') }).text(row.empAdvTitle).appendTo(rowss);
+              j('<td></td>').attr({ class: ["Amount"].join(' ') }).text(row.Amount).appendTo(rowss);
+            }
+					
+			j("#source1 tr").click(function(){ 
+				headerOprationBtn = defaultPagePath+'headerPageForBEOperation.html';
+				if(j(this).hasClass("selected")){
+				var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
+					j(this).removeClass('selected');
+					j('#mainHeader').load(headerBackBtn);
+                    populateEAAmount();
+                    calculateAmount();
+				}else{
+					j('#mainHeader').load(headerOprationBtn);
+					j(this).addClass('selected');
+                    populateEAAmount();
+                    calculateAmount();
+				}								
+			});
+			}
+		 });
+	 });	 
+	 mytable1.appendTo("#box1");	 
+ }
