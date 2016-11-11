@@ -162,7 +162,6 @@ if (window.openDatabase) {
 //function to remove a employeeDetails from the database, passed the row id as it's only parameter
 function saveBusinessDetails(status){
 	exceptionMessage='';
-	alert("status"+status);
 	if (mydb) {
 		//get the values of the text inputs
         var exp_date = document.getElementById('expDate').value;
