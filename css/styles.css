@@ -194,7 +194,7 @@
 #mainContainer {
     float: left;
     overflow-x: hidden;
-    padding: 12% 6% 12%;
+    padding: 11% 8% 12%;
     width: 100%;
 }
 .selected {
@@ -428,7 +428,7 @@
 .Table
     {
        display: table;
-	   padding: 5%;
+	   padding: 4%;
   }	
   
 
