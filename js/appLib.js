@@ -1690,9 +1690,9 @@ function fetchEmployeeAdvance() {
 	var rowThead = j("<thead></thead>").appendTo(mytable1);
 	var rowTh = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(rowThead);
 	
-	j('<th"></th>').text("Voucher No.").appendTo(rowTh);
-	j('<th"></th>').text("Title").appendTo(rowTh);
-	j('<th"></th>').text("Amount").appendTo(rowTh);
+	j('<th></th>').text("Voucher No.").appendTo(rowTh);
+	j('<th></th>').text("Title").appendTo(rowTh);
+	j('<th></th>').text("Amount").appendTo(rowTh);
 	var cols = new Number(5);
 	 
 	mydb.transaction(function(t) {
@@ -1708,10 +1708,10 @@ function fetchEmployeeAdvance() {
 				var rowss = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable1);
 		
               j('<td></td>').attr({ class: ["empAdvID","displayNone"].join(' ') }).text(row.empAdvID).appendTo(rowss);
-		      j('<td"></td>').attr({ class: ["emplAdvVoucherNo"].join(' ')
+		      j('<td></td>').attr({ class: ["emplAdvVoucherNo"].join(' ')
                                   }).text(row.emplAdvVoucherNo).appendTo(rowss);	
-              j('<td"></td>').attr({ class: ["empAdvTitle"].join(' ') }).text(row.empAdvTitle).appendTo(rowss);
-              j('<td"></td>').attr({ class: ["Amount"].join(' ') }).text(row.Amount).appendTo(rowss);
+              j('<td></td>').attr({ class: ["empAdvTitle"].join(' ') }).text(row.empAdvTitle).appendTo(rowss);
+              j('<td></td>').attr({ class: ["Amount"].join(' ') }).text(row.Amount).appendTo(rowss);
             }
 					
 			j("#source1 tr").click(function(){ 

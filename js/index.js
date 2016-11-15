@@ -2667,7 +2667,6 @@ function oprationOnExpenseClaims(){
 function submitBEWithEA(){
     var jsonExpenseDetailsArr = [];
     var busExpDetailsArr = [];
-    var jsonEmplAdvanceArr = []; 
 				  expenseClaimDates=new Object;
 				  if(requestRunning){
 						  	return;
@@ -2752,6 +2751,7 @@ function submitBEWithEA(){
 							  }
 						  });
                             
+                          var jsonEmplAdvanceArr = []; 
                           
                          if(j("#source1 tr.selected").hasClass("selected")){                     				                j("#source1 tr.selected").each(function(index, row) {
                             var jsonFindEA = new Object();
@@ -2759,7 +2759,7 @@ function submitBEWithEA(){
                             jsonFindEA["emplAdvVoucherNo"] = j(this).find('td.emplAdvVoucherNo').text();
                             jsonFindEA["empAdvTitle"] = j(this).find('td.empAdvTitle').text();
                             jsonFindEA["Amount"] = j(this).find('td.Amount').text();
-                            jsonEmplAdvanceArr.push(jsonFindEA);
+                            jsonEmplAdvanceArr.puch(jsonFindEA);
 						    });
                                
 				   }      				  
@@ -2801,53 +2801,6 @@ function sendForApprovalBusinessDetailsWithEa(jsonBEArr,jsonEAArr,busExpDetailsA
 	 jsonToSaveBE["title"]= window.localStorage.getItem("FirstName")+"/"+jsonToSaveBE["startDate"]+" to "+jsonToSaveBE["endDate"];
 	
 	 var pageRef=defaultPagePath+'success.html';
-	 callSendForApprovalServiceForBEWithEA(jsonToSaveBE,busExpDetailsArr,pageRef);
+	 callSendForApprovalServiceForBE(jsonToSaveBE,busExpDetailsArr,pageRef);
 	 
-}
-
-function callSendForApprovalServiceForBEWithEA(jsonToSaveBE,busExpDetailsArr,pageRef){
-j('#loading_Cat').show();
-var headerBackBtn=defaultPagePath+'backbtnPage.html';
-j.ajax({
-				  url: window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense",
-				  type: 'POST',
-				  dataType: 'json',
-				  crossDomain: true,
-				  data: JSON.stringify(jsonToSaveBE),
-				  success: function(data) {
-				  	if(data.Status=="Success"){
-					  	if(data.hasOwnProperty('DelayStatus')){
-					  		setDelayMessage(data,jsonToSaveBE,busExpDetailsArr);
-					  		 j('#loading_Cat').hide();
-					  	}else{
-						 successMessage = data.Message;
-						 for(var i=0; i<busExpDetailsArr.length; i++ ){
-							var businessExpDetailId = busExpDetailsArr[i];
-							deleteSelectedExpDetails(businessExpDetailId);
-						 }
-						 requestRunning = false;
-						 j('#loading_Cat').hide();
-						 j('#mainHeader').load(headerBackBtn);
-						 j('#mainContainer').load(pageRef);
-						// appPageHistory.push(pageRef);
-						}
-					}else if(data.Status=="Failure"){
-					 	successMessage = data.Message;
-						requestRunning = false;
-					 	j('#loading_Cat').hide();
-						j('#mainHeader').load(headerBackBtn);
-					 	j('#mainContainer').load(pageRef);
-					 }else{
-						 j('#loading_Cat').hide();
-						successMessage = "Oops!! Something went wrong. Please contact system administrator.";
-						j('#mainHeader').load(headerBackBtn);
-					 	j('#mainContainer').load(pageRef);
-					 }
-					},
-				  error:function(data) {
-					j('#loading_Cat').hide();
-					requestRunning = false;
-					alert("Error: Oops something is wrong, Please Contact System Administer");
-				  }
-			});
 }
