@@ -2753,13 +2753,13 @@ function submitBEWithEA(){
                             
                           var jsonEmplAdvanceArr = []; 
                           
-                         if(j("#source1 tr.selected").hasClass("selected")){                     				                j("#source1 tr.selected").each(function(index, row) {
+                         if(j("#source1 tr.selected").hasClass("selected")){                    				                j("#source1 tr.selected").each(function(index, row) {
                             var jsonFindEA = new Object();
 				            jsonFindEA["empAdvID"] = j(this).find('td.empAdvID').text();
                             jsonFindEA["emplAdvVoucherNo"] = j(this).find('td.emplAdvVoucherNo').text();
                             jsonFindEA["empAdvTitle"] = j(this).find('td.empAdvTitle').text();
                             jsonFindEA["Amount"] = j(this).find('td.Amount').text();
-                            jsonEmplAdvanceArr.puch(jsonFindEA);
+                            jsonEmplAdvanceArr.push(jsonFindEA);
 						    });
                                
 				   }      				  
