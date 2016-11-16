@@ -2661,6 +2661,7 @@ function oprationOnExpenseClaims(){
 			});
          document.getElementById('BE').style.display = "none";
          document.getElementById('EA').style.display = "";
+        document.getElementById('helpimage').style.display = "none";
        appPageHistory.push(pageRef);
     }
 

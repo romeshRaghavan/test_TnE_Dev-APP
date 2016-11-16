@@ -1691,7 +1691,7 @@ function fetchEmployeeAdvance() {
 	var rowTh = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(rowThead);
 	
 	j('<th></th>').text("Voucher No.").appendTo(rowTh);
-	j('<th></th>').text("Title").appendTo(rowTh);
+	//j('<th></th>').text("Title").appendTo(rowTh);
 	j('<th></th>').text("Amount").appendTo(rowTh);
 	var cols = new Number(5);
 	 
@@ -1710,20 +1710,16 @@ function fetchEmployeeAdvance() {
               j('<td></td>').attr({ class: ["empAdvID","displayNone"].join(' ') }).text(row.empAdvID).appendTo(rowss);
 		      j('<td></td>').attr({ class: ["emplAdvVoucherNo"].join(' ')
                                   }).text(row.emplAdvVoucherNo).appendTo(rowss);	
-              j('<td></td>').attr({ class: ["empAdvTitle"].join(' ') }).text(row.empAdvTitle).appendTo(rowss);
+              j('<td></td>').attr({ class: ["empAdvTitle","displayNone"].join(' ') }).text(row.empAdvTitle).appendTo(rowss);
               j('<td></td>').attr({ class: ["Amount"].join(' ') }).text(row.Amount).appendTo(rowss);
             }
 					
 			j("#source1 tr").click(function(){ 
-				headerOprationBtn = defaultPagePath+'headerPageForBEOperation.html';
 				if(j(this).hasClass("selected")){
-				var headerBackBtn=defaultPagePath+'headerPageForBEOperation.html';
 					j(this).removeClass('selected');
-					j('#mainHeader').load(headerBackBtn);
                     populateEAAmount();
                     calculateAmount();
 				}else{
-					j('#mainHeader').load(headerOprationBtn);
 					j(this).addClass('selected');
                     populateEAAmount();
                     calculateAmount();
