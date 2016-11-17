@@ -1613,7 +1613,24 @@ function createTravelRequestNoDropDown(jsonTravelRequestNoArr){
 }
 function oprationOnExpenseClaim(){
 	j(document).ready(function(){
-		j('#send').on('click', function(e){ 
+        if(window.localStorage.getItem("EaInMobile") == "true"){
+            	j('#send').on('click', function(e){ 
+				  expenseClaimDates=new Object;
+				  if(requestRunning){
+						  	return;
+	    					}
+				  var accountHeadIdToBeSent=''
+					  if(j("#source tr.selected").hasClass("selected")){
+						  j("#source tr.selected").each(function(index, row) {
+							displayEmpAdv();
+														  
+						  });
+					  }else{
+						 alert("Tap and select Expenses to send for Approval with server.");
+					  }
+			});
+        }else{  
+		       j('#send').on('click', function(e){ 
 				var jsonExpenseDetailsArr = [];
 				  var busExpDetailsArr = [];
 				  expenseClaimDates=new Object;
@@ -1707,6 +1724,7 @@ function oprationOnExpenseClaim(){
 						 alert("Tap and select Expenses to send for Approval with server.");
 					  }
 			});
+        }
 			
 		j('#delete').on('click', function(e){ 
 				  var busExpDetailsArr = [];
@@ -2495,6 +2513,16 @@ function hideEAMenus(){
 	}
 }
 
+function hideEmployeeAdvance(){
+	if(window.localStorage.getItem("EaInMobile") == "true"){
+        document.getElementById('helpimage').style.display="";
+		//document.getElementById('EA').style.display="";
+	}else{
+        document.getElementById('helpimage').style.display="none";
+		document.getElementById('EA').style.display="none";
+	}
+}
+
 
 
 function populateBEAmount(){
@@ -2555,103 +2583,6 @@ function calculateAmount(){
        }
 }
 
-
-
-function oprationOnExpenseClaims(){
-	j(document).ready(function(){
-		j('#send').on('click', function(e){ 
-				  expenseClaimDates=new Object;
-				  if(requestRunning){
-						  	return;
-	    					}
-				  var accountHeadIdToBeSent=''
-					  if(j("#source tr.selected").hasClass("selected")){
-						  j("#source tr.selected").each(function(index, row) {
-							displayEmpAdv();
-														  
-						  });
-					  }else{
-						 alert("Tap and select Expenses to send for Approval with server.");
-					  }
-			});
-			
-		j('#delete').on('click', function(e){ 
-				  var busExpDetailsArr = [];
-				  var jsonExpenseDetailsArr = [];
-				  expenseClaimDates=new Object;
-				
-				  var pageRef=defaultPagePath+'fairClaimTable.html';
-				  if(j("#source tr.selected").hasClass("selected")){
-					  j("#source tr.selected").each(function(index, row) {
-						  var busExpDetailId = j(this).find('td.busExpId').text();
-						  busExpDetailsArr.push(busExpDetailId);
-					  });
-
-					  if(busExpDetailsArr.length>0){
-						  for(var i=0; i<busExpDetailsArr.length; i++ ){
-							  var businessExpDetailId = busExpDetailsArr[i];
-							  deleteSelectedExpDetails(businessExpDetailId);
-						  }
-					  }
-					  j('#mainContainer').load(pageRef);
-				  }else{
-					  alert("Tap and select Expenses to delete.");
-				  }
-			});
-		
-	j('#synch').on('click', function(e){
-				  var busExpDetailsArr = [];
-				  var jsonExpenseDetailsArr = [];
-				  expenseClaimDates=new Object;
-				  if(j("#source tr.selected").hasClass("selected")){
-					  j("#source tr.selected").each(function(index, row) {
-					  	if (requestRunning) {
-						  		return;
-	    					} 
-						  var busExpDetailId = j(this).find('td.busExpId').text();
-						  var jsonFindBE = new Object();
-						  var expDate = j(this).find('td.expDate1').text();
-						  var expenseDate = expDate;
-						  jsonFindBE["expenseDate"] = expenseDate;
-						  jsonFindBE["accountHeadId"] =j(this).find('td.accHeadId').text();
-						  jsonFindBE["accountCodeId"] = j(this).find('td.accountCodeId').text();
-						  jsonFindBE["expenseId"] =j(this).find('td.expNameId').text();
-						  jsonFindBE["ExpenseName"] = j(this).find('td.expName').text();
-						  jsonFindBE["fromLocation"] = j(this).find('td.expFromLoc1').text();
-						  jsonFindBE["toLocation"] = j(this).find('td.expToLoc1').text();
-						  jsonFindBE["narration"] = j(this).find('td.expNarration1').text();
-						  if(j(this).find('td.expUnit').text()!="" ) {
-							  jsonFindBE["units"] = j(this).find('td.expUnit').text();
-						  }
-						  jsonFindBE["wayPoint"] = j(this).find('td.wayPoint').text();
-						  jsonFindBE["amount"] = j(this).find('td.expAmt1').text();
-						  jsonFindBE["currencyId"] = j(this).find('td.currencyId').text();
-						  jsonFindBE["perUnitException"] = j(this).find('td.isEntitlementExceeded').text();
-
-						  var dataURL =  j(this).find('td.busAttachment').text();
-
-						  //For IOS image save
-						  var data = dataURL.replace(/data:image\/(png|jpg|jpeg);base64,/, '');
-
-						  //For Android image save
-						  //var data = dataURL.replace(/data:base64,/, '');
-
-						  jsonFindBE["imageAttach"] = data; 
-
-						  jsonExpenseDetailsArr.push(jsonFindBE);
-
-						  busExpDetailsArr.push(busExpDetailId);
-
-					  });
-					  if(busExpDetailsArr.length>0){
-						  saveBusinessExpDetails(jsonExpenseDetailsArr,busExpDetailsArr);
-					  }
-				  }else{
-					 alert("Tap and select Expenses to synch with server.");
-				  }
-			});
-});
-}
 
    function displayEmpAdv(){
         var headerBackBtn=defaultPagePath+'backbtnPage.html';
