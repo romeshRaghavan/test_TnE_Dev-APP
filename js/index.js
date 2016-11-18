@@ -2459,6 +2459,7 @@ function saveEmployeeAdvanceAjax(jsonToSaveEA){
 }
 
 function validateEmpAdvanceDetails(empAdvDate,empAdvTitle,empAdvjustification,empAdvAmount,empAdvType_id,empAdvType_Name,empAccHead_id,empAccHead_Name){
+    
 	if(empAdvDate==""){
 		alert("Advance Date is required");
 		return false;
@@ -2493,11 +2494,11 @@ function validateEmpAdvanceDetails(empAdvDate,empAdvTitle,empAdvjustification,em
 		return false;
 	}
     
-	if(empAdvType_id == "-1" && empAdvType_id == ""){
+	if(empAdvType_id == "-1" || empAdvType_id == ""){
 		alert("Advance Type is invalid");
 		return false;
 	}
-	if(empAccHead_id == "-1" && empAccHead_id == ""){
+	if(empAccHead_id == "-1" || empAccHead_id == ""){
 		alert("Expense Type is invalid");
 		return false;
 	}
@@ -2622,6 +2623,8 @@ function calculateAmount(){
 function submitBEWithEA(){
     var jsonExpenseDetailsArr = [];
     var busExpDetailsArr = [];
+    var jsonEmplAdvanceArr = [];
+    var emplAdvanceDetailsArr = [];
 				  expenseClaimDates=new Object;
 				  if(requestRunning){
 						  	return;
@@ -2706,7 +2709,6 @@ function submitBEWithEA(){
 							  }
 						  });
                             
-                          var jsonEmplAdvanceArr = []; 
                           
                          if(j("#source1 tr.selected").hasClass("selected")){                    				                j("#source1 tr.selected").each(function(index, row) {
                             var jsonFindEA = new Object();
@@ -2714,12 +2716,13 @@ function submitBEWithEA(){
                             jsonFindEA["emplAdvVoucherNo"] = j(this).find('td.emplAdvVoucherNo').text();
                             jsonFindEA["empAdvTitle"] = j(this).find('td.empAdvTitle').text();
                             jsonFindEA["Amount"] = j(this).find('td.Amount').text();
+                            emplAdvanceDetailsArr.push(j(this).find('td.empAdvID').text());
                             jsonEmplAdvanceArr.push(jsonFindEA);
 						    });
                                
 				   }      				  
 						if(accountHeadIdToBeSent!="" && busExpDetailsArr.length>0){
-						  	 sendForApprovalBusinessDetailsWithEa(jsonExpenseDetailsArr,jsonEmplAdvanceArr,busExpDetailsArr,accountHeadIdToBeSent);
+						  	 sendForApprovalBusinessDetailsWithEa(jsonExpenseDetailsArr,jsonEmplAdvanceArr,busExpDetailsArr,emplAdvanceDetailsArr,accountHeadIdToBeSent);
 						  }
 					  }else{
 						 alert("Tap and select Expenses to send for Approval with server.");
@@ -2728,7 +2731,7 @@ function submitBEWithEA(){
 }
 
 
-function sendForApprovalBusinessDetailsWithEa(jsonBEArr,jsonEAArr,busExpDetailsArr,accountHeadID){
+function sendForApprovalBusinessDetailsWithEa(jsonBEArr,jsonEAArr,busExpDetailsArr,empAdvArr,accountHeadID){
 	 var jsonToSaveBE = new Object();
      var totalAmount = 0;
      var unsetAdvAmount= 0;
@@ -2756,6 +2759,57 @@ function sendForApprovalBusinessDetailsWithEa(jsonBEArr,jsonEAArr,busExpDetailsA
 	 jsonToSaveBE["title"]= window.localStorage.getItem("FirstName")+"/"+jsonToSaveBE["startDate"]+" to "+jsonToSaveBE["endDate"];
 	
 	 var pageRef=defaultPagePath+'success.html';
-	 callSendForApprovalServiceForBE(jsonToSaveBE,busExpDetailsArr,pageRef);
+	 callSendForApprovalServiceForBEwithEA(jsonToSaveBE,busExpDetailsArr,empAdvArr,pageRef);
 	 
+}
+
+function callSendForApprovalServiceForBEwithEA(jsonToSaveBE,busExpDetailsArr,empAdvArr,pageRef){
+j('#loading_Cat').show();
+var headerBackBtn=defaultPagePath+'backbtnPage.html';
+j.ajax({
+				  url: window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense",
+				  type: 'POST',
+				  dataType: 'json',
+				  crossDomain: true,
+				  data: JSON.stringify(jsonToSaveBE),
+				  success: function(data) {
+				  	if(data.Status=="Success"){
+					  	if(data.hasOwnProperty('DelayStatus')){
+					  		setDelayMessage(data,jsonToSaveBE,busExpDetailsArr);
+					  		 j('#loading_Cat').hide();
+					  	}else{
+						 successMessage = data.Message;
+						 for(var i=0; i<busExpDetailsArr.length; i++ ){
+							var businessExpDetailId = busExpDetailsArr[i];
+							deleteSelectedExpDetails(businessExpDetailId);
+						 }
+                         for(var i=0; i<empAdvArr.length; i++ ){
+							var empAdvId = empAdvArr[i];
+							deleteSelectedEmplAdv(empAdvId);
+						 }
+						 requestRunning = false;
+						 j('#loading_Cat').hide();
+						 j('#mainHeader').load(headerBackBtn);
+						 j('#mainContainer').load(pageRef);
+						// appPageHistory.push(pageRef);
+						}
+					}else if(data.Status=="Failure"){
+					 	successMessage = data.Message;
+						requestRunning = false;
+					 	j('#loading_Cat').hide();
+						j('#mainHeader').load(headerBackBtn);
+					 	j('#mainContainer').load(pageRef);
+					 }else{
+						 j('#loading_Cat').hide();
+						successMessage = "Oops!! Something went wrong. Please contact system administrator.";
+						j('#mainHeader').load(headerBackBtn);
+					 	j('#mainContainer').load(pageRef);
+					 }
+					},
+				  error:function(data) {
+					j('#loading_Cat').hide();
+					requestRunning = false;
+					alert("Error: Oops something is wrong, Please Contact System Administer");
+				  }
+			});
 }

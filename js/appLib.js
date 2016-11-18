@@ -1750,3 +1750,10 @@ function fetchEmployeeAdvance() {
 	 });	 
 	 mytable1.appendTo("#box1");	 
  }
+
+
+function deleteSelectedEmplAdv(employeeAdvDetailId){
+			mydb.transaction(function (t) {
+				t.executeSql("DELETE FROM employeeAdvanceDetails WHERE empAdvID=?", [employeeAdvDetailId]);
+			});
+	  }
