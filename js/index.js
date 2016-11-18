@@ -2328,7 +2328,7 @@ function createAdvanceTypeDropDown(jsonAdvanceTypeArr){
 		}
 	});
     var DefaultAdvType =  window.localStorage.getItem("DefaultAdvType");        
-    j("#empAdvType").select2("val",DefaultAdvType);
+    //j("#empAdvType").select2("val",DefaultAdvType);
 } 
 
 function changeAdavanceType(){
@@ -2416,10 +2416,12 @@ function syncSubmitEmpAdvance(){
 		}else{
 			return false;
 		}
+    
 }
 
 
 function saveEmployeeAdvanceAjax(jsonToSaveEA){
+    var headerBackBtn=defaultPagePath+'backbtnPage.html';
 	var pageRef=defaultPagePath+'success.html';
 	 j.ajax({
 			  url: window.localStorage.getItem("urlPath")+"SyncSubmitEmployeeAdvanceDetail",
@@ -2427,33 +2429,32 @@ function saveEmployeeAdvanceAjax(jsonToSaveEA){
 			  dataType: 'json',
 			  crossDomain: true,
 			  data: JSON.stringify(jsonToSaveEA),
-			  success: function(data) {
-				  if(data.Status=="Failure"){
-					  if(data.hasOwnProperty('IsEntitlementExceed')){
-							setTREntitlementExceedMessage(data,jsonToSaveEA);
-							 j('#loading_Cat').hide();
-						}
-					  successMessage = data.Message;
-					  //alert(successMessage);
-					  j('#loading_Cat').hide();
-				  }else if(data.Status=="Success"){
-					  successMessage = data.Message;
-						j('#loading_Cat').hide();
-						j('#mainContainer').load(pageRef);
-						appPageHistory.push(pageRef);
-				  }else{
-					 successMessage = "Error: Oops something is wrong, Please Contact System Administer";
-					  j('#loading_Cat').hide();
-					  j('#mainContainer').load(pageRef);
-					   appPageHistory.push(pageRef);
+				  success: function(data) {
+				  	if(data.Status=="Success"){
+				        successMessage = data.Message;
+						requestRunning = false;
+					 	j('#loading_Cat').hide();
+						j('#mainHeader').load(headerBackBtn);
+					 	j('#mainContainer').load(pageRef);
+						
+					}else if(data.Status=="Failure"){
+					 	successMessage = data.Message;
+						requestRunning = false;
+					 	j('#loading_Cat').hide();
+						j('#mainHeader').load(headerBackBtn);
+					 	j('#mainContainer').load(pageRef);
+					 }else{
+						 j('#loading_Cat').hide();
+						successMessage = "Oops!! Something went wrong. Please contact system administrator.";
+						j('#mainHeader').load(headerBackBtn);
+					 	j('#mainContainer').load(pageRef);
+					 }
+					},
+				  error:function(data) {
+					j('#loading_Cat').hide();
+					requestRunning = false;
+					alert("Error: Oops something is wrong, Please Contact System Administer");
 				  }
-				},
-			  error:function(data) {
-				successMessage = "Error: Oops something is wrong, Please Contact System Administer";
-					  j('#loading_Cat').hide();
-					  j('#mainContainer').load(pageRef);
-					  appPageHistory.push(pageRef);
-			  }
 	});
 }
 
@@ -2474,6 +2475,24 @@ function validateEmpAdvanceDetails(empAdvDate,empAdvTitle,empAdvjustification,em
 		alert("Amount is required");
 		return false;
 	}
+    
+   if(empAdvAmount != ""){
+    if(isOnlyNumeric(empAdvAmount,"Amount")==false)
+        {
+         document.getElementById("empAdvAmount").value = "";
+          return false;
+        }
+			
+		}else{
+			alert("Amount is invalid");
+			return false;
+		}
+    
+    if(isZero(empAdvAmount,"Amount")==false){
+		document.getElementById("empAdvAmount").value = "";
+		return false;
+	}
+    
 	if(empAdvType_id == "-1" && empAdvType_id == ""){
 		alert("Advance Type is invalid");
 		return false;
@@ -2527,11 +2546,15 @@ function hideEmployeeAdvance(){
 
 function populateBEAmount(){
                         var BEAmount = 0;
+                        var convAmount = 0;
                           if(j("#source tr.selected").hasClass("selected")){
                               j("#source tr.selected").each(function(index, row) {
                                   var Amount = j(this).find('td.expAmt1').text();
+                                  
+                                  var convRate = j(this).find('td.conversionRate').text();
                                   //get Amount 
-                                   BEAmount =parseFloat(BEAmount) + parseFloat(Amount);
+                                  convAmount = parseFloat(Amount) * parseFloat(Math.round(convRate * 100) / 100);
+                                   BEAmount =parseFloat(BEAmount) + parseFloat(Math.round(convAmount * 100) / 100);
                               });
 
                             if(BEAmount!= "" ){

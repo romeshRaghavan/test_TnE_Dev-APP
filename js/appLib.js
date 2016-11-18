@@ -153,8 +153,8 @@ if (window.openDatabase) {
         t.executeSql("CREATE TABLE IF NOT EXISTS accountHeadEAMst (accountHeadId INTEGER PRIMARY KEY ASC, accHeadName TEXT)");
         t.executeSql("CREATE TABLE IF NOT EXISTS advanceType (advancetypeID INTEGER PRIMARY KEY ASC, advancetype TEXT)");
         t.executeSql("CREATE TABLE IF NOT EXISTS employeeAdvanceDetails (empAdvID INTEGER PRIMARY KEY ASC, emplAdvVoucherNo TEXT,empAdvTitle TEXT,Amount Double)");
+        t.executeSql("CREATE TABLE IF NOT EXISTS currencyConversionMst (currencyCovId INTEGER PRIMARY KEY ASC, currencyId INTEGER REFERENCES currencyMst(currencyId), defaultcurrencyId INTEGER ,conversionRate Double)");
     });
-
 } else {
     alert("WebSQL is not supported by your browser!");
 }
@@ -400,7 +400,7 @@ function fetchExpenseClaim() {
 	 
 	mydb.transaction(function(t) {
 		var headerOprationBtn;
-      t.executeSql('SELECT * FROM businessExpDetails INNER JOIN expNameMst ON businessExpDetails.expNameId =expNameMst.id INNER JOIN currencyMst ON businessExpDetails.currencyId =currencyMst.currencyId INNER JOIN accountHeadMst ON businessExpDetails.accHeadId =accountHeadMst.accountHeadId;', [],
+      t.executeSql('SELECT * FROM businessExpDetails INNER JOIN expNameMst ON businessExpDetails.expNameId =expNameMst.id INNER JOIN currencyMst ON businessExpDetails.currencyId =currencyMst.currencyId  INNER JOIN currencyConversionMst ON businessExpDetails.currencyId = currencyConversionMst.currencyId INNER JOIN accountHeadMst ON businessExpDetails.accHeadId =accountHeadMst.accountHeadId;', [],
 		 function(transaction, result) {
 		  if (result != null && result.rows != null) {
 			  
@@ -454,7 +454,8 @@ function fetchExpenseClaim() {
 				j('<td></td>').attr({ class: ["accHeadId","displayNone"].join(' ') }).text(row.accHeadId).appendTo(rowss);			
 				j('<td></td>').attr({ class: ["expNameId","displayNone"].join(' ') }).text(row.expNameMstId).appendTo(rowss); 				
 				j('<td></td>').attr({ class: ["expUnit","displayNone"].join(' ') }).text(row.expUnit).appendTo(rowss); 				
-				j('<td></td>').attr({ class: ["currencyId","displayNone"].join(' ') }).text(row.currencyId).appendTo(rowss); 				
+				j('<td></td>').attr({ class: ["currencyId","displayNone"].join(' ') }).text(row.currencyId).appendTo(rowss);
+                j('<td></td>').attr({ class: ["conversionRate","displayNone"].join(' ') }).text(row.conversionRate).appendTo(rowss); 
 				j('<td></td>').attr({ class: ["accountCodeId","displayNone"].join(' ') }).text(row.accCodeId).appendTo(rowss);		
 				//j('<td></td>').attr({ class: ["expName","displayNone"].join(' ') }).text(row.expName).appendTo(rowss);		
 				j('<td></td>').attr({ class: ["busExpId","displayNone"].join(' ') }).text(row.busExpId).appendTo(rowss);
@@ -679,6 +680,25 @@ function synchronizeBEMasterData() {
 							}
 						}  
 					});
+                       
+                      		mydb.transaction(function (t) {
+					t.executeSql("DELETE FROM currencyConversionMst");
+					var currencyConvArray = data.CurrencyConvArray;
+						if(currencyConvArray != null && currencyConvArray.length > 0){
+							for(var i=0; i<currencyConvArray.length; i++ ){
+								var stateArr = new Array();
+								stateArr = currencyConvArray[i];
+								var currencyCovId = stateArr.currencyCovId;
+								var currencyId = stateArr.currencyId;
+                                var defaultcurrencyId = stateArr.defaultcurrencyId;
+                                var conversionRate = stateArr.conversionRate;
+								t.executeSql("INSERT INTO currencyConversionMst (currencyCovId,currencyId,defaultcurrencyId,conversionRate) VALUES (?, ?, ?, ?)", [currencyCovId,currencyId,defaultcurrencyId,conversionRate]);
+								
+							}
+						}
+					});	
+
+                      
 					j('#loading_Cat').hide();
 					document.getElementById("syncSuccessMsg").innerHTML = "Business Expenses synchronized successfully.";
 					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
