@@ -2120,7 +2120,7 @@ th {
 	border-top:2px solid #ddd
 }
 .table .table {
-	background-color:#fff
+	background-color:#cccccc
 }
 .table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
 	padding:5px

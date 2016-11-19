@@ -1702,19 +1702,19 @@ function populateEATitle(){
     
 }
 
-
-
 function fetchEmployeeAdvance() {
 	
-	mytable1 = j('<table></table>').attr({ id: "source1",class: ["table","table-striped","table-bordered"].join(' ') });
-	var rowThead = j("<thead></thead>").appendTo(mytable1);
+	mainTable = j('<table></table>').attr({class: ["table","table-striped","table-bordered"].join(' ') });
+    table1 = j('<table></table>').attr({ class: ["table","table1","table-striped","table-bordered"].join(' ') }).appendTo(mainTable);
+   var rowThead = j("<thead></thead>").appendTo(table1);
 	var rowTh = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(rowThead);
 	
 	j('<th></th>').text("Voucher No.").appendTo(rowTh);
 	//j('<th></th>').text("Title").appendTo(rowTh);
 	j('<th></th>').text("Amount").appendTo(rowTh);
-	var cols = new Number(5);
 	 
+    table2 = j('<table></table>').attr({ id: "source1",class:["table","table-striped","table-bordered"].join(' ') }).appendTo(mainTable);
+    var rowThead1 = j("<thead></thead>").appendTo(table2);
 	mydb.transaction(function(t) {
 		var headerOprationBtn;
       t.executeSql('SELECT * FROM employeeAdvanceDetails;', [],
@@ -1725,7 +1725,7 @@ function fetchEmployeeAdvance() {
 				
 				var row = result.rows.item(i);
 		
-				var rowss = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable1);
+				var rowss = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(rowThead1);
 		
               j('<td></td>').attr({ class: ["empAdvID","displayNone"].join(' ') }).text(row.empAdvID).appendTo(rowss);
 		      j('<td></td>').attr({ class: ["emplAdvVoucherNo"].join(' ')
@@ -1733,6 +1733,9 @@ function fetchEmployeeAdvance() {
               j('<td></td>').attr({ class: ["empAdvTitle","displayNone"].join(' ') }).text(row.empAdvTitle).appendTo(rowss);
               j('<td></td>').attr({ class: ["Amount"].join(' ') }).text(row.Amount).appendTo(rowss);
             }
+              $("#header tr").click(function() {
+                 $("tr").attr('onclick', '');
+               });
 					
 			j("#source1 tr").click(function(){ 
 				if(j(this).hasClass("selected")){
@@ -1748,7 +1751,7 @@ function fetchEmployeeAdvance() {
 			}
 		 });
 	 });	 
-	 mytable1.appendTo("#box1");	 
+	 mainTable.appendTo("#box1");	 
  }
 
 
