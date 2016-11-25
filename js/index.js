@@ -61,7 +61,7 @@ function login()
 			  //addEmployeeDetails(data);
 			  setUserStatusInLocalStorage("Valid");
 			  setUserSessionDetails(data,jsonToBeSend);
-              synchronizeBEMasterData();
+              
             if(data.EaInMobile){
               synchronizeEAMasterData();
               }
@@ -69,6 +69,7 @@ function login()
 				synchronizeTRMasterData();
 				synchronizeTRForTS();  
 			  }
+                synchronizeBEMasterData();
 			}else if(data.Status == 'Failure'){
  			   successMessage = data.Message;
 			   if(successMessage.length == 0){

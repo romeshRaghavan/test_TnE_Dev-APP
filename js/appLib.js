@@ -241,8 +241,9 @@ function saveBusinessDetails(status){
 					j('#expenseName').select2('data', '');
 					//j('#currency').select2('data', '');
 					j('#loading_Cat').hide();
+                    //j('#syncSuccessMsg').empty();
 					document.getElementById("syncSuccessMsg").innerHTML = "Expenses added successfully.";
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncSuccessMsg').hide().fadeIn('slow').delay(300).fadeOut('slow') ;
 					resetImageData();
 					//createBusinessExp();
 				}else{
@@ -356,8 +357,9 @@ function saveTravelSettleDetails(status){
 					smallImageTS.style.display = 'none';
 					smallImageTS.src = "";
 					j('#loading_Cat').hide();
+                    //j('#syncSuccessMsg').empty();
 					document.getElementById("syncSuccessMsg").innerHTML = "Expenses added successfully.";
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncSuccessMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 					resetImageData();
 				}else{
 					viewTravelSettlementExp();
@@ -699,15 +701,15 @@ function synchronizeBEMasterData() {
 					});	
 
                       
-					j('#loading_Cat').hide();
-					document.getElementById("syncSuccessMsg").innerHTML = "Business Expenses synchronized successfully.";
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
-					
+					j('#loading_Cat').hide(); 
+            document.getElementById("syncSuccessMsg").innerHTML = "Business Expenses synchronized successfully.";
+              j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+		 			
 				}
 				else{
 					j('#loading_Cat').hide();
 					document.getElementById("syncFailureMsg").innerHTML = "Business Expenses not synchronized successfully.";
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 					
 				}
 					
@@ -740,14 +742,14 @@ function synchronizeBEMasterData() {
 				}
 				});
 				j('#loading_Cat').hide();
-					document.getElementById("syncSuccessMsg").innerHTML = successMsgForCurrency;
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					document.getElementById("syncFailureMsg").innerHTML = successMsgForCurrency;
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 					
 				}
 				else{
 				j('#loading_Cat').hide();
-					document.getElementById("syncFailureMsg").innerHTML = errorMsgForCurrency;
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					document.getElementById("syncFailureMsg").innerHTML = "Currency not synchronized successfully.";;
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 					
 				}	
 				
@@ -811,14 +813,14 @@ function synchronizeBEMasterData() {
 							}
 						}
 					});
-					
-					document.getElementById("syncSuccessMsg").innerHTML = "Account Head synchronized Successfully.";
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					//j('#syncSuccessMsg').empty();
+				//document.getElementById("syncSuccessMsg").innerHTML = "Account Head synchronized Successfully.";
+				 // j('#syncSuccessMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 
 				}else{
-					
+
 					document.getElementById("syncFailureMsg").innerHTML = "Account Head Not synchronized Successfully.";
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 				}
 			},		
 			error:function(data) {
@@ -849,15 +851,14 @@ function synchronizeBEMasterData() {
 						}
 					}
 					});
-					
 						document.getElementById("syncSuccessMsg").innerHTML = successMsgForCurrency;
-						j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+						j('#syncSuccessMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 						
 					}
 					else{
 					
 						document.getElementById("syncFailureMsg").innerHTML = errorMsgForCurrency;
-						j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+						j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 						
 					}	
 					
@@ -922,9 +923,9 @@ function synchronizeBEMasterData() {
 							}
 						}
 					});
-					document.getElementById("syncFailureMsg").innerHTML = "Category/CityTown Master synchronized successfully.";
-				   j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');  
-					mydb.transaction(function (t) {
+				document.getElementById("syncFailureMsg").innerHTML = "Category/CityTown Master synchronized successfully.";
+				j('#syncFailureMsg').hide().fadeIn('slow').delay(200).fadeOut('slow');                   
+				mydb.transaction(function (t) {
 					t.executeSql("DELETE FROM travelTypeMst");
 						var travelTypeJSONArray = data.TravelTypeJSONArray;
 						if(travelTypeJSONArray != null && travelTypeJSONArray.length > 0){
@@ -943,7 +944,7 @@ function synchronizeBEMasterData() {
 				}else{
 					j('#loading_Cat').hide();
 					document.getElementById("syncFailureMsg").innerHTML = "Travel Required master Expenses not synchronized successfully.";
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 				}
 			},
 			error:function(data) {
@@ -1448,12 +1449,13 @@ function synchronizeTRForTS() {
 					});
 					onloadTravelSettleData();
 					j('#loading_Cat').hide();
-					document.getElementById("syncSuccessMsg").innerHTML = "Travel Request Details synchronized successfully.";
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+
+				document.getElementById("syncSuccessMsg").innerHTML = "Travel Request Details synchronized successfully.";
+				j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
 				}else{
 					j('#loading_Cat').hide();
 					document.getElementById("syncFailureMsg").innerHTML = "Travel Required Expenses not synchronized successfully.";
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 				}
 					
 			},
@@ -1605,14 +1607,15 @@ function synchronizeEAMasterData() {
                       window.localStorage.setItem("DefaultCurrencyName",data.DefaultCurrencyName);
                       
 					j('#loading_Cat').hide();
+                      
 					document.getElementById("syncSuccessMsg").innerHTML = "Employee Advance synchronized successfully.";
-					j('#syncSuccessMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncSuccessMsg').hide().fadeIn('slow').delay(800).fadeOut('slow');
 					
 				}
 				else{
 					j('#loading_Cat').hide();
 					document.getElementById("syncFailureMsg").innerHTML = "Employee Advance not synchronized successfully.";
-					j('#syncFailureMsg').hide().fadeIn('slow').delay(500).fadeOut('slow');
+					j('#syncFailureMsg').hide().fadeIn('slow').delay(300).fadeOut('slow');
 					
 				}
 					
@@ -1760,3 +1763,4 @@ function deleteSelectedEmplAdv(employeeAdvDetailId){
 				t.executeSql("DELETE FROM employeeAdvanceDetails WHERE empAdvID=?", [employeeAdvDetailId]);
 			});
 	  }
+
