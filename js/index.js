@@ -59,12 +59,17 @@ function login()
              j('#mainContainer').load(pageRef);
               appPageHistory.push(pageRef);
 			  //addEmployeeDetails(data);
+                 
 			  setUserStatusInLocalStorage("Valid");
 			  setUserSessionDetails(data,jsonToBeSend);
-              
-            if(data.EaInMobile){
-              synchronizeEAMasterData();
-              }
+                           
+                if(data.hasOwnProperty('EaInMobile') && 
+                 data.EaInMobile != null){
+                  if(data.EaInMobile){
+                 synchronizeEAMasterData();
+                  }
+               }
+            
 			  if(data.TrRole){
 				synchronizeTRMasterData();
 				synchronizeTRForTS();  
@@ -2536,9 +2541,11 @@ function hideEAMenus(){
 
 function hideEmployeeAdvance(){
 	if(window.localStorage.getItem("EaInMobile") == "true"){
+        fetchEmployeeAdvance();
         document.getElementById('helpimage').style.display="";
 		//document.getElementById('EA').style.display="";
 	}else{
+        fetchExpenseClaim();
         document.getElementById('helpimage').style.display="none";
 		document.getElementById('EA').style.display="none";
 	}
