@@ -1475,23 +1475,20 @@ function setDelayMessage(returnJsonData,jsonToBeSend,busExpDetailsArr){
 function setTREntitlementExceedMessage(returnJsonData,jsonToBeSend){
 		var pageRef=defaultPagePath+'success.html';
 		var msg=returnJsonData.Message+".\nThis voucher has exceeded Entitlements. Do you want to proceed?";
-        var buttonIndex = 0; 
-    var r = confirm(""+msg);
-       if (r == true) {
-           buttonIndex = 1 ;
-           onConfirm(buttonIndex, msg,jsonToBeSend);  
-        } else {
-          onConfirm(buttonIndex, msg,jsonToBeSend);  
-        }
+	navigator.notification.confirm(msg,
+		function(buttonIndex){
+            onConfirm(buttonIndex, msg,jsonToBeSend);
+        }, 
+		'confirm', 'Yes, No');
+
+	
 	}
 
 function onConfirm(buttonIndex,errormsg,jsonToBeSend){
     if (buttonIndex === 1){
     	jsonToBeSend["EntitlementAllowCheck"]=true;
-         j('#loading_Cat').show();
 		saveTravelRequestAjax(jsonToBeSend);
     }else{
-        j('#loading_Cat').hide();
     	return false;
     }
 
