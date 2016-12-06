@@ -638,7 +638,7 @@ function createCitytownDropDown(jsonCityTownArr){
 	j("#fromCitytown").select2({
 		data:{ results: jsonArr, text: 'name' },
 		placeholder: "From Location",
-		//minimumResultsForSearch: -1,
+		minimumResultsForSearch: 2,
 		formatResult: function(result) {
 			if ( ! isJsonString(result.id))
 				result.id = JSON.stringify(result.id);
@@ -649,7 +649,7 @@ function createCitytownDropDown(jsonCityTownArr){
 	j("#toCitytown").select2({
 		data:{ results: jsonArr, text: 'name' },
 		placeholder: "To Location",
-		//minimumResultsForSearch: -1,
+		minimumResultsForSearch: 2,
 		formatResult: function(result) {
 			if ( ! isJsonString(result.id))
 				result.id = JSON.stringify(result.id);
@@ -1487,8 +1487,10 @@ function setTREntitlementExceedMessage(returnJsonData,jsonToBeSend){
 function onConfirm(buttonIndex,errormsg,jsonToBeSend){
     if (buttonIndex === 1){
     	jsonToBeSend["EntitlementAllowCheck"]=true;
+         j('#loading_Cat').show();
 		saveTravelRequestAjax(jsonToBeSend);
     }else{
+        j('#loading_Cat').hide();
     	return false;
     }
 
