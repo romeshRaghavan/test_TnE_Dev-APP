@@ -1491,6 +1491,7 @@ function onConfirm(buttonIndex,errormsg,jsonToBeSend){
          j('#loading_Cat').show();
 		saveTravelRequestAjax(jsonToBeSend);
     }else{
+        j('#loading_Cat').hide();
     	return false;
     }
 
