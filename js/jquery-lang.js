@@ -295,9 +295,9 @@ var Lang = (function () {
 		
 		// If element has only one text node and data-lang-token is defined
 		// set langContentKey property to use as a token
-		if(nodes.length == 1){
+	/*	if(nodes.length == 1){
 			nodeObjArray[0].langToken = elem.data('langToken');
-		}
+		}*/
 		
 		return nodeObjArray;
 	};

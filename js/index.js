@@ -2914,7 +2914,7 @@ function closeNav() {
 }
 
 
- function addHeader(){		 
+ function addHeader(){
       var headerBackBtn=defaultPagePath+'backbtnPage.html';
 			j(document).ready(function() {
 				j('#mainHeader').load(headerBackBtn);
