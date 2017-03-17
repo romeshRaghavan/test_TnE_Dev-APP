@@ -2997,19 +2997,19 @@ function onloadDefaultValue(){
 
 
 function viewMessages(){
-	// var e = { "data" : {"address": "paytm", "body":"You have made payment of Rs.135.00 to om rest.", "date_sent":1482401219880}}
-	// saveIncomingSMSOnLocal(e);
+	var e = { "data" : {"address": "paytm", "body":"You have made payment of Rs.135.00 to om rest.", "date_sent":1482401219880}}
+	 saveIncomingSMSOnLocal(e);
 
-	// var e1 = { "data" : {"address": "freecharge", "body":"Recharge of BSNL mobile for Rs.54 was successful. operator refrence number is 0154324", "date_sent":1482601219880}}
-	// saveIncomingSMSOnLocal(e1);
-	// var e2 = { "data" : {"address": "uber", "body":"You paid uber Rs.134.65 with your paytm wallet. reference number for the transaction is 93123a24", "date_sent":1482701219880}}
-	// saveIncomingSMSOnLocal(e2);
-	// var e3 = { "data" : {"address": "paytm", "body":"Hi,  your order #142592342342 of Rs. 2490 for 2 items is successful. we will let you know once seller ships it.", "date_sent":1482201219880}}
-	// saveIncomingSMSOnLocal(e3);
-	// var e4 = { "data" : {"address": "Creditcard", "body":"hi, payment of your electricity bill was successful for Rs.987.", "date_sent":1482101219880}}
-	// saveIncomingSMSOnLocal(e4);
+	 var e1 = { "data" : {"address": "freecharge", "body":"Recharge of BSNL mobile for Rs.54 was successful. operator refrence number is 0154324", "date_sent":1482601219880}}
+	 saveIncomingSMSOnLocal(e1);
+	 var e2 = { "data" : {"address": "uber", "body":"You paid uber Rs.134.65 with your paytm wallet. reference number for the transaction is 93123a24", "date_sent":1482701219880}}
+	 saveIncomingSMSOnLocal(e2);
+	 var e3 = { "data" : {"address": "paytm", "body":"Hi,  your order #142592342342 of Rs. 2490 for 2 items is successful. we will let you know once seller ships it.", "date_sent":1482201219880}}
+	saveIncomingSMSOnLocal(e3);
+	 var e4 = { "data" : {"address": "Creditcard", "body":"hi, payment of your electricity bill was successful for Rs.987.", "date_sent":1482101219880}}
+	saveIncomingSMSOnLocal(e4);
 
-	// console.log("viewMessages  "+filtersStr)
+	//console.log("viewMessages  "+filtersStr)
     var headerBackBtn=defaultPagePath+'headerPageForSMSOperation.html';
     var pageRef=defaultPagePath+'fairMessageTable.html';
 	j(document).ready(function() {	
