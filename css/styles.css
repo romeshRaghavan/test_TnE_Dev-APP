@@ -499,12 +499,13 @@
 	width: 90%;
 	position: relative;
 	margin: 1% auto;
-	padding: 5px 20px 13px 20px;
-	border-radius: 10px;
+	padding: 15px 20px 17px 21px;
+	border-radius: 20px;
 	background: #fff;
 	background: -moz-linear-gradient(#fff, #999);
 	background: -webkit-linear-gradient(#fff, #999);
 	background: -o-linear-gradient(#fff, #999);
+    margin-top: 60px;
 }
 
 .close {
