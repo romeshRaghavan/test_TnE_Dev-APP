@@ -1,4 +1,4 @@
-var j = jQuery.noConflict();
+ var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 var urlPath;
