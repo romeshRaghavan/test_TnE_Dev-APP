@@ -112,10 +112,14 @@
 			return false;
 		}
 	}
-	var amt =Math.round(smsSplitStr[3]); ;
-	document.getElementById("expDate").value = getExpenseDateFromSMS(smsSplitStr[2]);
-	document.getElementById("expNarration").value = smsSplitStr[1];
-	document.getElementById("expAmt").value = amt;
-	document.getElementById("smsID").value = smsSplitStr[0];
-	document.getElementById("expUnit").value = '1';
+	j(document).ready(function() {	
+		setTimeout(function(){
+			var amt =Math.round(smsSplitStr[3]); ;
+			document.getElementById("expDate").value = getExpenseDateFromSMS(smsSplitStr[2]);
+			document.getElementById("expNarration").value = smsSplitStr[1];
+			document.getElementById("expAmt").value = amt;
+			document.getElementById("smsID").value = smsSplitStr[0];
+			document.getElementById("expUnit").value = '1';
+		 }, 250);
+	});
 </script>
