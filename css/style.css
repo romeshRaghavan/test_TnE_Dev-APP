@@ -1043,7 +1043,7 @@ li.com a:hover{
 }
 
 .ac-container label{
-    padding: 10px 8px;
+    padding: 12px 6px;
     position: relative;
     z-index: 20;
     display: block;
@@ -1055,7 +1055,8 @@ li.com a:hover{
     /* background: #0675a2; */
     border: 1px solid rgba(221, 221, 221, 0.8);
     font-weight: 400;
-    background: #0675a2 url(../images/ar-n.png) no-repeat right ; 
+    background: #0675a2 url(../images/ar-n.png) no-repeat right ;
+    border-radius: 10px;
     
 }
 .ac-containermarker{

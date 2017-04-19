@@ -3,34 +3,32 @@
 		lang.dynamic('th', 'js/langpack/th.json');
         lang.dynamic('ru','js/langpack/russian.json');
         lang.dynamic('ae','js/langpack/arabic.json');
-        lang.dynamic('tamil','js/langpack/India(Tamil).json');
+        lang.dynamic('tamil','js/langpack/tamil.json');
+        lang.dynamic('hindi','js/langpack/hindi.json');
 		lang.init({
 			defaultLang: 'en'
 		});
 </script>
 <div class="" style="padding-top: 50px;background-color: white; height: 550Px; ">
 	<center><a><p style="color: #19CFEF;font: caption;padding-bottom: 20px;" onclick="" lang="en">Language</p></a></center>
-	<div class="Row" style="text-align: center;">
-        <div class="Cell" >
-		<a onclick="setLang('en');"><p class="addenglishflag" ></p><span style="color: #14a6c5;">English</span></a>
-		</div>
-        <div class="Cell" >
-		<a onclick="setLang('ae');"><p class="addarabicflag" ></p><span style="color: #14a6c5;"> Arabic</span></a>
-		</div>
-        <div class="Cell" >
-		<a onclick="setLang('ru');"><p class="addrussianflag" ></p><span style="color: #14a6c5;">Russian</span></a>
-		</div>
-	</div>
-    	<div class="Row" style="text-align: center;">
-        <div class="Cell" style="padding-left: 33px;">
-		<a onclick="setLang('tamil');"><p class="addInTamilflag" ></p><span style="color: #14a6c5;">
-            India(Tamil)</span></a>
-		</div>
+           
+ <table style="width:98%">
+  <tr>
+    <td><a onclick="setLang('en');"><p class="addenglishflag" ></p><span style="color: #14a6c5;">English</span></a></td>
+    <td><a onclick="setLang('ae');"><p class="addarabicflag" ></p><span style="color: #14a6c5;"> Arabic</span></a></td> 
+    <td><a onclick="setLang('ru');"><p class="addrussianflag" ></p><span style="color: #14a6c5;">Russian</span></a></td>
+  </tr>
+  <tr>
+    <td><a onclick="setLang('tamil');"><p class="addInTamilflag" ></p><span style="color: #14a6c5;">
+            India(Tamil)</span></a></td>
+    <td><a onclick="setLang('hindi');"><p class="addInTamilflag" ></p><span style="color: #14a6c5;">
+            India(Hindi)</span></a></td>
+  </tr>
+                
 
-	</div>
+</table>
 
 
-  
 	
 	<div>
 	  <div style="display:none" id="loading_Cat" >
