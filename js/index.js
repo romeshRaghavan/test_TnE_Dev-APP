@@ -1,7 +1,6 @@
 var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
-//var urlPath;
 var urlPath = 'http://1.255.255.36:13130/TnEV1_0AWeb/WebService/Login/'
 //var WebServicePath ='http://1.255.255.214:8085/NexstepWebService/mobileLinkResolver.service';
 //var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
@@ -135,6 +134,7 @@ function commanLogin(){
 	jsonToDomainNameSend["userName"] = domainName;
 	jsonToDomainNameSend["mobilePlatform"] = device.platform;
 	//jsonToDomainNameSend["mobilePlatform"] = "Android";
+	jsonToDomainNameSend["appType"] = "NEXGEN_EXPENZING_TNE_APP";
   	//var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath;
 	j.ajax({
@@ -1407,13 +1407,13 @@ function setPerUnitDetails(transaction, results){
 		        ismodeCategoryJSON["expenseNameId"]=row.expenseNameId;
 		        ismodeCategoryJSON["isModeCategory"]=row.isModeCategory;
 		      if(ismodeCategoryJSON.isModeCategory=='N'){
-					  j('#travelMode').select2('data', '');
-					  j('#travelCategory').select2('data', '');
-					  j('#travelMode').select2('disable');
-					  j('#travelCategory').select2('disable');
+					  j('#travelModeForTS').select2('data', '');
+					  j('#travelCategoryForTS').select2('data', '');
+					  j('#travelModeForTS').select2('disable');
+					  j('#travelCategoryForTS').select2('disable');
 				}else{
-					  j('#travelMode').select2('enable');
-					  j('#travelCategory').select2('enable');
+					  j('#travelModeForTS').select2('enable');
+					  j('#travelCategoryForTS').select2('enable');
 				}
 		}else{
 
