@@ -1,10 +1,10 @@
 var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
-var urlPath = 'http://1.255.255.36:13130/TnEV1_0AWeb/WebService/Login/'
+//var urlPath = 'http://1.255.255.36:13130/TnEV1_0AWeb/WebService/Login/'
 //var WebServicePath ='http://1.255.255.214:8085/NexstepWebService/mobileLinkResolver.service';
 //var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
-//var WebServicePath ='http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
+var WebServicePath ='http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -49,7 +49,7 @@ function login()
     var jsonToBeSend=new Object();
     jsonToBeSend["user"] = userName.value;
     jsonToBeSend["pass"] = password.value;
-	setUrlPathLocalStorage(urlPath);
+	//setUrlPathLocalStorage(urlPath);
 	urlPath=window.localStorage.getItem("urlPath");
 	j('#loading').show();
     j.ajax({
@@ -134,7 +134,7 @@ function commanLogin(){
 	jsonToDomainNameSend["userName"] = domainName;
 	jsonToDomainNameSend["mobilePlatform"] = device.platform;
 	//jsonToDomainNameSend["mobilePlatform"] = "Android";
-	jsonToDomainNameSend["appType"] = "NEXGEN_EXPENZING_TNE_APP";
+	//jsonToDomainNameSend["appType"] = "NEXGEN_EXPENZING_TNE_APP";
   	//var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath;
 	j.ajax({
