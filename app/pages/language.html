@@ -43,10 +43,8 @@
 <script>
     
     function setLang(lang){
-	alert(lang);
         window.lang.change(lang);
         window.localStorage.setItem("localLanguage",lang);
-        alert(lang);
         populateMainPage();
     }
 </script>
