@@ -1,4 +1,4 @@
-var appPageHistory=[];
+ var appPageHistory=[];
 var jsonToBeSend=new Object();
 var jsonBEArr = [];
 var budgetingStatus;
