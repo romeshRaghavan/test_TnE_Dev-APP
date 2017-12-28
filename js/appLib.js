@@ -1258,19 +1258,18 @@ function deleteSelectedWallets(walletID){
 		});
   }
 
-function saveWalletAttachment(status ,file){
+function saveWalletAttachment(status){
 	j('#loading_Cat').show();
 	if (mydb) {
 		//get the values of the text inputs
       
-		var file = document.getElementById('imageWallet').src;
-         var file1 = j('.imageWallet').attr('src');
+		var file = document.getElementById('imageWallet').files[1];
         alert("file " +file );
-		 alert("file1 " +file1 );
+		
 	if (file != "") {
             mydb.transaction(function (t) {
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
-											[file1]);
+											[file]);
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
 					createWallet();					
