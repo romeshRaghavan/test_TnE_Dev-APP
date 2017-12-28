@@ -1264,6 +1264,7 @@ function saveWalletAttachment(status){
 		//get the values of the text inputs
       
 		var file = document.getElementById('imageWallet').files[0];
+        alert("file " +file );
 		
 	if (file != "") {
             mydb.transaction(function (t) {

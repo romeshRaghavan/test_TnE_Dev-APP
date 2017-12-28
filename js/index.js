@@ -1977,6 +1977,7 @@ function oprationONTravelSettlementExp(){
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
         document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
+        alert("imageWallet"+ document.getElementById('imageWallet').files[0]);
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
 		{
