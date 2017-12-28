@@ -1975,7 +1975,8 @@ function oprationONTravelSettlementExp(){
 	function onPhotoDataSuccess(imageData) { 
        resetImageData();
        if(voucherType == 'wallet'){
-       	smallImageWallet.style.display = 'block';       
+       	smallImageWallet.style.display = 'block'; 
+           alert("data:image/jpeg;base64," + imageData);
         document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
@@ -1983,7 +1984,8 @@ function oprationONTravelSettlementExp(){
 		saveWalletAttachment(0);	
 		}
        }else if(voucherType == 'BE'){
-       	smallImageBE.style.display = 'block';       
+       	smallImageBE.style.display = 'block'; 
+        alert("data:image/jpeg;base64," + imageData);
         fileTempCameraBE = "data:image/jpeg;base64," + imageData;
 		smallImageBE.src = "data:image/jpeg;base64," + imageData;
 		fileTempGalleryBE ="";
@@ -2024,10 +2026,8 @@ function resetImageData(){
 		smallImageWallet.style.display = 'block';
 
         document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
-		
-		//smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
-          
-        smallImageWallet.src = imageURI;
+		alert( "data:image/jpeg;base64," + imageURI);
+		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
 		
 		 if(camerastatus=='1')
 		{			
@@ -2035,7 +2035,7 @@ function resetImageData(){
 		}
        }else if(voucherType == 'BE'){
 		smallImageBE.style.display = 'block';
-
+alert( "data:image/jpeg;base64," + imageURI);
         fileTempGalleryBE = "data:image/jpeg;base64," + imageURI;
 		
 		smallImageBE.src = "data:image/jpeg;base64," + imageURI;
@@ -2081,12 +2081,10 @@ function resetImageData(){
 								walletID = jsonWalletIDArr[i];
 								deleteSelectedWallets(walletID);
 							 }
-                            alert("1");
-                            
 							document.getElementById("wallet_msg").innerHTML = "Selected File synch successfully.";
 							j('#mainHeader').load(headerBackBtn);
 							j("#walletSource td.selected").hide();
-							j('#wallet_msg').hide().fadeIn('slow').delay(5000).fadeOut('slow');  
+							j('#wallet_msg').hide().fadeIn('slow').delay(3000).fadeOut('slow');  
 							j('#loading_Cat').hide();
 						}else if(data.SyncStatus=="Error"){
 							document.getElementById("wallet_msg").innerHTML = "Error: Oops something is wrong, Please Contact System Administer";
