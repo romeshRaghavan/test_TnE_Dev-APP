@@ -1976,7 +1976,6 @@ function oprationONTravelSettlementExp(){
        resetImageData();
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
-           alert("data:image/jpeg;base64," + imageData);
         document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
@@ -1985,7 +1984,6 @@ function oprationONTravelSettlementExp(){
 		}
        }else if(voucherType == 'BE'){
        	smallImageBE.style.display = 'block'; 
-        alert("data:image/jpeg;base64," + imageData);
         fileTempCameraBE = "data:image/jpeg;base64," + imageData;
 		smallImageBE.src = "data:image/jpeg;base64," + imageData;
 		fileTempGalleryBE ="";
@@ -2026,7 +2024,6 @@ function resetImageData(){
 		smallImageWallet.style.display = 'block';
 
         document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
-		alert( "data:image/jpeg;base64," + imageURI);
 		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
 		
 		 if(camerastatus=='1')
@@ -2035,7 +2032,6 @@ function resetImageData(){
 		}
        }else if(voucherType == 'BE'){
 		smallImageBE.style.display = 'block';
-alert( "data:image/jpeg;base64," + imageURI);
         fileTempGalleryBE = "data:image/jpeg;base64," + imageURI;
 		
 		smallImageBE.src = "data:image/jpeg;base64," + imageURI;

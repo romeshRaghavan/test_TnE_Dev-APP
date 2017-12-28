@@ -1231,7 +1231,9 @@ function fetchWalletImage() {
 								rowsWallet = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable);  
 							}				
 							
-							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="display: none">'+row.walletAttachment+'</text>'+'<p id="para" style="display: none">'+row.walletId+'</p>'+'<img src="'+row.walletAttachment+'">').appendTo(rowsWallet);
+							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="display: none">'+row.walletAttachment+'</text>'+'<p id="para" style="display: none">'+row.walletId+'</p>'+'<img src='+row.walletAttachment+'>').appendTo(rowsWallet);
+                        
+                    
 							
 					}	
 				j("#walletSource td").click(function(){
@@ -1268,10 +1270,10 @@ function saveWalletAttachment(status){
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
 											[file]);
                 if(status == "0"){
-					//document.getElementById('imageWallet').value ="";	
-					//createWallet();					
+					document.getElementById('imageWallet').value ="";	
+					createWallet();					
 				}else{
-				    //createWallet();
+				    createWallet();
 				}
 			});
             j('#loading_Cat').hide();
