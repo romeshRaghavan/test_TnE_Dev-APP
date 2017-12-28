@@ -2025,7 +2025,9 @@ function resetImageData(){
 
         document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
 		
-		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
+		//smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
+          
+        smallImageWallet.src = imageURI;
 		
 		 if(camerastatus=='1')
 		{			
@@ -2079,10 +2081,12 @@ function resetImageData(){
 								walletID = jsonWalletIDArr[i];
 								deleteSelectedWallets(walletID);
 							 }
+                            alert("1");
+                            
 							document.getElementById("wallet_msg").innerHTML = "Selected File synch successfully.";
 							j('#mainHeader').load(headerBackBtn);
 							j("#walletSource td.selected").hide();
-							j('#wallet_msg').hide().fadeIn('slow').delay(3000).fadeOut('slow');  
+							j('#wallet_msg').hide().fadeIn('slow').delay(5000).fadeOut('slow');  
 							j('#loading_Cat').hide();
 						}else if(data.SyncStatus=="Error"){
 							document.getElementById("wallet_msg").innerHTML = "Error: Oops something is wrong, Please Contact System Administer";
