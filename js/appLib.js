@@ -1268,10 +1268,10 @@ function saveWalletAttachment(status){
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
 											[file]);
                 if(status == "0"){
-					document.getElementById('imageWallet').value ="";	
-					createWallet();					
+					//document.getElementById('imageWallet').value ="";	
+					//createWallet();					
 				}else{
-				    createWallet();
+				    //createWallet();
 				}
 			});
             j('#loading_Cat').hide();
