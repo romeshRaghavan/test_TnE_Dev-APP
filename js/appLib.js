@@ -1231,7 +1231,7 @@ function fetchWalletImage() {
 								rowsWallet = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable);  
 							}				
 							
-							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="display: none">'+row.walletAttachment+'</text>'+'<p id="para" style="display: none">'+row.walletId+'</p>'+'<img src='+row.walletAttachment+'>').appendTo(rowsWallet);
+							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="">'+row.walletAttachment+'</text><p id="para" style="">'+row.walletId+'</p><img src="'+row.walletAttachment+'">').appendTo(rowsWallet);
                         
                     
 							
