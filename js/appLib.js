@@ -1258,12 +1258,12 @@ function deleteSelectedWallets(walletID){
 		});
   }
 
-function saveWalletAttachment(status){
+function saveWalletAttachment(status ,file){
 	j('#loading_Cat').show();
 	if (mydb) {
 		//get the values of the text inputs
       
-		var file = document.getElementById('imageWallet').files[0];
+		//var file = document.getElementById('imageWallet').files[0];
         alert("file " +file );
 		
 	if (file != "") {

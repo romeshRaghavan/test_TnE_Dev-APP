@@ -1981,7 +1981,7 @@ function oprationONTravelSettlementExp(){
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
 		{
-		saveWalletAttachment(0);	
+		saveWalletAttachment(0,"data:image/jpeg;base64," + imageData);	
 		}
        }else if(voucherType == 'BE'){
        	smallImageBE.style.display = 'block'; 
@@ -2029,7 +2029,7 @@ function resetImageData(){
 		
 		 if(camerastatus=='1')
 		{			
-		saveWalletAttachment(0);	
+		saveWalletAttachment(0,"data:image/jpeg;base64," + imageURI);	
 		}
        }else if(voucherType == 'BE'){
 		smallImageBE.style.display = 'block';
