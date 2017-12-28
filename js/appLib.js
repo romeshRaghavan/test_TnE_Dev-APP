@@ -1263,9 +1263,10 @@ function saveWalletAttachment(status ,file){
 	if (mydb) {
 		//get the values of the text inputs
       
-		//var file = document.getElementById('imageWallet').files[0];
+		var file = document.getElementById('imageWallet').src;
+         var file1 = j('.imageWallet').attr('src');
         alert("file " +file );
-		
+		 alert("file1 " +file );
 	if (file != "") {
             mydb.transaction(function (t) {
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 

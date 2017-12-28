@@ -1976,12 +1976,12 @@ function oprationONTravelSettlementExp(){
        resetImageData();
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
-        document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
-        alert("imageWallet"+ document.getElementById('imageWallet').files[0]);
+        document.getElementById('imageWallet').src = "data:image/jpeg;base64," + imageData;
+        alert("imageWallet"+ document.getElementById('imageWallet').src);
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
 		{
-		saveWalletAttachment(0,"data:image/jpeg;base64," + imageData);	
+		saveWalletAttachment(0);	
 		}
        }else if(voucherType == 'BE'){
        	smallImageBE.style.display = 'block'; 
@@ -2024,12 +2024,12 @@ function resetImageData(){
       if(voucherType == 'wallet'){
 		smallImageWallet.style.display = 'block';
 
-        document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
+        document.getElementById('imageWallet').src = "data:image/jpeg;base64," + imageURI;
 		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
 		
 		 if(camerastatus=='1')
 		{			
-		saveWalletAttachment(0,"data:image/jpeg;base64," + imageURI);	
+		saveWalletAttachment(0);	
 		}
        }else if(voucherType == 'BE'){
 		smallImageBE.style.display = 'block';
