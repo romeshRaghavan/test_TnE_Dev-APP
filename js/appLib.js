@@ -1266,11 +1266,11 @@ function saveWalletAttachment(status ,file){
 		var file = document.getElementById('imageWallet').src;
          var file1 = j('.imageWallet').attr('src');
         alert("file " +file );
-		 alert("file1 " +file );
+		 alert("file1 " +file1 );
 	if (file != "") {
             mydb.transaction(function (t) {
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
-											[file]);
+											[file1]);
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
 					createWallet();					
