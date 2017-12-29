@@ -1263,7 +1263,9 @@ function saveWalletAttachment(status){
 	if (mydb) {
 		//get the values of the text inputs
       
-		var file = document.getElementById('imageWallet').files[1];
+		//var file = document.getElementById('imageWallet').files[0];
+        var file = document.getElementById("imageWallet").src;
+        
         alert("file " +file );
 		
 	if (file != "") {
@@ -1272,9 +1274,9 @@ function saveWalletAttachment(status){
 											[file]);
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
-					createWallet();					
+					//createWallet();					
 				}else{
-				    createWallet();
+				   // createWallet();
 				}
 			});
             j('#loading_Cat').hide();

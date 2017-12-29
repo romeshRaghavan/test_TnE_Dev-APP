@@ -1972,12 +1972,13 @@ function oprationONTravelSettlementExp(){
                 destinationType=navigator.camera.DestinationType;
             }
 	
-	function onPhotoDataSuccess(imageData) { 
+	function onPhotoDataSuccess(imageData) {
+
        resetImageData();
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
-        document.getElementById('imageWallet').files[1] = "data:image/jpeg;base64," + imageData;
-        alert("imageWallet"+ document.getElementById('imageWallet').files[0]);
+      // document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
+       document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
 		if(camerastatus=='1')
 		{
