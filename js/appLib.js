@@ -1275,9 +1275,9 @@ function saveWalletAttachment(status){
                 t.executeSql("INSERT INTO walletMst VALUES ("+file+")");
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
-					createWallet();					
+					//createWallet();					
 				}else{
-				    createWallet();
+				    //createWallet();
 				}
 			});
             j('#loading_Cat').hide();
