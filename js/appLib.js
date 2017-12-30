@@ -1268,14 +1268,16 @@ function saveWalletAttachment(status){
         
         alert("file " +file );
 		
+        try{
 	if (file != "") {
             mydb.transaction(function (t) {
+                alert("insert into DB");
                 t.executeSql("INSERT INTO walletMst VALUES ("+file+")");
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
-					//createWallet();					
+					createWallet();					
 				}else{
-				   // createWallet();
+				    createWallet();
 				}
 			});
             j('#loading_Cat').hide();
@@ -1283,6 +1285,7 @@ function saveWalletAttachment(status){
         	j('#loading_Cat').hide();
             alert(window.lang.translate('You must enter inputs!'));
         }
+        }catch(e) {alert("error in DB : " + e)}
 	} else {
          alert(window.lang.translate('Database not found, your browser does not support web sql!'));
     }
