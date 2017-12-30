@@ -1271,9 +1271,9 @@ function saveWalletAttachment(status){
 											[file]);
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
-					//createWallet();					
+					createWallet();					
 				}else{
-				    //createWallet();
+				    createWallet();
 				}
 			});
             j('#loading_Cat').hide();
