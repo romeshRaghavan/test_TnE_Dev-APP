@@ -1264,14 +1264,9 @@ function saveWalletAttachment(status){
       
 		//var file = document.getElementById('imageWallet').files[0];
         var file = document.getElementById("imageWallet").src;
-        
-        alert("file " +file);
-		
-        try{
+	
 	if (file != "") {
-        alert("1");
         mydb.transaction(function (t) {
-                alert("insert into DB");
             t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
 											[file]);
                 if(status == "0"){
@@ -1286,7 +1281,6 @@ function saveWalletAttachment(status){
         	j('#loading_Cat').hide();
             alert(window.lang.translate('You must enter inputs!'));
         }
-        }catch(e) {alert("error in DB : " + e)}
 	} else {
          alert(window.lang.translate('Database not found, your browser does not support web sql!'));
     }
