@@ -1266,13 +1266,15 @@ function saveWalletAttachment(status){
 		//var file = document.getElementById('imageWallet').files[0];
         var file = document.getElementById("imageWallet").src;
         
-        alert("file " +file );
+        alert("file " +file);
 		
         try{
 	if (file != "") {
-            mydb.transaction(function (t) {
+        alert("1");
+        mydb.transaction(function (t) {
                 alert("insert into DB");
-                t.executeSql("INSERT INTO walletMst VALUES ("+file+")");
+            t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
+											[file]);
                 if(status == "0"){
 					document.getElementById('imageWallet').value ="";	
 					//createWallet();					
