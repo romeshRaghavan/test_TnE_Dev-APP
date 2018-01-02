@@ -106,7 +106,9 @@ var currentYear;
      j("#expenseName").change(function() {
       getPerUnitBasedOnExpense();
   });
-   onloadExpense();
+    onloadExpense();
+          
+  setTimeout(function(){setAccountHeadAndCode(); }, 700);
 	function validate()
 	{
 		var field = document.getElementById("expAmt");

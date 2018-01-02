@@ -1017,7 +1017,6 @@ function getExpNameList(transaction, results) {
 
 		jsonFindExpNameHead["ExpenseID"] = row.id;
 		jsonFindExpNameHead["ExpenseName"] = row.expName;
-		
 		jsonExpNameArr.push(jsonFindExpNameHead);
 	}
 	createExpNameDropDown(jsonExpNameArr);

@@ -3,8 +3,8 @@ var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 //var urlPath = 'http://1.255.255.36:13130/TnEV1_0AWeb/WebService/Login/'
 //var WebServicePath ='http://1.255.255.214:8085/NexstepWebService/mobileLinkResolver.service';
-//var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
-var WebServicePath ='http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
+var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
+//var WebServicePath ='http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -132,9 +132,9 @@ function commanLogin(){
  	var domainName = userNameValue.split('@')[1];
 	 var jsonToDomainNameSend = new Object();
 	jsonToDomainNameSend["userName"] = domainName;
-	jsonToDomainNameSend["mobilePlatform"] = device.platform;
-	//jsonToDomainNameSend["mobilePlatform"] = "Android";
-	//jsonToDomainNameSend["appType"] = "NEXGEN_EXPENZING_TNE_APP";
+	//jsonToDomainNameSend["mobilePlatform"] = device.platform;
+	jsonToDomainNameSend["mobilePlatform"] = "Android";
+	jsonToDomainNameSend["appType"] = "NEXGEN_EXPENZING_TNE_APP";
   	//var res=JSON.stringify(jsonToDomainNameSend);
 	var requestPath = WebServicePath;
 	j.ajax({
@@ -497,15 +497,15 @@ function createAccHeadDropDown(jsonAccHeadArr){
 				data:{ results: jsonArr, text: 'name' },
 				minimumResultsForSearch: -1,
 				initSelection: function (element, callback) {
-					callback(jsonArr[1]);
-					getExpenseNamesBasedOnAccountHead();
+					callback(jsonArr[4]);
+					 getExpenseNamesBasedOnAccountHead();
 				},
 				formatResult: function(result) {
 					if ( ! isJsonString(result.id))
 						result.id = JSON.stringify(result.id);
 						return result.name;
 				}
-			});
+			}).select2("val","");
 			
 }
 function createTRAccHeadDropDown(jsonAccHeadArr){
@@ -551,7 +551,7 @@ function createExpNameDropDown(jsonExpNameArr){
 		data:{ results: jsonExpArr, text: 'name' },
 		minimumResultsForSearch: -1,
 		initSelection: function (element, callback) {
-			callback(jsonExpArr[0]);
+			callback(jsonExpArr[5]);
 		},
 		formatResult: function(result) {
 			if ( ! isJsonString(result.id))
@@ -1265,7 +1265,6 @@ function onloadTimePicker(){
  }
 
  function getExpenseNamesBasedOnAccountHead(){
-
  	var accountHeadID = j("#accountHead").select2('data').id;
       getExpenseNamesfromDB(accountHeadID);
  }
@@ -3217,3 +3216,15 @@ function populateMainPage(){
     
          j('#loading').hide();
      }
+
+function setAccountHeadAndCode() {
+
+    			j("#accountHead").select2("val","Staff Expense");
+                getExpenseNamesBasedOnAccountHead();
+    
+    setTimeout(function(){
+        j("#expenseName").select2("val","Conveyance"); 
+    }, 200);
+    
+                
+}
