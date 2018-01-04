@@ -3224,6 +3224,7 @@ function setAccountHeadAndCode() {
     
     setTimeout(function(){
         j("#expenseName").select2("val","Conveyance"); 
+	     getPerUnitBasedOnExpense();
     }, 200);
     
                 
