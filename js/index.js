@@ -3217,15 +3217,4 @@ function populateMainPage(){
          j('#loading').hide();
      }
 
-function setAccountHeadAndCode() {
 
-    			j("#accountHead").select2("val","Staff Expense");
-                getExpenseNamesBasedOnAccountHead();
-    
-    setTimeout(function(){
-        j("#expenseName").select2("val","Conveyance"); 
-	     getPerUnitBasedOnExpense();
-    }, 200);
-    
-                
-}
