@@ -800,7 +800,7 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 		
 
 		if(exp_amt != ""){
-			if(isOnlyNumeric(exp_amt,"Amount")==false)
+			if(isNumber_optionalDot(exp_amt,"Amount")==false)
 			{
 				return false;
 			}
@@ -1495,7 +1495,7 @@ function calculatePerUnit(){
 function checkAmount(){
 		 
 		 var amount=document.getElementById("expAmt").value;
-		if(isOnlyNumeric(amount,"Amount")==false)
+		if(isNumber_optionalDot(amount,"Amount")==false)
 		{	
 			document.getElementById("expAmt").value="";
 			return false;
