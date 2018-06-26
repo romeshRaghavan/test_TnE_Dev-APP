@@ -79,6 +79,9 @@
     <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
     <gap:plugin name="cordova-plugin-vibration" source="npm" />
     <gap:plugin name="cordova-plugin-imagepicker" source="npm"/>
+    <gap:config-file platform="ios" parent="NSCameraUsageDescription" overwrite="true">
+        <string>We are using the Camera for something...</string>
+    </gap:config-file>
     <!-- <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
     <gap:plugin name="com.synconset.imagepicker" version="1.0.4" />-->
     <!-- <plugin name="File" value="CDVFile" />-->
