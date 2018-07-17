@@ -2052,9 +2052,15 @@ function resetImageData(){
 	function getPhoto(source,status,voucher_type) {
 		voucherType = voucher_type;	
       // Retrieve image file location from specified source
-	 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 10, 
-        destinationType: 0,
-        sourceType: source });
+	 // navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 10, 
+  //       destinationType: 0,
+  //       sourceType: source });
+
+	 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+                    allowEdit: true,
+                    destinationType: Camera.DestinationType.FILE_URI
+                });
 		camerastatus = status;
 		
     }
