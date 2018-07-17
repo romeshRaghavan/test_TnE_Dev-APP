@@ -51,7 +51,7 @@
             });
 
           function onSuccess(imageData) {
-
+try{
                 var smallImageWallet = document.getElementById('imageWallet');
                 //smallImageWallet.style.display = 'block'; 
                 var image = document.getElementById('img');
@@ -61,9 +61,17 @@
    
 
                 // smallImageWallet.style.display = 'block'; 
+                 alert(Base64.encodeToString(imageData, Base64.DEFAULT));
+
                  document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-                 smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-                  saveWalletAttachment(1);          
+                 smallImageWallet.src = { uri: 'data:image/jpeg;base64,' + imageData };
+
+
+                  saveWalletAttachment(1);      
+                  }
+                  catch(e){
+                    alert("Error onSuccess : "+e);
+                  }    
                 
             }
 </script> 
