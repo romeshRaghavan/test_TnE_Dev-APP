@@ -1260,6 +1260,7 @@ function deleteSelectedWallets(walletID){
   }
 
 function saveWalletAttachment(status){
+	alert("status in saveWalletAttachment : "+status);
 	j('#loading_Cat').show();
 	if (mydb) {
 		//get the values of the text inputs

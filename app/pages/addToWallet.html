@@ -22,9 +22,10 @@
           <div lang="en" >
 		  Add to My Receipts Wallet
             <img src="images/camera.png" onclick="capturePhoto(1,'wallet');" width="15%" height="15%" >
-            <img src="images/gallery.png" onclick="getPhoto(pictureSource.PHOTOLIBRARY,1,'wallet');" width="15%" height="15%" >
+            <img src="images/gallery.png" id='but_select' width="15%" height="15%" >
 			<img style="display:none;width:35%;height:80px;align:right;" id="smallImageWallet" src="" />
             <input style="display:none;" type="file" id="imageWallet" />
+             <img src="images/gallery.png" id='img' style='display:none'>
           </div>
           </div>
       </div>
@@ -40,4 +41,24 @@
   </div>
 <script>
       fetchWalletImage(); 
+
+       j("#but_select").click(function(){
+                navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+                    allowEdit: true,
+                    destinationType: Camera.DestinationType.FILE_URI
+                });
+            });
+
+          function onSuccess(imageData) {
+
+                var image = document.getElementById('img');
+                image.src = imageData + '?' + Math.random();;
+
+                smallImageWallet.style.display = 'block'; 
+                document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+                smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+                saveWalletAttachment(0);                 
+   
+            }
 </script> 
