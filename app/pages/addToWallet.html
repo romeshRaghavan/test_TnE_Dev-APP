@@ -53,11 +53,11 @@
           function onSuccess(imageData) {
 
                 var smallImageWallet = document.getElementById('imageWallet');
-                smallImageWallet.style.display = 'block'; 
+                //smallImageWallet.style.display = 'block'; 
                 var image = document.getElementById('img');
                 image.src = imageData + '?' + Math.random();;
                 smallImageWallet.src = imageData + '?' + Math.random();;
-                saveWalletAttachment(0);                 
+                saveWalletAttachment(1);                 
    
 
                 // smallImageWallet.style.display = 'block'; 
