@@ -50,6 +50,7 @@
             });
 
        function onSuccess(imageData) {
+        try{
       alert("gallery : "+imageData);
                 var smallImageWallet = document.getElementById('imageWallet');
                 //smallImageWallet.style.display = 'block'; 
@@ -65,4 +66,8 @@
                   saveWalletAttachment(1);          
                 
             }
+          }
+          catch(e){
+            alert("Error gallery : "+e);
+          }
 </script> 
