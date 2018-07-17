@@ -49,11 +49,12 @@
                 });
             });
 
+  setTimeout(function(){ 
        function onSuccess(imageData) {
         try{
       alert("gallery : "+imageData);
                 var smallImageWallet = document.getElementById('imageWallet');
-                //smallImageWallet.style.display = 'block'; 
+              alert("smallImageWallet : "+smallImageWallet);
                 var image = document.getElementById('img');
                 image.src = imageData + '?' + Math.random();;
                // smallImageWallet.src = imageData + '?' + Math.random();;
@@ -69,5 +70,8 @@
             alert("Error gallery : "+e);
           }
           }
+        }, 3000);
+
+      
           
 </script> 
