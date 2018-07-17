@@ -1973,7 +1973,7 @@ function oprationONTravelSettlementExp(){
             }
 	
 	function onPhotoDataSuccess(imageData) {
-
+alert("camera : "+imageData);
        resetImageData();
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
@@ -2025,7 +2025,7 @@ function resetImageData(){
       if(voucherType == 'wallet'){
 		smallImageWallet.style.display = 'block';
 
-        //document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
+        document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
 		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
 		
 		 if(camerastatus=='1')
@@ -2052,15 +2052,9 @@ function resetImageData(){
 	function getPhoto(source,status,voucher_type) {
 		voucherType = voucher_type;	
       // Retrieve image file location from specified source
-	 // navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 10, 
-  //       destinationType: 0,
-  //       sourceType: source });
-
-	 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
-                    allowEdit: true,
-                    destinationType: Camera.DestinationType.FILE_URI
-                });
+	 navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 10, 
+        destinationType: 0,
+        sourceType: source });
 		camerastatus = status;
 		
     }
