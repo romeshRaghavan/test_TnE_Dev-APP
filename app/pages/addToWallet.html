@@ -49,9 +49,11 @@
                 });
             });
 
-  setTimeout(function(){ 
+ 
        function onSuccess(imageData) {
         try{
+         setTimeout(function(){ 
+        
       alert("gallery : "+imageData);
                 var smallImageWallet = document.getElementById('imageWallet');
               alert("smallImageWallet : "+smallImageWallet);
@@ -66,11 +68,11 @@
                  smallImageWallet.src = "data:image/jpeg;base64," + imageData;
                   saveWalletAttachment(1);          
                 
-            }catch(e){
+            }, 3000);
+          }catch(e){
             alert("Error gallery : "+e);
           }
-          }
-        }, 3000);
+        }
 
       
           
