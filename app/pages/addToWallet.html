@@ -56,13 +56,14 @@
                 //smallImageWallet.style.display = 'block'; 
                 var image = document.getElementById('img');
                 image.src = imageData + '?' + Math.random();;
-                smallImageWallet.src = imageData + '?' + Math.random();;
-                saveWalletAttachment(1);                 
+               // smallImageWallet.src = imageData + '?' + Math.random();;
+                      
    
 
                 // smallImageWallet.style.display = 'block'; 
-                // document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-                // smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+                 document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+                 smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+                  saveWalletAttachment(1);          
                 
             }
 </script> 
