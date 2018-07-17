@@ -2025,7 +2025,7 @@ function resetImageData(){
       if(voucherType == 'wallet'){
 		smallImageWallet.style.display = 'block';
 
-        document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
+        //document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageURI;
 		smallImageWallet.src = "data:image/jpeg;base64," + imageURI;
 		
 		 if(camerastatus=='1')
