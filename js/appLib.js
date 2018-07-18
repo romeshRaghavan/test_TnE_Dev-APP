@@ -1233,6 +1233,7 @@ function fetchWalletImage() {
 								rowsWallet = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable);  
 							}				
 							
+							alert("row.walletAttachment : " + row.walletAttachment + "  row.walletId: " +row.walletId+ "  row.walletAttachment: " +row.walletAttachment);
 							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="display: none">'+row.walletAttachment+'</text>'+'<p id="para" style="display: none">'+row.walletId+'</p>'+'<img src="'+row.walletAttachment+'">').appendTo(rowsWallet);
 							
                         	
@@ -1262,6 +1263,7 @@ function deleteSelectedWallets(walletID){
 function saveWalletAttachment(status){
 	alert("status in saveWalletAttachment : "+status);
 	j('#loading_Cat').show();
+	try{
 	if (mydb) {
 		//get the values of the text inputs
       
@@ -1288,6 +1290,9 @@ function saveWalletAttachment(status){
 	} else {
          alert(window.lang.translate('Database not found, your browser does not support web sql!'));
     }
+}catch(e){
+	alert("Exception in saveWalletAttachment : "+e);
+}
 }
 
 
