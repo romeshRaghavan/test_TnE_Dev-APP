@@ -50,7 +50,7 @@
                 // });
 
                 navigator.camera.getPicture(onSuccess, onFail, { quality: 25,
-                  destinationType: Camera.DestinationType.FILE_URI,
+                  destinationType: Camera.DestinationType.DATA_URL,
                   sourceType: Camera.PictureSourceType.PHOTOLIBRARY
              
                   });
@@ -95,7 +95,7 @@
         alert("gallery 1 : " + image11.src);
 
                    }, 3000);
-         //alert("gallery 2 : " + document.getElementById('img').src);
+         alert("gallery 2 : " + document.getElementById('img').src);
 
          setTimeout(function(){ 
                   saveWalletAttachment(1);          
