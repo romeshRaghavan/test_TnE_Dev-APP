@@ -77,6 +77,7 @@
       //            smallImageWallet.src =  { uri: 'data:image/jpeg;base64,' + imageData };
 
        var image = document.getElementById('imageWallet');
+        document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
         image.src = "data:image/jpeg;base64," + imageData;
                    }, 3000);
          alert("img src : " + image.src);
