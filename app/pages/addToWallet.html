@@ -82,8 +82,14 @@
         //smallImageWallet.style.display = 'block'; 
         //document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
         //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-        var image11 = document.getElementById('img');
-        img.src = "data:image/jpeg;base64," + imageData;
+        var image11="";
+        try {
+         image11 = document.getElementById('img');
+        } catch(e) {alert("element issue : " + e)}
+        try {
+          image11.src = "data:image/jpeg;base64," + imageData;
+        } catch(e) {alert("element asignment : " + e)}  
+        
         alert("gallery 1 img data : " + imageData);
         alert("gallery 1 : " + image11.src);
 
