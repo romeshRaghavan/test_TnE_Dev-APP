@@ -58,8 +58,9 @@
 
  
        function onSuccess(imageData) {
+        alert('gallery data : ' + imageData);
         try{
-          alert('gallery data : ' + imageData);
+          //alert('gallery data : ' + imageData);
          setTimeout(function(){ 
         
       // alert("gallery : "+imageData);
@@ -89,12 +90,12 @@
         try {
           image11.src = "data:image/jpeg;base64," + imageData;
         } catch(e) {alert("element asignment : " + e)}  
-        
+
         alert("gallery 1 img data : " + imageData);
         alert("gallery 1 : " + image11.src);
 
                    }, 3000);
-         alert("gallery 2 : " + image11.src);
+         //alert("gallery 2 : " + document.getElementById('img').src);
 
          setTimeout(function(){ 
                   saveWalletAttachment(1);          
