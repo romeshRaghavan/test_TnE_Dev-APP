@@ -43,11 +43,15 @@
       fetchWalletImage(); 
 
       j("#but_select").click(function(){
-                navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
-                    allowEdit: true,
-                    destinationType: Camera.DestinationType.DATA_URL
-                });
+                // navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+                //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+                //     allowEdit: true,
+                //     destinationType: Camera.DestinationType.DATA_URL
+                // });
+
+                navigator.camera.getPicture(onSuccess, onFail, { quality: 25,
+               destinationType: Camera.DestinationType.DATA_URL
+                  });
             });
 
  
@@ -55,20 +59,23 @@
         try{
          setTimeout(function(){ 
         
-      alert("gallery : "+imageData);
-                var smallImageWallet = document.getElementById('imageWallet');
-              alert("smallImageWallet : "+smallImageWallet);
-                var image = document.getElementById('img');
-                image.src = imageData + '?' + Math.random();;
-               // smallImageWallet.src = imageData + '?' + Math.random();;
+      // alert("gallery : "+imageData);
+      //           var smallImageWallet = document.getElementById('imageWallet');
+      //         alert("smallImageWallet : "+smallImageWallet);
+      //           var image = document.getElementById('img');
+      //           image.src = imageData + '?' + Math.random();;
+      //          // smallImageWallet.src = imageData + '?' + Math.random();;
                       
    
 
-                // smallImageWallet.style.display = 'block'; 
-                 document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
-                  document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-                 //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-                 smallImageWallet.src =  { uri: 'data:image/jpeg;base64,' + imageData };
+      //           // smallImageWallet.style.display = 'block'; 
+      //            document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
+      //             document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+      //            //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+      //            smallImageWallet.src =  { uri: 'data:image/jpeg;base64,' + imageData };
+
+       var image = document.getElementById('imageWallet');
+        image.src = "data:image/jpeg;base64," + imageData;
                    }, 3000);
          setTimeout(function(){ 
                   saveWalletAttachment(1);          
@@ -78,6 +85,10 @@
             alert("Error gallery : "+e);
           }
         }
+
+        function onFail(message) {
+    alert('Failed because: ' + message);
+}
 
       
           
