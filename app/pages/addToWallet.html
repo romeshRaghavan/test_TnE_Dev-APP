@@ -76,11 +76,16 @@
       //            //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
       //            smallImageWallet.src =  { uri: 'data:image/jpeg;base64,' + imageData };
 
-       var image = document.getElementById('imageWallet');
-       
-        image.src = "data:image/jpeg;base64," + imageData;
+      // var image = document.getElementById('imageWallet');
+
+
+     document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," 
+      +imageData);
+
+        smallImageWallet.src = "data:image/jpeg;base64," + imageData;
                    }, 3000);
-         alert("img src : " + image.src);
+         alert("smallImageWalletsrc : " + smallImageWallet.src);
+         
          setTimeout(function(){ 
                   saveWalletAttachment(1);          
                 }, 5000);
