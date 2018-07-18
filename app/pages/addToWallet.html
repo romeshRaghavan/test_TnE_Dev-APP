@@ -76,18 +76,18 @@
       //            //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
       //            smallImageWallet.src =  { uri: 'data:image/jpeg;base64,' + imageData };
 
-       var image = document.getElementById('smallImageWallet');
+       //var image = document.getElementById('smallImageWallet');
+        //image.src = "data:image/jpeg;base64," + imageData;
+        smallImageWallet.style.display = 'block'; 
+        document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+        smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+        alert("gallery 1 : " + smallImageWallet.src);
 
-
-     //document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," 
-     // +imageData);
-
-        image.src = "data:image/jpeg;base64," + imageData;
                    }, 3000);
-         alert("image src : " + image.src);
+         alert("gallery 2 : " + smallImageWallet.src);
 
          setTimeout(function(){ 
-                  saveWalletAttachment(0);          
+                  saveWalletAttachment(1);          
                 }, 5000);
           
           }catch(e){
