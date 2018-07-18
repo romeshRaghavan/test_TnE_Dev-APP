@@ -27,7 +27,7 @@
             <input style="display:none;" type="file" id="imageWallet" />
           </div>
           </div>
-            <img src="images/gallery.png" id='img' style='display:none'>
+            <img src="images/gallery.png" id='img' style='display:block'>
       </div>
 </div>
     <div  style="display:none" id="loading_Cat" >
@@ -59,6 +59,7 @@
  
        function onSuccess(imageData) {
         try{
+          alert('gallery data : ' + imageData);
          setTimeout(function(){ 
         
       // alert("gallery : "+imageData);
@@ -78,13 +79,16 @@
 
        //var image = document.getElementById('smallImageWallet');
         //image.src = "data:image/jpeg;base64," + imageData;
-        smallImageWallet.style.display = 'block'; 
-        document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-        smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-        alert("gallery 1 : " + smallImageWallet.src);
+        //smallImageWallet.style.display = 'block'; 
+        //document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+        //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+        var image11 = document.getElementById('img');
+        image11.src = "data:image/jpeg;base64," + imageData;
+        alert("gallery 1 img data : " + imageData);
+        alert("gallery 1 : " + image11.src);
 
                    }, 3000);
-         alert("gallery 2 : " + smallImageWallet.src);
+         alert("gallery 2 : " + image11.src);
 
          setTimeout(function(){ 
                   saveWalletAttachment(1);          
