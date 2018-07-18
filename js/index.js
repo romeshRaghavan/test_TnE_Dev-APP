@@ -1980,6 +1980,9 @@ alert("camera : "+imageData);
         //document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
         document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+
+		 alert("camera : " + smallImageWallet.src);
+
 		if(camerastatus=='1')
 		{
 		saveWalletAttachment(0);	
