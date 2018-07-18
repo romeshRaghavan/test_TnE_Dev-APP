@@ -58,51 +58,13 @@
 
  
        function onSuccess(imageData) {
-        alert('gallery data : ' + imageData);
         try{
-          //alert('gallery data : ' + imageData);
          setTimeout(function(){ 
         
-      // alert("gallery : "+imageData);
-      //           var smallImageWallet = document.getElementById('imageWallet');
-      //         alert("smallImageWallet : "+smallImageWallet);
-      //           var image = document.getElementById('img');
-      //           image.src = imageData + '?' + Math.random();;
-      //          // smallImageWallet.src = imageData + '?' + Math.random();;
-                      
-   
-
-      //           // smallImageWallet.style.display = 'block'; 
-      //            document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
-      //             document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-      //            //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-      //            smallImageWallet.src =  { uri: 'data:image/jpeg;base64,' + imageData };
-
-       //var image = document.getElementById('smallImageWallet');
-        //image.src = "data:image/jpeg;base64," + imageData;
-        //smallImageWallet.style.display = 'block'; 
-        //document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-        //smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-        var image11="";
-        try {
-         image11 = document.getElementById('img');
-        } catch(e) {alert("element issue : " + e)}
-        try {
-          image11.src = "data:image/jpeg;base64," + imageData;
-        } catch(e) {alert("element asignment : " + e)}  
-
         smallImageWallet.style.display = 'block'; 
-        //document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
         document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-    smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-
-    alert("gallery 1 dataaaaa : " + smallImageWallet.src);
-
-        alert("gallery 1 img data : " + imageData);
-        alert("gallery 1 : " + image11.src);
-
-                   }, 3000);
-         alert("gallery 2 : " + document.getElementById('img').src);
+        smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+          }, 3000);
 
          setTimeout(function(){ 
                   saveWalletAttachment(1);          

@@ -1130,7 +1130,7 @@ function resetUserSessionDetails(){
 }
 
 function setUserSessionDetails(val,userJSON){
-	alert("buss : "+val.mobileEC);
+	//alert("buss : "+val.mobileEC);
 	 window.localStorage.setItem("TrRole",val.TrRole);
 	 window.localStorage.setItem("EmployeeId",val.EmpId);
 	 window.localStorage.setItem("FirstName",val.FirstName);
@@ -1233,7 +1233,7 @@ function fetchWalletImage() {
 								rowsWallet = j('<tr></tr>').attr({ class: ["test"].join(' ') }).appendTo(mytable);  
 							}				
 							
-							alert("row.walletAttachment : " + row.walletAttachment + "  row.walletId: " +row.walletId+ "  row.walletAttachment: " +row.walletAttachment);
+							//alert("row.walletAttachment : " + row.walletAttachment + "  row.walletId: " +row.walletId+ "  row.walletAttachment: " +row.walletAttachment);
 							j('<td></td>').attr({ class: ["walletattach"].join(' ') }).html('<text style="display: none">'+row.walletAttachment+'</text>'+'<p id="para" style="display: none">'+row.walletId+'</p>'+'<img src="'+row.walletAttachment+'">').appendTo(rowsWallet);
 							
                         	
@@ -1261,7 +1261,6 @@ function deleteSelectedWallets(walletID){
   }
 
 function saveWalletAttachment(status){
-	alert("status in saveWalletAttachment : "+status);
 	j('#loading_Cat').show();
 	try{
 	if (mydb) {
@@ -1269,7 +1268,6 @@ function saveWalletAttachment(status){
       
 		//var file = document.getElementById('imageWallet').files[0];
         var file = document.getElementById("imageWallet").src;
-        alert("file : "+file);
 	
 	if (file != "") {
         mydb.transaction(function (t) {
