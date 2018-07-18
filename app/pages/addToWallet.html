@@ -27,7 +27,7 @@
             <input style="display:none;" type="file" id="imageWallet" />
           </div>
           </div>
-            <img src="images/gallery.png" id='img' style='display:block'>
+            <img src="images/gallery.png" id='img' style='display:none'>
       </div>
 </div>
     <div  style="display:none" id="loading_Cat" >
@@ -90,6 +90,13 @@
         try {
           image11.src = "data:image/jpeg;base64," + imageData;
         } catch(e) {alert("element asignment : " + e)}  
+
+        smallImageWallet.style.display = 'block'; 
+        //document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
+        document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+    smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+
+    alert("gallery 1 dataaaaa : " + smallImageWallet.src);
 
         alert("gallery 1 img data : " + imageData);
         alert("gallery 1 : " + image11.src);
