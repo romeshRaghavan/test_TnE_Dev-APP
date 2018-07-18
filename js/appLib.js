@@ -1267,6 +1267,7 @@ function saveWalletAttachment(status){
       
 		//var file = document.getElementById('imageWallet').files[0];
         var file = document.getElementById("imageWallet").src;
+        alert("file : "+file);
 	
 	if (file != "") {
         mydb.transaction(function (t) {
