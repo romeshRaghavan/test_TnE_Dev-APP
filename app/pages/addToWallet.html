@@ -46,11 +46,13 @@
                 // navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
                 //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
                 //     allowEdit: true,
-                //     destinationType: Camera.DestinationType.DATA_URL
+                //     destinationType: Camera.DestinationType.FILE_URI
                 // });
 
                 navigator.camera.getPicture(onSuccess, onFail, { quality: 25,
-               destinationType: Camera.DestinationType.DATA_URL
+                  destinationType: Camera.DestinationType.FILE_URI,
+                  sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+             
                   });
             });
 
