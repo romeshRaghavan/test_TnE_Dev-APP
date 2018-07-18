@@ -148,7 +148,6 @@ function commanLogin(){
          	if (data.status == 'Success'){
          		urlPath = data.message;
          		setUrlPathLocalStorage(urlPath);
-				alert(urlPath);
          		login();
         	}else if(data.status == 'Failure'){
 				successMessage = data.message;
@@ -1973,7 +1972,6 @@ function oprationONTravelSettlementExp(){
             }
 	
 	function onPhotoDataSuccess(imageData) {
-alert("camera : "+imageData);
        resetImageData();
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
