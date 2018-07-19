@@ -2465,3 +2465,23 @@ function synchronizeWhiteListMasterData() {
 			});
    appPageHistory.push(pageRef);
 	}
+
+
+       function onSuccessBE(imageData) {
+        try{
+         setTimeout(function(){ 
+        
+        smallImageBE.style.display = 'block'; 
+        document.getElementById('imageBE').setAttribute('src', "data:image/jpeg;base64," + imageData);
+        smallImageBE.src = "data:image/jpeg;base64," + imageData;
+         fileTempGalleryBE = "data:image/jpeg;base64," + imageData;
+         fileTempCameraBE ="";
+          }, 3000);            
+          }catch(e){
+            alert("Error gallery : "+e);
+          }
+        }
+
+        function onFail(message) {
+    alert('Failed because: ' + message);
+}
