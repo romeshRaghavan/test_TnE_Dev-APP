@@ -62,7 +62,7 @@
 				<li style="text-align:left;">
                   <ul>
 					  <img src="images/camera.png" onclick="capturePhoto(0,'BE');" width="15%" height="15%" >
-					  <img src="images/gallery.png" onclick="getPhoto(pictureSource.PHOTOLIBRARY,0,'BE');" width="15%" height="15%" >
+					  <img src="images/gallery.png" id='but_select' width="15%" height="15%" >
 			  		  <a id="mapLink" href="#openModal" style="" onclick="viewMap();" >
 					  <img src="images/google_map_icon.jpg" width="10%" height="10%" onload="loadImage();" id="mapImage" style="display : none;">
 					  </a>
@@ -118,6 +118,38 @@ var currentYear;
 			return false;
 		}
 	}
+
+   j("#but_select").click(function(){
+                navigator.camera.getPicture(onSuccess, onFail, { quality: 25,
+                  destinationType: Camera.DestinationType.DATA_URL,
+                  sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+             
+                  });
+            });
+
+ 
+       function onSuccess(imageData) {
+        try{
+         setTimeout(function(){ 
+        
+        smallImageWallet.style.display = 'block'; 
+        document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
+        smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+          }, 3000);
+
+         setTimeout(function(){ 
+                  saveWalletAttachment(1);          
+                }, 5000);
+          
+          }catch(e){
+            alert("Error gallery : "+e);
+          }
+        }
+
+        function onFail(message) {
+    alert('Failed because: ' + message);
+}
+
 </script> 
         </div>
 
