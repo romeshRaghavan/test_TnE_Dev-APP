@@ -68,7 +68,6 @@
 					  </a>
 					  <img style="display:none;width:40%;height:100px;align:right;" id="smallImageBE" src="" />
 					  <input style="display:none;" type="file" id="imageBE" />
-            <input style="display:none;" type="file" id="imageWallet" />
 				  </ul>
 				 </li>
 			   </div>
@@ -133,15 +132,13 @@ var currentYear;
         try{
          setTimeout(function(){ 
         
-        smallImageWallet.style.display = 'block'; 
-        document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
-        smallImageWallet.src = "data:image/jpeg;base64," + imageData;
+        smallImageBE.style.display = 'block'; 
+        document.getElementById('imageBE').setAttribute('src', "data:image/jpeg;base64," + imageData);
+        smallImageBE.src = "data:image/jpeg;base64," + imageData;
           }, 3000);
+         fileTempGalleryBE ="";
 
-         setTimeout(function(){ 
-                  saveWalletAttachment(1);          
-                }, 5000);
-          
+               
           }catch(e){
             alert("Error gallery : "+e);
           }
