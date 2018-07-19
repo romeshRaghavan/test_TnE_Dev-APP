@@ -1138,7 +1138,7 @@ function setUserSessionDetails(val,userJSON){
 	 window.localStorage.setItem("GradeID",val.GradeID);
 	 window.localStorage.setItem("BudgetingStatus",val.BudgetingStatus);
 	 window.localStorage.setItem("UnitId",val.UnitId);
-	 window.localStorage.setItem("mobileEC",val.mobileEC);
+	 //window.localStorage.setItem("mobileEC",val.mobileEC);
 	 //For Mobile Google Map Role Start
 	 //End
      if(!val.hasOwnProperty('MobileMapRole')){
@@ -1161,6 +1161,11 @@ function setUserSessionDetails(val,userJSON){
     window.localStorage.setItem("multiLangInMobile",false);
     }else{
      window.localStorage.setItem("multiLangInMobile",val.multiLangInMobile); 
+    } 
+    if(!val.hasOwnProperty('mobileEC')){
+      window.localStorage.setItem("mobileEC",true);
+    }else{
+     window.localStorage.setItem("mobileEC",val.mobileEC); 
     } 
     //End
 	 window.localStorage.setItem("UserName",userJSON["user"]);
