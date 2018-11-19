@@ -53,8 +53,11 @@ function login()
 	urlPath=window.localStorage.getItem("urlPath");
 	alert('url path : ' + urlPath);
 	j('#loading').show();
+	urlPath = urlPath+"LoginWebService";
+	alert('valling URL : ' + urlPath);
+	alert('req data : ' + JSON.stringify(jsonToBeSend));
     j.ajax({
-         url: urlPath+"LoginWebService",
+         url: urlPath,
          type: 'POST',
          dataType: 'json',
          crossDomain: true,
@@ -131,11 +134,12 @@ function login()
 		   j('#loading').hide();
          }
    });
-
+	alert('something wrong.');
+	j('#loading').hide();
 }
  
 function commanLogin(){
-	alert('first');
+	alert('first 123');
  	var userName = document.getElementById("userName");
  	var userNameValue = userName.value; 
  	var domainName = userNameValue.split('@')[1];
