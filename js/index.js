@@ -2,9 +2,9 @@ var j = jQuery.noConflict();
 var defaultPagePath='app/pages/';
 var headerMsg = "Expenzing";
 //var urlPath = 'http://1.255.255.36:13130/TnEV1_0AWeb/WebService/Login/'
-//var WebServicePath ='http://1.255.255.214:8085/NexstepWebService/mobileLinkResolver.service';
- var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
-//var WebServicePath ='http://1.255.255.197:8082/NexstepWebService/mobileLinkResolver.service';
+//var WebServicePath ='http://1.255.255.184:8085/NexstepWebService/mobileLinkResolver.service';
+var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
+//var WebServicePath ='http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
@@ -51,28 +51,18 @@ function login()
     jsonToBeSend["pass"] = password.value;
 	//setUrlPathLocalStorage(urlPath);
 	urlPath=window.localStorage.getItem("urlPath");
-	alert('url path : ' + urlPath);
 	j('#loading').show();
-	urlPath = urlPath+"LoginWebService";
-	alert('valling URL : ' + urlPath);
-	alert('req data : ' + JSON.stringify(jsonToBeSend));
-	try{
     j.ajax({
-         url: urlPath,
+         url: urlPath+"LoginWebService",
          type: 'POST',
          dataType: 'json',
          crossDomain: true,
          data: JSON.stringify(jsonToBeSend),
          success: function(data) {
-         	alert('only data : ' + JSON.stringify(data));
-         	try{
-         		alert('status : ' + data.Status);
          	if (data.Status == 'Success'){
-                alert('sucess data : ' + JSON.stringify(data));
-                console.log('data : ' + JSON.stringify(data));
+                
                 if(data.hasOwnProperty('multiLangInMobile') && data.multiLangInMobile != null &&
                    data.multiLangInMobile){
-                   	alert('multiLangInMobile');
                        	var headerBackBtn=defaultPagePath+'withoutBckBtn.html';
 	                    var pageRef=defaultPagePath+'language.html';
                     j('#mainHeader').load(headerBackBtn);
@@ -82,7 +72,6 @@ function login()
 			        setUserSessionDetails(data,jsonToBeSend);
                     j('#loading').hide();         
         }else{
-        	alert('not multiLangInMobile');
             var headerBackBtn=defaultPagePath+'categoryMsgPage.html';
 	        var pageRef=defaultPagePath+'category.html';
         	 j('#mainHeader').load(headerBackBtn);
@@ -128,20 +117,16 @@ function login()
 			    j('#loading').hide();
             alert(window.lang.translate('Please enter correct username or password'));
            }
-       }catch(e){alert('parsing error : ' + e);}
+
          },
          error:function(data) {
-         	alert('failure data : ' + JSON.stringify(data));
 		   j('#loading').hide();
          }
    });
-}catch(e){alert('ajax error : ' + e);}
-	alert('something wrong.');
-	j('#loading').hide();
+
 }
  
 function commanLogin(){
-	alert('first 123');
  	var userName = document.getElementById("userName");
  	var userNameValue = userName.value; 
  	var domainName = userNameValue.split('@')[1];
@@ -512,7 +497,7 @@ function createAccHeadDropDown(jsonAccHeadArr){
 				data:{ results: jsonArr, text: 'name' },
 				minimumResultsForSearch: -1,
 				initSelection: function (element, callback) {
-					callback(jsonArr[4]);
+					callback(jsonArr[1]);
 					 getExpenseNamesBasedOnAccountHead();
 				},
 				formatResult: function(result) {
@@ -520,7 +505,7 @@ function createAccHeadDropDown(jsonAccHeadArr){
 						result.id = JSON.stringify(result.id);
 						return result.name;
 				}
-			}).select2("val","");
+			});
 			
 }
 function createTRAccHeadDropDown(jsonAccHeadArr){
@@ -566,7 +551,7 @@ function createExpNameDropDown(jsonExpNameArr){
 		data:{ results: jsonExpArr, text: 'name' },
 		minimumResultsForSearch: -1,
 		initSelection: function (element, callback) {
-			callback(jsonExpArr[5]);
+			callback(jsonExpArr[0]);
 		},
 		formatResult: function(result) {
 			if ( ! isJsonString(result.id))
@@ -815,7 +800,7 @@ function validateExpenseDetails(exp_date,exp_from_loc,exp_to_loc,exp_narration,e
 		
 
 		if(exp_amt != ""){
-			if(isNumber_optionalDot(exp_amt,"Amount")==false)
+			if(isOnlyNumeric(exp_amt,"Amount")==false)
 			{
 				return false;
 			}
@@ -1510,7 +1495,7 @@ function calculatePerUnit(){
 function checkAmount(){
 		 
 		 var amount=document.getElementById("expAmt").value;
-		if(isNumber_optionalDot(amount,"Amount")==false)
+		if(isOnlyNumeric(amount,"Amount")==false)
 		{	
 			document.getElementById("expAmt").value="";
 			return false;
@@ -1987,13 +1972,13 @@ function oprationONTravelSettlementExp(){
             }
 	
 	function onPhotoDataSuccess(imageData) {
+
        resetImageData();
        if(voucherType == 'wallet'){
        	smallImageWallet.style.display = 'block'; 
         //document.getElementById('imageWallet').files[0] = "data:image/jpeg;base64," + imageData;
         document.getElementById('imageWallet').setAttribute('src', "data:image/jpeg;base64," + imageData);
 		smallImageWallet.src = "data:image/jpeg;base64," + imageData;
-
 		if(camerastatus=='1')
 		{
 		saveWalletAttachment(0);	
@@ -2155,15 +2140,6 @@ function hideTRIcons(){
 		document.getElementById('CategoryTrRoleID').style.display="block";		
 	}else{
 		document.getElementById('CategoryTrRoleID').style.display="none";
-	}
-}
-
-			
-function hideBusinessExpense(){
-	if(window.localStorage.getItem("mobileEC") == "true"){
-		document.getElementById('businessExpenseTab').style.display="block";		
-	}else{
-		document.getElementById('businessExpenseTab').style.display="none";
 	}
 }
 
@@ -3240,5 +3216,3 @@ function populateMainPage(){
     
          j('#loading').hide();
      }
-
-
