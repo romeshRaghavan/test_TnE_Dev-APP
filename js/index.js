@@ -56,6 +56,7 @@ function login()
 	urlPath = urlPath+"LoginWebService";
 	alert('valling URL : ' + urlPath);
 	alert('req data : ' + JSON.stringify(jsonToBeSend));
+	try{
     j.ajax({
          url: urlPath,
          type: 'POST',
@@ -134,6 +135,7 @@ function login()
 		   j('#loading').hide();
          }
    });
+}catch(e){alert('ajax error : ' + e);}
 	alert('something wrong.');
 	j('#loading').hide();
 }
