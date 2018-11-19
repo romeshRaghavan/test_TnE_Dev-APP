@@ -60,8 +60,11 @@ function login()
          crossDomain: true,
          data: JSON.stringify(jsonToBeSend),
          success: function(data) {
+         	alert('only data : ' + JSON.stringify(data));
+         	try{
+         		alert('status : ' + data.Status);
          	if (data.Status == 'Success'){
-                alert('data : ' + JSON.stringify(data));
+                alert('sucess data : ' + JSON.stringify(data));
                 console.log('data : ' + JSON.stringify(data));
                 if(data.hasOwnProperty('multiLangInMobile') && data.multiLangInMobile != null &&
                    data.multiLangInMobile){
@@ -121,9 +124,10 @@ function login()
 			    j('#loading').hide();
             alert(window.lang.translate('Please enter correct username or password'));
            }
-
+       }catch(e){alert('parsing error : ' + e);}
          },
          error:function(data) {
+         	alert('failure data : ' + JSON.stringify(data));
 		   j('#loading').hide();
          }
    });
